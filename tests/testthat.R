@@ -8,5 +8,6 @@
 
 library(testthat)
 library(LTFGRS)
+library(Rcpp)
 
 test_check("LTFGRS")

@@ -11,10 +11,28 @@ Authors@R: c(
   )
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://emilmip.github.io/LTFGRS/
+BugReports: https://github.com/EmilMiP/LTFGRS/issues
+Imports: 
+    batchmeans,
+    dplyr,
+    future.apply, 
+    future,
+    purrr,
+    Rcpp,
+    rlang,
+    stats,
+    stringr,
+    tibble,
+    tmvtnorm,
+    tidyselect,
+    igraph,
+    xgboost,
+    tidyr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+LinkingTo: Rcpp
