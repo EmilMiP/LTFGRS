@@ -14,6 +14,7 @@ to-do:
 - [ ] Add a description of the functions
 - [ ] Add (linear) interpolation to input function
 - [ ] Remove references to LT-FH++ in the code and descriptions
+- [ ] Rename prepare_LTFHPlus_input function 
 - [ ] Add tests for critical functions
 - [ ] Formalise README.md 
 - [ ] Formalise description of the package

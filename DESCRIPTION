@@ -11,7 +11,7 @@ Authors@R: c(
   )
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
-License: GPL-3
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://emilmip.github.io/LTFGRS/
@@ -36,3 +36,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: Rcpp
+RoxygenNote: 7.3.1

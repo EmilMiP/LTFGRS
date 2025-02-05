@@ -31,7 +31,7 @@ utils::globalVariables(c("n_tot", "prob", "probs", ".", "post_gen_liab",
 #'
 #' estimate_gen_liability_ltfh(h2, phen, child_threshold, parent_threshold)
 #'
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% n
 #' @export
 estimate_gen_liability_ltfh = function(h2,
                                        phen,
@@ -245,13 +245,13 @@ estimate_gen_liability_ltfh = function(h2,
         vals = list() #store simulated values
         vals.ctr = 1
         while (is.null(se) || se > tol) {
-          gen_liabs = LTFHPlus::rtmvnorm.gibbs(n_sim = 50e3,
-                                               covmat = construct_covmat(h2 = h2, fam_vec = c(c("m", "f"), paste0(rep("s", cur_nsib), 1:cur_nsib))),
-                                               lower = lower,
-                                               upper = upper,
-                                               fixed = fixed,
-                                               out = 1,
-                                               burn_in = 1000)
+          gen_liabs = rtmvnorm.gibbs(n_sim = 50e3,
+                                     covmat = construct_covmat(h2 = h2, fam_vec = c(c("m", "f"), paste0(rep("s", cur_nsib), 1:cur_nsib))),
+                                     lower = lower,
+                                     upper = upper,
+                                     fixed = fixed,
+                                     out = 1,
+                                     burn_in = 1000)
           vals[[vals.ctr]] = gen_liabs
           se = batchmeans::bm(unlist(vals))$se
           vals.ctr =  vals.ctr + 1

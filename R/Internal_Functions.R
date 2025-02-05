@@ -1,4 +1,7 @@
 utils::globalVariables("role")
+utils::globalVariables("fam_ID")
+utils::globalVariables("indiv_ID")
+
 #' Checking that relatives are represented by valid strings
 #'
 #' \code{validate_relatives} checks whether relatives are represented
@@ -275,7 +278,7 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
   # set of family members, if it is present
   i_ind <- setdiff(fam_mem, c("g"))
 
-  if(!is.null(phen_name)){
+  if (!is.null(phen_name)) {
 
     # Looping over all family members ind i_ind
     lapply(i_ind, function(j){
@@ -300,7 +303,7 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 
     }) %>% do.call("bind_rows",.)
 
-  }else{
+  } else {
 
     # Looping over all family members ind i_ind
     lapply(i_ind, function(j){

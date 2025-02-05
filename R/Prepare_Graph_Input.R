@@ -82,7 +82,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #'
 #'
 #' @importFrom stats qnorm predict
-#' @importFrom dplyr all_of mutate select %>% left_join group_by ungroup arrange
+#' @importFrom dplyr all_of mutate select %>% left_join group_by ungroup arrange across
 #'
 #' @return tibble formatted for \code{estimate_liability}
 #'
@@ -216,7 +216,7 @@ prepare_LTFHPlus_input = function(.tbl,
 #' @param upper_col Column name of column with proband's upper threshold.
 #' @param missingID_patterns string of missing values in the ID columns. Multiple values can be used, but must be separated by "|". Defaults to "^0$".
 #'
-#' @return An igraph object. A (directed) graph object based on the links provided in .tbl with the lower and upper thresholds stored as attributes.
+#' @return An igraph object. A (directed) graph object based on the links provided in .tbl, potentially with provided attributes stored for each node.
 #'
 #' @importFrom dplyr %>% rename relocate mutate filter group_by summarise select bind_rows pull
 #'
@@ -235,6 +235,10 @@ prepare_LTFHPlus_input = function(.tbl,
 #'
 #' @export
 prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, lower_col = "lower", upper_col = "upper", missingID_patterns = "^0$") {
+
+  # helper boolean to check if node_attributes is provided, since an offered node_attributes may have NA values in one or more
+  # entries, hence the check on class of the object. NAs are logical and will lead to a FALSE.
+  attachAttributes = any(class(node_attributes) %in% c("data.frame", "tibble", "matrix", "data.table", "tbl_df", "tbl"))
 
   # formatting .tbl from trio info to graph compatible input
   prep = .tbl %>%
@@ -291,10 +295,10 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, lower_col
   present_ids = unlist(graph_input) %>% unique()
 
   # if node_attributes is provided, we will attach the node information to the graph.
-  if (!is.na(node_attributes)) {
+  if (attachAttributes) {
     graph = igraph::graph_from_data_frame(d = graph_input,
                                           #use unique id list to attach threshold info
-                                          vertices = filter(thresholds, !!as.symbol(icol) %in% present_ids))
+                                          vertices = filter(node_attributes, !!as.symbol(icol) %in% present_ids))
   } else {
     graph = igraph::graph_from_data_frame(d = graph_input)
   }
@@ -319,8 +323,8 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, lower_col
   solo_points = setdiff(solo, as.character(duos))
   # only run the below code if solo_points has any solo points to add.
   if (length(solo_points) > 0) {
-    if (!is.na(node_attributes)) {
-      graph = igraph::add.vertices(graph, nv = length(solo_points), name = solo_points, attr = filter(thresholds, !!as.symbol(icol) %in% solo_points))
+    if (attachAttributes) {
+      graph = igraph::add.vertices(graph, nv = length(solo_points), name = solo_points, attr = filter(node_attributes, !!as.symbol(icol) %in% solo_points))
     } else {
       graph = igraph::add.vertices(graph, nv = length(solo_points), name = solo_points)
     }
