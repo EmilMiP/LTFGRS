@@ -702,3 +702,118 @@ convert_observed_to_liability_scale <- function(obs_h2 = 0.5, pop_prev = 0.05, p
 
 
 
+# PA-FGRS related helper functions ----------------------------------------
+
+
+
+#' Title: Calculate the mean of the truncated normal distribution
+#'
+#' @param mu mean value of normal distribution
+#' @param sigma standard deviation of normal distribution
+#' @param lower lower threshold
+#' @param upper upper threshold
+#'
+#' @returns mean value of the truncated normal distribution
+#' @export
+#'
+#' @importFrom stats dnorm pnorm
+#' @examples
+#' tnorm_mean()
+tnorm_mean = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
+  # calculate the mean of the truncated normal distribution
+  # using the formula from https://en.wikipedia.org/wiki/Truncated_normal_distribution
+
+  if (upper == -Inf | lower == Inf) stop("tnorm_mean: you may have switched the lower and upper bounds!")
+
+  # returns normal distribution mean of thresholds are -Inf and Inf
+  if (lower == -Inf & upper == Inf) {
+    return(mu)
+  }
+  alpha = (lower - mu) / sigma
+  beta = (upper - mu) / sigma
+  return(mu - sigma * (dnorm(beta) - dnorm(alpha)) / (pnorm(beta) - pnorm(alpha)))
+}
+
+
+
+#' Title: Calculate the variance of the truncated normal distribution
+#'
+#' @param mu mean value of normal distribution
+#' @param sigma standard deviation of normal distribution
+#' @param lower lower threshold
+#' @param upper upper threshold
+#'
+#' @returns mean value of the truncated normal distribution
+#' @export
+#'
+#' @importFrom stats dnorm pnorm
+#' @examples
+#' tnorm_var()
+tnorm_var = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
+  # calculate the variance of the truncated normal distribution
+  # using the formula from https://en.wikipedia.org/wiki/Truncated_normal_distribution
+
+  if (upper == -Inf | lower == Inf) stop("tnorm_mean: you may have switched the lower and upper bounds!")
+
+  # if the bounds are infinite, the variance of the normal distribution is returned
+  if (lower == -Inf & upper == Inf) {
+    return(sigma^2)
+  }
+  alpha = (lower - mu) / sigma
+  beta = (upper - mu) / sigma
+
+  # we will use the special cases to handle infinite bounds, since they may results in NaNs by, e.g. Inf * 0
+  if ( beta == Inf ) {
+    return(sigma^2 * (1 + (alpha * dnorm(alpha)) / (1 - pnorm(alpha)) - (dnorm(alpha))^2 / (1 - pnorm(alpha))^2))
+  }
+  if ( alpha == -Inf ) {
+    return(sigma^2 * (1 - (beta * dnorm(beta)) / pnorm(beta) - (dnorm(beta))^2 / pnorm(beta)^2))
+  }
+  # if both alpha and beta are finite we do not experience any NaNs with the general formula
+  return(sigma^2 * (1 + (alpha * dnorm(alpha) - beta * dnorm(beta)) / (pnorm(beta) - pnorm(alpha)) - (dnorm(alpha) - dnorm(beta))^2 / (pnorm(beta) - pnorm(alpha))^2))
+}
+
+
+
+
+#' Title: Calculates mean and variance of mixture of two truncated normal distributions
+#'
+#' @param mu mean value of normal distribution
+#' @param var variance of normal distribution
+#' @param lower lower threshold (can be -Inf)
+#' @param upper upper threshold (can be Inf)
+#' @param Kp (stratified) cumulative incidence proportion for the individual
+#'
+#' @returns mean and variance of mixture distribution between two truncated normal distributions
+#' @export
+#'
+#' @importFrom dplyr case_when
+#' @examples
+#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, Kp = 0)
+#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, Kp = .01)
+tnorm_mixture_conditional = function(mu, var, lower, upper, Kp) {
+  # converting to sd for computations
+  cur_sigma = sqrt(var)
+
+  # calculating mixture probabilities
+  w_below = case_when(
+    Kp == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
+    upper == Inf | upper == lower ~ 1,
+    TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * Kp / pnorm(upper, lower.tail = FALSE))
+    )
+  w_above = 1 - w_below
+
+  # new mean
+  m0 = tnorm_mean(mu = mu, sigma = cur_sigma, lower = lower, upper = upper)
+  m1 = ifelse(upper == Inf, 0, tnorm_mean(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf))
+  new_mean = w_below * m0 + w_above * m1
+
+  # new variance
+  sd0 = tnorm_var(mu = mu, sigma = cur_sigma, lower = lower, upper = upper)
+  sd1 = ifelse(upper == Inf, 0, tnorm_var(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf))
+  new_var = w_below * (m0^2 + sd0) + w_above * (m1^2 + sd1) - new_mean^2
+
+  return(list(mean = new_mean, var = new_var))
+}
+
+

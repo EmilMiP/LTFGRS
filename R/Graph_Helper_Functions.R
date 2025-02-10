@@ -150,3 +150,6 @@ get_all_combs = function(vec) {
   # since it is the number of entries in the upper *and* lower triangle
   # number of entries in either is given by length(vec) * (length(vec) - 1)/2
 }
+
+
+

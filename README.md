@@ -22,3 +22,9 @@ to-do:
 - [ ] Add a vignette on how to use the package to perform simulations
 - [ ] Formalise pkgdown site
 - [ ] Ensure only required packages are in the DESCRIPTION file
+- [ ] Add functions that allow us to manage thresholds and censor event
+- [ ] Add functions that allow us to remove / add / modify exising node attributes
+- [ ] Add functions that calculate thresholds given CIP data with interpolation options
+- [ ] Replace 'list.vertex.attributes()' (deprecated) with 'vertex_attr_names()'(new function) in the code
+- [ ] replace 'get.vertex.attribute()' (deprecated) with 'vertex_attr()' (new function) in the code
+- [ ] ensure all core functions have examples
