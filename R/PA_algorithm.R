@@ -46,7 +46,7 @@ PA_algorithm = function(mu, covmat, target_id, lower, upper, mixture_prob) {
     covmat = covmat[-i, -i] - covmat[-i, i] %*% (solve(covmat[i, i]) - solve(covmat[i, i]) %*% update$var %*% solve(covmat[i, i])) %*% covmat[i, -i]
     # note: one dimention is "lost" after each iteration, meaning final result is one-dimentional
   }
-  return(c(postM = as.vector(mu), postVar = as.vector(covmat)))
+  return(tibble(est = as.vector(mu), var = as.vector(covmat)))
 }
 
 

@@ -15,6 +15,7 @@ estimate_liability(
   family_graphs_col = "fam_graph",
   out = c(1),
   tol = 0.01,
+  method = "PA",
   genetic_corrmat = NULL,
   full_corrmat = NULL,
   phen_names = NULL
@@ -84,6 +85,10 @@ Defaults to \code{c(1)}.}
 \item{tol}{A number that is used as the convergence criterion for the Gibbs sampler.
 Equals the standard error of the mean. That is, a tolerance of 0.2 means that the
 standard error of the mean is below 0.2. Defaults to 0.01.}
+
+\item{method}{Estimation method used to estimate the (genetic) liability. Defaults to "PA".
+Current implementation of PA only supports estimates of genetic liability. For full or both
+genetic and full liability estimates use "Gibbs".}
 
 \item{genetic_corrmat}{Either \code{NULL} (if \code{h2} is a number) or a numeric
 matrix (if \code{h2} is a vector of length > 1) holding the genetic correlations

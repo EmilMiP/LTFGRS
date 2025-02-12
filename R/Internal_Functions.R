@@ -2,188 +2,6 @@ utils::globalVariables("role")
 utils::globalVariables("fam_ID")
 utils::globalVariables("indiv_ID")
 
-#' Checking that relatives are represented by valid strings
-#'
-#' \code{validate_relatives} checks whether relatives are represented
-#' by valid abbreviations.
-#'
-#' This function can be used to check whether relatives are represented
-#' by valid abbreviations. A valid abbreviation is one of the following:
-#' - \code{g} (Genetic component of full liability)
-#' - \code{o} (Full liability)
-#' - \code{m} (Mother)
-#' - \code{f} (Father)
-#' - \code{c[0-9]*.[0-9]*} (Children)
-#' - \code{mgm} (Maternal grandmother)
-#' - \code{mgf} (Maternal grandfather)
-#' - \code{pgm} (Paternal grandmother)
-#' - \code{pgf} (Paternal grandfather)
-#' - \code{s[0-9]*} (Full siblings)
-#' - \code{mhs[0-9]*} (Half-siblings - maternal side)
-#' - \code{phs[0-9]*} (Half-siblings - paternal side)
-#' - \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-#' - \code{pau[0-9]*} (Aunts/Uncles - paternal side).
-#'
-#' @param relatives A string or character vector representing
-#' the relatives.
-#' All strings must be chosen among the following abbreviations
-#' - \code{g} (Genetic component of full liability)
-#' - \code{o} (Full liability)
-#' - \code{m} (Mother)
-#' - \code{f} (Father)
-#' - \code{c[0-9]*.[0-9]*} (Children)
-#' - \code{mgm} (Maternal grandmother)
-#' - \code{mgf} (Maternal grandfather)
-#' - \code{pgm} (Paternal grandmother)
-#' - \code{pgf} (Paternal grandfather)
-#' - \code{s[0-9]*} (Full siblings)
-#' - \code{mhs[0-9]*} (Half-siblings - maternal side)
-#' - \code{phs[0-9]*} (Half-siblings - paternal side)
-#' - \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-#' - \code{pau[0-9]*} (Aunts/Uncles - paternal side)
-#' for the function to return TRUE.
-#'
-#' @return If \code{relatives} is a string or character vector such that
-#' all strings are chosen from the mentioned list of strings,
-#' then the function will return TRUE. Otherwise, the function is aborted.
-#'
-#' @examples
-#' LTFGRS:::validate_relatives("g")
-#' LTFGRS:::validate_relatives("o")
-#' LTFGRS:::validate_relatives("mgm")
-#'
-#' # This will result in errors:
-#' try(LTFGRS:::validate_relatives("a"))
-#' try(LTFGRS:::validate_relatives(m))
-#'
-#' @importFrom stringr str_detect
-#' @noRd
-validate_relatives <- function(relatives){
-
-  if(!is.character(relatives)){
-
-    stop(paste0(deparse(substitute(relatives)), " must be a string or character vector!"))
-
-  }else if(any(!(str_detect(relatives, "^[gomf]$") | str_detect(relatives, "^c[0-9]*.[0-9]*")|
-                 str_detect(relatives, "^[mp]g[mf]$") | str_detect(relatives, "^s[0-9]*") |
-                 str_detect(relatives, "^[mp]hs[0-9]*")| str_detect(relatives, "^[mp]au[0-9]*")))){
-
-    stop(paste0(deparse(substitute(relatives)), " contains invalid abbreviations! Use strings from the following list: \n
-  - g (Genetic component of full liability)\n
-  - o (Full liability)\n
-  - m (Mother)\n
-  - f (Father)\n
-  - c[0-9]*.[0-9]* (Children)\n
-  - mgm (Maternal grandmother)\n
-  - mgf (Maternal grandfather)\n
-  - pgm (Paternal grandmother)\n
-  - pgf (Paternal grandfather)\n
-  - s[0-9]* (Full siblings)\n
-  - mhs[0-9]* (Half-siblings - maternal side)\n
-  - phs[0-9]* (Half-siblings - paternal side)\n
-  - mau[0-9]* (Aunts/Uncles - maternal side)\n
-  - pau[0-9]* (Aunts/Uncles - paternal side)."))
-  }else{
-    return(TRUE)
-  }
-}
-
-#' Checking that proportions are valid
-#'
-#' \code{validate_proportion} checks whether proportions are valid, i.e.
-#' whether they are non-negative and at most one.
-#'
-#' This function can be used to check whether proportions are non-negative
-#' and at most one.
-#'
-#' @param prop A number, integer or numeric vector representing the proportions that
-#' need to be validated.
-#' @param from_covmat logical variable. Only used internally. allows for skip of negative check.
-#'
-#' @return If \code{prop} is a vector holding valid proportions of class \code{numeric}
-#' or \code{integer} that are non-negative and at most one,
-#' then the function will return TRUE. Otherwise, the function aborts.
-#'
-#' @examples
-#' LTFGRS:::validate_proportion(0.2)
-#' LTFGRS:::validate_proportion(0.04)
-#' LTFGRS:::validate_proportion(0)
-#' LTFGRS:::validate_proportion(1)
-#'
-#' # This will result in errors:
-#' try(LTFGRS:::validate_proportion(2))
-#' try(LTFGRS:::validate_proportion(-0.5))
-#' @noRd
-validate_proportion <- function(prop, from_covmat = FALSE){
-  if(is.null(prop)){
-
-    stop(paste0(deparse(substitute(prop)), " must be specified!"))
-
-  }else if(!is.numeric(prop) && !is.integer(prop)){
-
-    stop(paste0(deparse(substitute(prop)), " must be numeric!"))
-
-  }else if(any(prop<0) & !from_covmat){
-
-    stop(paste0(deparse(substitute(prop)), " must be non-negative!"))
-
-  }else if(any(prop>1)){
-
-    stop(paste0(deparse(substitute(prop)), " must be smaller than or equal to 1!"))
-
-  }else{
-    return(TRUE)
-  }
-}
-
-
-#' Checking that a correlation matrix is valid
-#'
-#' \code{validate_correlation_matrix} checks whether a matrix is a valid
-#' correlation matrix, i.e. whether its diagonal entries are equal to one,
-#' while all off-diagonal entries are between -1 and 1, and whether it is
-#' symmetric.
-#'
-#' This function can be used to check whether a correlation matrix has diagonal
-#' entries equal to 1 and off-diagonal entries between -1 and 1 as well as whether
-#' it is symmetric.
-#'
-#' @param corrmat A numeric matrix holding the correlations.
-#' All diagonal entries must be equal to one, while all off-diagonal entries
-#' must be between -1 and 1. In addition, the matrix must be symmetric.
-#'
-#' @return If \code{corrmat} is a valid correlation matrix that is symmetric,
-#' has one on all diagonal entries and numbers between -1 and 1 on all off-
-#' diagonal entries,
-#' then the function will return TRUE. Otherwise, the function will be aborted.
-#'
-#' @examples
-#' LTFGRS:::validate_correlation_matrix(matrix(c(1,0.4,0.4,1), nrow = 2))
-#' LTFGRS:::validate_correlation_matrix(diag(3))
-#'
-#' # This will result in errors:
-#' try(LTFGRS:::validate_correlation_matrix(matrix(c(0.2,0.4,0.4,0.2), nrow = 2)))
-#' try(LTFGRS:::validate_correlation_matrix(matrix(nrow=2, ncol = 2)))
-#' @noRd
-validate_correlation_matrix <- function(corrmat){
-
-  if(is.null(corrmat)){
-
-    stop(paste0(deparse(substitute(corrmat)), " must be specified!"))
-
-  }else if(any(diag(corrmat)!= 1)){
-
-    stop(paste0("All diagonal entries in ", deparse(substitute(corrmat))," must be 1!"))
-
-  }else if(any(abs(corrmat)>1)){
-    stop(paste0("All off-diagonal entries in ", deparse(substitute(corrmat))," must be between -1 and 1!"))
-  }else if(!isSymmetric.matrix(corrmat)){
-    stop(paste0(deparse(substitute(corrmat)), " must be symmetric!"))
-  }else{
-    return(TRUE)
-  }
-}
-
 
 #' Constructing age of onset (aoo)
 #'
@@ -392,4 +210,86 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
         temp_tbl
       )
   }
+}
+
+
+
+
+#' Title Internal Function used to extact input needed for liability estimation
+#'
+#' @param .tbl .tbl input from estimate_liability
+#' @param cur_fam_id current family ID being worked on
+#' @param h2 heritability value from estimate_liability
+#' @param fam_id name of family ID column
+#' @param pid name of personal ID column
+#' @param role name of role column
+#' @param add_ind Whether the genetic liability be added. Default is TRUE.
+#'
+#' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through construct_covmat()
+#'
+#' @export
+extract_estimation_info_tbl = function(.tbl, cur_fam_id, h2, fam_id, pid, role, add_ind = TRUE) {
+  # extract all with current family ID.
+  temp_tbl = filter(.tbl, !!as.symbol(fam_id) == cur_fam_id)
+
+  # Extract the personal numbers and roles for all family members
+  pids  <- pull(temp_tbl, !!as.symbol(pid))
+  roles <- pull(temp_tbl, !!as.symbol(role))
+
+  # Constructing the covariance matrix.
+  cov_obj <- construct_covmat(fam_vec = roles, n_fam = NULL, add_ind = add_ind, h2 = h2)
+
+  # check for whether covariance matrix is positive definite
+  # correct if needed.
+  cov_PD = correct_positive_definite_simplified(covmat = cov_obj)
+  cov = cov_PD$covmat
+
+  # adding missing roles (of either g or o)
+  if (add_ind) {
+    temp_tbl = add_missing_roles_for_proband(temp_tbl = temp_tbl,
+                                             role = role,
+                                             cur_roles = roles,
+                                             cur_fam_id = cur_fam_id,
+                                             pid = pid,
+                                             fam_id = fam_id)
+
+  }
+
+  # Now that we have extracted all the relevant information, we
+  # only need to order the observations before we can run
+  # Gibbs sampler, as g and o need to be the first two observations.
+
+  first_indx <- match(c("g","o"), pull(temp_tbl, !!as.symbol(role)))
+  other_indx <- setdiff(1:length(pull(temp_tbl, !!as.symbol(role))), first_indx)
+  temp_tbl <- temp_tbl[c(first_indx, other_indx),]
+  return(list(tbl = temp_tbl, cov = cov))
+}
+
+
+#' Title Internal Function used to extact input needed from graph input for liability estimation
+#'
+#' @param cur_fam_graph neightbourhood graph of degree n around proband
+#' @param cur_fam_id proband ID
+#' @param h2 heritability value from estimate_liability
+#' @param pid Name of column of personal ID
+#' @param add_ind Whether the genetic liability be added. Default is TRUE.
+#'
+#' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through graph_based_covariance_construction()
+#'
+#' @export
+#'
+extract_estimation_info_graph = function(cur_fam_graph, cur_fam_id, h2, pid, add_ind = TRUE) {
+  # extract current (local) family graph and
+  # construct covariance and extract threshold information from graph.
+  cov_obj = graph_based_covariance_construction(pid = pid,
+                                                cur_proband_id = cur_fam_id,
+                                                cur_family_graph = cur_fam_graph,
+                                                h2 = h2, add_ind = add_ind)
+  # cov and temp_tbl are ordered during construction
+
+  # check whether covariance matrix is positive definite
+  # correct if needed.
+  cov_PD = correct_positive_definite_simplified(covmat = cov_obj$covmat)
+
+  return(list(tbl = cov_obj$temp_tbl, cov = cov_PD$covmat))
 }

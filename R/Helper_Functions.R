@@ -278,7 +278,7 @@ convert_age_to_cir = function(age, pop_prev = .1, mid_point = 60, slope = 1/8) {
   if (mid_point <= 0) stop("The mid point mid_point must be positive!")
 
   # Checking that slope is valid
-  if(!is.numeric(slope) && !is.integer(slope)) stop("The slope must be numeric!")
+  if (!is.numeric(slope) && !is.integer(slope)) stop("The slope must be numeric!")
 
   return(pop_prev / (1 + exp((mid_point - age) * slope)))
 }
@@ -729,6 +729,12 @@ tnorm_mean = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
   if (lower == -Inf & upper == Inf) {
     return(mu)
   }
+  # if lower and upper bounds are the same, we will interpret it as a normal distribution with 0 variance
+  # and mean equal to the limits, which can be interpreted as a direc delta function on the limit's values
+  if (lower == upper) {
+    return(lower)
+  }
+  # Otherwise, we will use the general formula
   alpha = (lower - mu) / sigma
   beta = (upper - mu) / sigma
   return(mu - sigma * (dnorm(beta) - dnorm(alpha)) / (pnorm(beta) - pnorm(alpha)))
@@ -759,6 +765,11 @@ tnorm_var = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
   if (lower == -Inf & upper == Inf) {
     return(sigma^2)
   }
+  # if lower and upper bounds are the same, we will interpret it as a normal distribution with 0 variance
+  if (lower == upper) {
+    return(0)
+  }
+  # Otherwise, we will use the general formula(s)
   alpha = (lower - mu) / sigma
   beta = (upper - mu) / sigma
 
@@ -798,7 +809,7 @@ tnorm_mixture_conditional = function(mu, var, lower, upper, Kp) {
   # calculating mixture probabilities
   w_below = case_when(
     Kp == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
-    upper == Inf | upper == lower ~ 1,
+    upper == Inf | upper == lower | is.na(Kp) ~ 1,
     TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * Kp / pnorm(upper, lower.tail = FALSE))
     )
   w_above = 1 - w_below

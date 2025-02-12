@@ -856,7 +856,7 @@ graph_based_covariance_construction = function(pid,
   # Gibbs sampler, as g and o need to be the first two
   # observations.
   rnames = rownames(cov)
-  to_put_first = paste0(cur_proband_id, c("_g", ""))
+  to_put_first = ifelse(add_ind, paste0(cur_proband_id, c("_g", "")), cur_proband_id)
   to_put_last  = setdiff(rnames, to_put_first)
   newOrder = c(to_put_first, to_put_last)
 
