@@ -57,6 +57,7 @@ on their family history for one or more phenotypes.  It is a wrapper around
 <span>  family_graphs_col <span class="op">=</span> <span class="st">"fam_graph"</span>,</span>
 <span>  out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"PA"</span>,</span>
 <span>  genetic_corrmat <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  full_corrmat <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  phen_names <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -147,6 +148,12 @@ Defaults to <code>c(1)</code>.</p></dd>
 <dd><p>A number that is used as the convergence criterion for the Gibbs sampler.
 Equals the standard error of the mean. That is, a tolerance of 0.2 means that the
 standard error of the mean is below 0.2. Defaults to 0.01.</p></dd>
+
+
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>Estimation method used to estimate the (genetic) liability. Defaults to "PA".
+Current implementation of PA only supports estimates of genetic liability. For full or both
+genetic and full liability estimates use "Gibbs".</p></dd>
 
 
 <dt id="arg-genetic-corrmat">genetic_corrmat<a class="anchor" aria-label="anchor" href="#arg-genetic-corrmat"></a></dt>
@@ -245,7 +252,7 @@ full liability, the full liability or both for a variable number of traits.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   fam_ID   indiv_ID genetic_phenotype1_est genetic_phenotype1_se</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> fam_ID_1 fam_ID_1                  0.248               0.005<span style="text-decoration: underline;">88</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> fam_ID_1 fam_ID_1                -<span style="color: #BB0000;">0.015</span><span style="color: #BB0000; text-decoration: underline;">8</span>               0.007<span style="text-decoration: underline;">69</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: genetic_phenotype2_est &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genetic_phenotype2_se &lt;dbl&gt;, genetic_phenotype3_est &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genetic_phenotype3_se &lt;dbl&gt;</span></span>

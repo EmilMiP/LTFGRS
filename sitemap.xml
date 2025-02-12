@@ -4,7 +4,9 @@
 <url><loc>https://emilmip.github.io/LTFGRS/LICENSE.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/authors.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/index.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/Gibbs_estimator.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/LTFGRS-package.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/PA_algorithm.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_single.html</loc></url>
@@ -19,18 +21,25 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/estimate_liability.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/estimate_liability_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/estimate_liability_single.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_graph.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_all_combs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_kinship.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_relatedness.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/index.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/kendler.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/kendler_family_calculations.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_LTFHPlus_input.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_graph.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/rtmvnorm.gibbs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM_single.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/tnorm_mean.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/tnorm_mixture_conditional.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/tnorm_var.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/truncated_normal_cdf.html</loc></url>
 </urlset>
 
