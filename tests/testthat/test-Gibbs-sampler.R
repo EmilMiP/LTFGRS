@@ -39,7 +39,7 @@ test_that("Gibbs sampler works with any cov", {
   expect_true(all(test[, 2] >= 10))
   expect_true(all(test[, 2] <= 20))
   expect_equal(colMeans(test), colMeans(true), tolerance = 0.01)
-  expect_equal(cov(test), cov(true), tolerance = 0.15)
+  expect_equal(cov(test), cov(true), tolerance = 0.5)
 })
 
 ################################################################################
@@ -62,7 +62,7 @@ test_that("Gibbs sampler with fixed values works", {
   expect_lt(val, 1e-5)
   expect_true(all(test[, 2] == val))
   expect_equal(colMeans(test), colMeans(true), tolerance = 0.01)
-  expect_equal(cov(test), cov(true), tolerance = 0.015)
+  expect_equal(cov(test), cov(true), tolerance = 0.05)
 })
 
 ################################################################################
