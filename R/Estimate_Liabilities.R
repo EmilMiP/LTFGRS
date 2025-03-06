@@ -177,7 +177,10 @@ estimate_liability_single <- function(.tbl = NULL,
 
   if ( !is.null(.tbl) ) { #### .tbl input ####
     # validating .tbl input
-    .tbl <- validating_tbl_input(.tbl = .tbl, pid = pid, fam_id = fam_id, role = role)
+    .tbl <- validating_tbl_input(.tbl = .tbl,
+                                 pid = pid,
+                                 fam_id = fam_id,
+                                 role = role)
 
     # Extracting the (unique) family identifiers
     fam_list <- unique(pull(.tbl, !!as.symbol(fam_id)))
@@ -185,7 +188,9 @@ estimate_liability_single <- function(.tbl = NULL,
   } else if ( !is.null(family_graphs) ) { #### Graph input ####
 
     # validating graph input (nothing is returned)
-    return_catch <- validating_graph_input(family_graphs = family_graphs, pid = pid, family_graphs_col = family_graphs_col)
+    return_catch <- validating_graph_input(family_graphs = family_graphs,
+                                           pid = pid,
+                                           family_graphs_col = family_graphs_col)
 
     # Extracting the (unique) family identifiers
     fam_list <- unique(pull(family_graphs, !!as.symbol(pid)))
@@ -232,7 +237,7 @@ estimate_liability_single <- function(.tbl = NULL,
       cov = ph$cov
     }
 
-    ### This section should requires a temp_tbl and covmat object from above ###
+    ### This section should require a temp_tbl and covmat object from above ###
 
     # if tbl input is used, the cov matrix has roles as row and column names.
 
@@ -241,7 +246,9 @@ estimate_liability_single <- function(.tbl = NULL,
       TRUE ~ paste0(cur_fam_id, "_g")
     )
 
-    # estimation function that takes covariance matrix, thresholds, estimation method, tolerance, out, and estimation specific parameters such as burn_in and return estimates of genetic and/or full liability
+    # estimation function that takes covariance matrix, thresholds,
+    # estimation method, tolerance, out, and estimation specific parameters
+    # such as burn_in and return estimates of genetic and/or full liability
     res <- estimation_function(
       tbl = temp_tbl,
       cov = cov,
