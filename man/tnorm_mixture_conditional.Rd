@@ -4,7 +4,7 @@
 \alias{tnorm_mixture_conditional}
 \title{Title: Calculates mean and variance of mixture of two truncated normal distributions}
 \usage{
-tnorm_mixture_conditional(mu, var, lower, upper, Kp)
+tnorm_mixture_conditional(mu, var, lower, upper, K_i, K_pop)
 }
 \arguments{
 \item{mu}{mean value of normal distribution}

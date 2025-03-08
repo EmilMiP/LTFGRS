@@ -3,7 +3,7 @@
 
 # estimation function that takes covariance matrix, thresholds, estimation method, tolerance, out, and estimation specific parameters such as burn_in and return estimates of genetic and/or full liability
 
-estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn_in = NA, mixture_prob = NA, target_id = NA) {
+estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn_in = NA, useMixture = FALSE, target_id = NA) {
   if (is.na(method)) {
     stop("Please specify the estimation method.")
   }
@@ -13,18 +13,27 @@ estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn
   }
 
   if (method == "PA") {
-    cur_mixture_prob = if (is.na(mixture_prob)) {
-      cur_mixture_prob = rep(1, nrow(tbl))
+    if (useMixture) {
+      # note: if useMixture is TRUE, K_i and K_pop are expected to be in tbl as columns.
+      res <- PA_algorithm(
+        mu = rep(0, nrow(cov)),
+        covmat = cov,
+        lower = pull(tbl, lower),
+        upper = pull(tbl, upper),
+        K_i = pull(tbl, K_i),
+        K_pop = pull(tbl, K_pop),
+        target_id = target_id)
     } else {
-      cur_mixture_prob = pull(tbl, mixture_prob)
+      res <- PA_algorithm(
+        mu = rep(0, nrow(cov)),
+        covmat = cov,
+        lower = pull(tbl, lower),
+        upper = pull(tbl, upper),
+        K_i = rep(NA, nrow(tbl)),
+        K_pop = rep(NA, nrow(tbl)),
+        target_id = target_id)
     }
-    res <- PA_algorithm(
-      mu = rep(0, nrow(cov)),
-      covmat = cov,
-      lower = pull(tbl, lower),
-      upper = pull(tbl, upper),
-      mixture_prob = cur_mixture_prob,
-      target_id = target_id)
+
   }
   return(res)
 }
@@ -32,7 +41,7 @@ estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn
 
 #' Title Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband
 #'
-#' @param cov Covariance (kinship matrix times heritability with corrected diagnoal) matrix
+#' @param cov Covariance (kinship matrix times heritability with corrected diagonal) matrix
 #' @param tbl Tibble with lower and upper bounds for the Gibbs sampler
 #' @param out Vector indicating if genetic ans/or full liabilities should be estimated
 #' @param tol Convergence criteria, tolerance

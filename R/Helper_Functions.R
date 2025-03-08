@@ -765,7 +765,8 @@ tnorm_var = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
   if (lower == -Inf & upper == Inf) {
     return(sigma^2)
   }
-  # if lower and upper bounds are the same, we will interpret it as a normal distribution with 0 variance
+  # if lower and upper bounds are the same, we will interpret it as a normal
+  # distribution with 0 variance (direc distribution on the mean)
   if (lower == upper) {
     return(0)
   }
@@ -802,27 +803,48 @@ tnorm_var = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
 #' @examples
 #' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, Kp = 0)
 #' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, Kp = .01)
-tnorm_mixture_conditional = function(mu, var, lower, upper, Kp) {
+tnorm_mixture_conditional = function(mu, var, lower, upper, K_i, K_pop) {
   # converting to sd for computations
   cur_sigma = sqrt(var)
 
-  # calculating mixture probabilities
-  w_below = case_when(
-    Kp == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
-    upper == Inf | upper == lower | is.na(Kp) ~ 1,
-    TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * Kp / pnorm(upper, lower.tail = FALSE))
-    )
-  w_above = 1 - w_below
+  # are calculations required for mixture probabilities?
+  if ( !is.na(K_pop) | !is.na(K_i) & (upper != Inf | lower == upper) ) {
+    # enter here if K_i and K_pop are provided and individual is NOT a case
 
-  # new mean
+    # T and cdf values needed for mixture prob:
+    thr_pop = qnorm(K_pop, lower.tail = FALSE)
+    cdf_pop = pnorm((thr_pop - mu) / cur_sigma)
+
+    # mixture prob - eq s3 supp notes of PA-FGRS (slightly modified)
+    # isolated prob
+    mixture_prob = 1 - (cdf_pop / (cdf_pop + cdf_pop * (K_pop - K_i) / K_pop))
+
+  } else {
+    # mean and var is updated only through m0 and sd0
+    mixture_prob = rep(1, length(K_i))
+  }
+
+  # # calculating mixture probabilities
+  # w_below = case_when(
+  #   Kp == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
+  #   upper == Inf | upper == lower | is.na(Kp) ~ 1,
+  #   TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * Kp / pnorm(upper, lower.tail = FALSE))
+  #   )
+  # w_above = 1 - w_below
+
+  # new mean - eq s4 supp notes of PA-FGRS
   m0 = tnorm_mean(mu = mu, sigma = cur_sigma, lower = lower, upper = upper)
-  m1 = ifelse(upper == Inf, 0, tnorm_mean(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf))
-  new_mean = w_below * m0 + w_above * m1
+  m1 = ifelse(upper == Inf | lower == upper,
+              0, # if case
+              tnorm_mean(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf)) # if control
+  new_mean = mixture_prob * m0 + (1 - mixture_prob) * m1
 
-  # new variance
+  # new variance - eq S5 supp notes of PA-FGRS
   sd0 = tnorm_var(mu = mu, sigma = cur_sigma, lower = lower, upper = upper)
-  sd1 = ifelse(upper == Inf, 0, tnorm_var(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf))
-  new_var = w_below * (m0^2 + sd0) + w_above * (m1^2 + sd1) - new_mean^2
+  sd1 = ifelse(upper == Inf | lower == upper,
+               0, # if case
+               tnorm_var(mu = mu, sigma = cur_sigma, lower = upper, upper = Inf)) # if control
+  new_var = mixture_prob * (m0^2 + sd0) + (1 - mixture_prob) * (m1^2 + sd1) - new_mean^2
 
   return(list(mean = new_mean, var = new_var))
 }

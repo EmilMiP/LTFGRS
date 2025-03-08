@@ -834,6 +834,7 @@ graph_based_covariance_construction = function(pid,
 
   # add genetic liability if required
   if (add_ind) {
+    # note: K_i and K_pop will be NA, if they exist in temp_tbl
     temp_tbl = temp_tbl %>%
       bind_rows(
         tibble(
@@ -856,7 +857,11 @@ graph_based_covariance_construction = function(pid,
   # Gibbs sampler, as g and o need to be the first two
   # observations.
   rnames = rownames(cov)
-  to_put_first = ifelse(add_ind, paste0(cur_proband_id, c("_g", "")), cur_proband_id)
+  if (add_ind) {
+    to_put_first = paste0(cur_proband_id, c("_g", ""))
+  } else {
+    to_put_first = cur_proband_id
+  }
   to_put_last  = setdiff(rnames, to_put_first)
   newOrder = c(to_put_first, to_put_last)
 

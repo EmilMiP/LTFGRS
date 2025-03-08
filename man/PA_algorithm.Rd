@@ -4,7 +4,7 @@
 \alias{PA_algorithm}
 \title{Title Pearson-Aitken algorithm to calculate mean values in truncated multivariate normal distributions}
 \usage{
-PA_algorithm(mu, covmat, target_id, lower, upper, mixture_prob)
+PA_algorithm(mu, covmat, target_id, lower, upper, K_i = NA, K_pop = NA)
 }
 \arguments{
 \item{mu}{vector of means}
@@ -17,10 +17,12 @@ PA_algorithm(mu, covmat, target_id, lower, upper, mixture_prob)
 
 \item{upper}{vector of upper thresholds}
 
-\item{mixture_prob}{vector of mixture probabilities}
+\item{K_i}{vector of stratified CIPs for each individual. Only used for estimating genetic liability under the mixture model.}
+
+\item{K_pop}{vector of population CIPs. Only used for estimating genetic liability under the mixture model.}
 }
 \value{
-A list with two elements: postM (expected genetic liability, given input data) and postVar (variance of genetic liability, given input data).
+A list with two elements: est (expected genetic liability, given input data) and var (variance of genetic liability, given input data).
 }
 \description{
 Title Pearson-Aitken algorithm to calculate mean values in truncated multivariate normal distributions

@@ -16,6 +16,7 @@ estimate_liability(
   out = c(1),
   tol = 0.01,
   method = "PA",
+  useMixture = FALSE,
   genetic_corrmat = NULL,
   full_corrmat = NULL,
   phen_names = NULL

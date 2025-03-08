@@ -7,7 +7,7 @@
 Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000)
 }
 \arguments{
-\item{cov}{Covariance (kinship matrix times heritability with corrected diagnoal) matrix}
+\item{cov}{Covariance (kinship matrix times heritability with corrected diagonal) matrix}
 
 \item{tbl}{Tibble with lower and upper bounds for the Gibbs sampler}
 

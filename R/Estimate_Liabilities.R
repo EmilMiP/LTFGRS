@@ -74,6 +74,8 @@ utils::globalVariables("name")
 #' @param method Estimation method used to estimate the (genetic) liability. Defaults to "PA".
 #' Current implementation of PA only supports estimates of genetic liability. For full or both
 #' genetic and full liability estimates use "Gibbs".
+#' @param useMixture Logical indicating whether the mixture model should be used to calculate the genetic liability.
+#' Requires K_i and K_pop columns as well as lower and upper. Defaults to FALSE.
 #'
 #' @return If \code{family} and \code{threshs} are two matrices, lists or
 #' data frames that can be converted into tibbles, if \code{family} has two
@@ -130,6 +132,7 @@ estimate_liability_single <- function(.tbl = NULL,
                                       role = NULL,
                                       out = c(1),
                                       tol = 0.01,
+                                      useMixture = FALSE,
                                       method = "PA"){
 
 
@@ -180,7 +183,8 @@ estimate_liability_single <- function(.tbl = NULL,
     .tbl <- validating_tbl_input(.tbl = .tbl,
                                  pid = pid,
                                  fam_id = fam_id,
-                                 role = role)
+                                 role = role,
+                                 useMixture = useMixture)
 
     # Extracting the (unique) family identifiers
     fam_list <- unique(pull(.tbl, !!as.symbol(fam_id)))
@@ -190,7 +194,8 @@ estimate_liability_single <- function(.tbl = NULL,
     # validating graph input (nothing is returned)
     return_catch <- validating_graph_input(family_graphs = family_graphs,
                                            pid = pid,
-                                           family_graphs_col = family_graphs_col)
+                                           family_graphs_col = family_graphs_col,
+                                           useMixture = useMixture)
 
     # Extracting the (unique) family identifiers
     fam_list <- unique(pull(family_graphs, !!as.symbol(pid)))
@@ -256,6 +261,7 @@ estimate_liability_single <- function(.tbl = NULL,
       tol = tol,
       method = method,
       burn_in = 1000,
+      useMixture = useMixture,
       target_id = cur_target_id)
 
 
@@ -861,9 +867,13 @@ estimate_liability <- function(.tbl = NULL,
                                out = c(1),
                                tol = 0.01,
                                method = "PA",
+                               useMixture = FALSE,
                                genetic_corrmat = NULL,
                                full_corrmat = NULL,
                                phen_names = NULL){
+  if (method != "PA" & useMixture ) {
+    stop("Only PA supports Mixture calculations at the moment!")
+  }
 
   if (length(h2) == 1) {
 
@@ -876,6 +886,7 @@ estimate_liability <- function(.tbl = NULL,
                                      family_graphs_col = family_graphs_col,
                                      out = out,
                                      method = method,
+                                     useMixture = useMixture,
                                      tol = tol))
 
   } else {

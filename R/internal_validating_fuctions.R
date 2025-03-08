@@ -11,7 +11,7 @@
 #'
 #' @importFrom dplyr pull select
 #' @noRd
-validating_tbl_input = function(.tbl, pid, fam_id, role) {
+validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
   # Turning .tbl into a tibble
   # if it is not of class tbl
   if (!is.null(.tbl) && !tibble::is_tibble(.tbl))  .tbl <- tibble::as_tibble(.tbl)
@@ -28,15 +28,32 @@ validating_tbl_input = function(.tbl, pid, fam_id, role) {
 
   # In addition, we check that two columns named lower and upper are present
   if (any(!c("lower","upper") %in% colnames(.tbl))) stop("The tibble .tbl must include two columns named 'lower' and 'upper'!")
+  # if use mixture is true, we will also check for columns K_i and K_pop
+  if (useMixture) {
+    if (!("K_i" %in% colnames(.tbl))) stop("The column K_i does not exist in the tibble .tbl...")
+    if (!("K_pop" %in% colnames(.tbl))) stop("The column K_pop does not exist in the tibble .tbl...")
+  }
 
   # If the tibble consists of more than the required columns,
   # we select only the relevant ones.
-  .tbl <- select(.tbl,
-                 !!as.symbol(fam_id),
-                 !!as.symbol(pid),
-                 !!as.symbol(role),
-                 tidyselect::starts_with("lower"),
-                 tidyselect::starts_with("upper"))
+  if (useMixture) {
+    .tbl <- select(.tbl,
+                   !!as.symbol(fam_id),
+                   !!as.symbol(pid),
+                   !!as.symbol(role),
+                   tidyselect::starts_with("lower"),
+                   tidyselect::starts_with("upper"),
+                   tidyrselect::starts_with("K_i"),
+                   tidyrselect::starts_with("K_pop"))
+  } else {
+
+    .tbl <- select(.tbl,
+                   !!as.symbol(fam_id),
+                   !!as.symbol(pid),
+                   !!as.symbol(role),
+                   tidyselect::starts_with("lower"),
+                   tidyselect::starts_with("upper"))
+  }
 
 
   # Finally, we also check whether all lower thresholds are
@@ -50,6 +67,12 @@ validating_tbl_input = function(.tbl, pid, fam_id, role) {
     .tbl$lower[swapping_indx] <- .tbl$lower[swapping_indx] + .tbl$upper[swapping_indx]
     .tbl$upper[swapping_indx] <- .tbl$lower[swapping_indx] - .tbl$upper[swapping_indx]
     .tbl$lower[swapping_indx] <- .tbl$lower[swapping_indx] - .tbl$upper[swapping_indx]
+  }
+
+  if (useMixture) {
+    if (any(pull(.tbl, K_i) > pull(.tbl, K_pop))) {
+      warning("Some K_i values are larger than the corresponding K_pop values! \n")
+    }
   }
 
   # Returning the validated tibble
@@ -69,7 +92,7 @@ validating_tbl_input = function(.tbl, pid, fam_id, role) {
 #' @importFrom dplyr pull
 #' @noRd
 
-validating_graph_input = function(family_graphs, pid, family_graphs_col) {
+validating_graph_input = function(family_graphs, pid, family_graphs_col, useMixture) {
 
   #check if family_graphs is present, and if the pid column is present.
   if ( !(pid %in% colnames(family_graphs)) ) {
@@ -83,8 +106,15 @@ validating_graph_input = function(family_graphs, pid, family_graphs_col) {
   # extract attributes from graph
   graph_attrs = get.vertex.attribute((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
 
-  if ( !(any(c("lower", "upper") %in% names(graph_attrs))) ) {
-    stop("lower and upper are not present as attributes in family_graph.")
+  if (useMixture) {
+    if ( !(any(c("lower", "upper", "K_i", "K_pop") %in% names(graph_attrs))) ) {
+      stop("lower, upper, K_i, or K_pop are not present as attributes in family_graph.")
+    }
+
+  } else {
+    if ( !(any(c("lower", "upper") %in% names(graph_attrs))) ) {
+      stop("lower and upper are not present as attributes in family_graph.")
+    }
   }
 
 }

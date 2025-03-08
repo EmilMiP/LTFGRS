@@ -7,16 +7,17 @@
 #' @param upper vector of upper thresholds
 #' @param covmat covariance matrix, contaning kinship coefficient and heritability on each entry (except diagnoal, which is 1 for full liabilities and h2 for genetic liabilities)
 #' @param target_id ID of target individual (or genetic liability), i.e. rowname in covmat to return expected genetic liability for
-#' @param mixture_prob vector of mixture probabilities
+#' @param K_i vector of stratified CIPs for each individual. Only used for estimating genetic liability under the mixture model.
+#' @param K_pop vector of population CIPs. Only used for estimating genetic liability under the mixture model.
 #'
-#' @returns A list with two elements: postM (expected genetic liability, given input data) and postVar (variance of genetic liability, given input data).
+#' @returns A list with two elements: est (expected genetic liability, given input data) and var (variance of genetic liability, given input data).
 #'
 #' @importFrom stats pnorm
 #' @export
 #'
 
 
-PA_algorithm = function(mu, covmat, target_id, lower, upper, mixture_prob) {
+PA_algorithm = function(mu, covmat, target_id, lower, upper, K_i = NA, K_pop = NA) {
   target_indx = which(target_id == rownames(covmat))
   if (length(target_indx) == 0) {
     stop("PA_algorithm: Target ID not found in covariance matrix")
@@ -30,7 +31,8 @@ PA_algorithm = function(mu, covmat, target_id, lower, upper, mixture_prob) {
     mu = mu[ordr]
     lower = lower[ordr]
     upper = upper[ordr]
-    mixture_prob = mixture_prob[ordr]
+    K_i = K_i[ordr]
+    K_pop = K_pop[ordr]
   }
   for (i in length(mu):2) { # length(m) - 1 iterations, since we will return last entry
     # we will always take the last entry
@@ -39,12 +41,13 @@ PA_algorithm = function(mu, covmat, target_id, lower, upper, mixture_prob) {
                                        var = covmat[i, i],
                                        lower = lower[i],
                                        upper = upper[i],
-                                       Kp = mixture_prob[i] * (1 - pnorm(upper[i])))
+                                       K_i = K_i[i],
+                                       K_pop = K_pop[i])
 
     # updating mean and variances of all other individuals conditional on last entry values
     mu = mu[-i] + covmat[-i, i] %*% solve(covmat[i, i]) * (update$mean - mu[i])
     covmat = covmat[-i, -i] - covmat[-i, i] %*% (solve(covmat[i, i]) - solve(covmat[i, i]) %*% update$var %*% solve(covmat[i, i])) %*% covmat[i, -i]
-    # note: one dimention is "lost" after each iteration, meaning final result is one-dimentional
+    # note: one dimension is "lost" after each iteration, meaning final result is one-dimentional
   }
   return(tibble(est = as.vector(mu), var = as.vector(covmat)))
 }
