@@ -808,7 +808,7 @@ tnorm_mixture_conditional = function(mu, var, lower, upper, K_i, K_pop) {
   cur_sigma = sqrt(var)
 
   # are calculations required for mixture probabilities?
-  if ( !is.na(K_pop) | !is.na(K_i) & (upper != Inf | lower == upper) ) {
+  if ( (!is.na(K_pop) | !is.na(K_i)) & (upper != Inf | lower == upper) ) {
     # enter here if K_i and K_pop are provided and individual is NOT a case
 
     # T and cdf values needed for mixture prob:
@@ -816,8 +816,9 @@ tnorm_mixture_conditional = function(mu, var, lower, upper, K_i, K_pop) {
     cdf_pop = pnorm((thr_pop - mu) / cur_sigma)
 
     # mixture prob - eq s3 supp notes of PA-FGRS (slightly modified)
-    # isolated prob
-    mixture_prob = 1 - (cdf_pop / (cdf_pop + cdf_pop * (K_pop - K_i) / K_pop))
+    # the supp notes indicate that 1 - mixture prob should have been given as below
+    # However, that seemed to lead to incorrect estimates, hence the change.
+    mixture_prob = cdf_pop / (cdf_pop + (1 - cdf_pop) * (K_pop - K_i) / K_pop)
 
   } else {
     # mean and var is updated only through m0 and sd0
