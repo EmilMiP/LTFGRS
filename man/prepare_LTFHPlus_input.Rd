@@ -8,17 +8,17 @@ prepare_LTFHPlus_input(
   .tbl,
   CIP,
   age_col,
-  aoo_col,
   CIP_merge_columns = c("sex", "birth_year", "age"),
   CIP_cip_col = "cip",
   status_col = "status",
   use_fixed_case_thr = FALSE,
+  personal_thr = FALSE,
   fam_id_col = "fam_id",
   personal_id_col = "pid",
   interpolation = NULL,
   bst.params = list(max_depth = 10, base_score = 0, nthread = 4, min_child_weight = 10),
   min_CIP_value = 1e-05,
-  xgboost_itr = 50
+  xgboost_itr = 30
 )
 }
 \arguments{
@@ -26,9 +26,7 @@ prepare_LTFHPlus_input(
 
 \item{CIP}{tibble with population representative cumulative incidence proportions. CIP values should be merged by \code{CIP_columns}.}
 
-\item{age_col}{name of column with age}
-
-\item{aoo_col}{name of column with age of onset}
+\item{age_col}{name of column with age at the end of follow-up or age at diagnosis}
 
 \item{CIP_merge_columns}{The columns the CIPs are subset by, e.g. CIPs by birth_year, sex.}
 
@@ -37,6 +35,8 @@ prepare_LTFHPlus_input(
 \item{status_col}{Column that contains the status of each family member}
 
 \item{use_fixed_case_thr}{Should the threshold be fixed for cases? Can be used if CIPs are detailed, e.g. stratified by birth_year and sex.}
+
+\item{personal_thr}{should thresholds be based on stratified CIPs or population prevalence?}
 
 \item{fam_id_col}{Column that contains the family ID}
 
