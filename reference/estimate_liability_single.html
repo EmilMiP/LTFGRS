@@ -54,6 +54,7 @@ on their family history.</p>
 <span>  role <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  tol <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  useMixture <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"PA"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -143,6 +144,11 @@ Defaults to <code>c(1)</code>.</p></dd>
 <dd><p>A number that is used as the convergence criterion for the Gibbs sampler.
 Equals the standard error of the mean. That is, a tolerance of 0.2 means that the
 standard error of the mean is below 0.2. Defaults to 0.01.</p></dd>
+
+
+<dt id="arg-usemixture">useMixture<a class="anchor" aria-label="anchor" href="#arg-usemixture"></a></dt>
+<dd><p>Logical indicating whether the mixture model should be used to calculate the genetic liability.
+Requires K_i and K_pop columns as well as lower and upper. Defaults to FALSE.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>

@@ -7,6 +7,8 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/Gibbs_estimator.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/LTFGRS-package.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/PA_algorithm.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/assign_family_specific_thresholds.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/censor_family_onsets.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_single.html</loc></url>
@@ -24,7 +26,9 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_graph.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_all_combs.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/get_family_graphs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_kinship.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/get_onset_time.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_relatedness.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction_multi.html</loc></url>
