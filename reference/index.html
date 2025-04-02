@@ -58,13 +58,25 @@
           <code><a href="assign_family_specific_thresholds.html">assign_family_specific_thresholds()</a></code>
 
         </dt>
-        <dd>Title</dd>
+        <dd>Attach attributes to family graphs This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.</dd>
       </dl><dl><dt>
 
           <code><a href="censor_family_onsets.html">censor_family_onsets()</a></code>
 
         </dt>
-        <dd>Title</dd>
+        <dd>Censor onset times in a family based on a proband's end of follow-up.</dd>
+      </dl><dl><dt>
+
+          <code><a href="censor_family_onsets_per_family.html">censor_family_onsets_per_family()</a></code>
+
+        </dt>
+        <dd>wrapper around censor_family_onsets This functions accepts a tibble with family graphs and each individual. It then censors the onset times for each individual based on the proband's end of follow-up. Returns a formatted output.</dd>
+      </dl><dl><dt>
+
+          <code><a href="complete_data_preparation.html">complete_data_preparation()</a></code>
+
+        </dt>
+        <dd>All data preparation steps in one function.</dd>
       </dl><dl><dt>
 
           <code><a href="construct_covmat.html">construct_covmat()</a></code>
@@ -163,28 +175,34 @@
         <dd>Title Internal Function used to extact input needed for liability estimation</dd>
       </dl><dl><dt>
 
+          <code><a href="fam_graph_attach_attribute.html">fam_graph_attach_attribute()</a></code>
+
+        </dt>
+        <dd>Wrapper to attach attributes to family graphs</dd>
+      </dl><dl><dt>
+
           <code><a href="get_all_combs.html">get_all_combs()</a></code>
 
         </dt>
         <dd>construct all combinations of input vector</dd>
       </dl><dl><dt>
 
-          <code><a href="get_family_graphs.html">get_family_graphs()</a></code>
-
-        </dt>
-        <dd>Title</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_kinship.html">get_kinship()</a></code>
+          <code><a href="get_covmat.html">get_covmat()</a></code>
 
         </dt>
         <dd>Construct kinship matrix from graph</dd>
       </dl><dl><dt>
 
+          <code><a href="get_family_graphs.html">get_family_graphs()</a></code>
+
+        </dt>
+        <dd>Identify family members of degree n</dd>
+      </dl><dl><dt>
+
           <code><a href="get_onset_time.html">get_onset_time()</a></code>
 
         </dt>
-        <dd>Title</dd>
+        <dd>Calculate age of diagnosis, age at end of follow up, and status</dd>
       </dl><dl><dt>
 
           <code><a href="get_relatedness.html">get_relatedness()</a></code>
