@@ -2,13 +2,13 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{get_family_graphs}
 \alias{get_family_graphs}
-\title{Title}
+\title{Identify family members of degree n}
 \usage{
 get_family_graphs(
   pop_graph,
   ndegree,
-  probands,
-  pid_col = "pid",
+  proband_vec,
+  fid = "fid",
   fam_graph_col = "fam_graph",
   mindist = 0,
   mode = "all"
@@ -19,9 +19,9 @@ get_family_graphs(
 
 \item{ndegree}{number of steps away from proband to include}
 
-\item{probands}{vector of proband ids to create family graphs for}
+\item{proband_vec}{vector of proband ids to create family graphs for}
 
-\item{pid_col}{column name of proband ids in the output}
+\item{fid}{column name of proband ids in the output}
 
 \item{fam_graph_col}{column name of family graphs in the output}
 
@@ -30,8 +30,11 @@ get_family_graphs(
 \item{mode}{type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph}
 }
 \value{
-tibble with two columns, proband ids and family graphs
+tibble with two columns, family ids and family graphs
 }
 \description{
-Title
+This function identifies individuals ndegree-steps away from the proband in the population graph
+}
+\examples{
+See vignettes
 }

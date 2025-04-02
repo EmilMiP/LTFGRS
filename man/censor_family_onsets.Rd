@@ -2,7 +2,7 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{censor_family_onsets}
 \alias{censor_family_onsets}
-\title{Title}
+\title{Censor onset times in a family based on a proband's end of follow-up.}
 \usage{
 censor_family_onsets(
   tbl,
@@ -11,9 +11,9 @@ censor_family_onsets(
   start,
   end,
   event,
-  status_column,
-  aod_column,
-  age_eof_column
+  status_col,
+  aod_col,
+  age_eof_col
 )
 }
 \arguments{
@@ -29,16 +29,19 @@ censor_family_onsets(
 
 \item{event}{event of interest, typically date of diagnosis, must be a date column}
 
-\item{status_column}{column name of status column to be created}
+\item{status_col}{column name of status column to be created}
 
-\item{aod_column}{column name of age of diagnosis column to be created}
+\item{aod_col}{column name of age of diagnosis column to be created}
 
-\item{age_eof_column}{column name of age at end of follow-up column to be created}
+\item{age_eof_col}{column name of age at end of follow-up column to be created}
 }
 \value{
 tibble with updated end times, status, age of diagnosis, and age at end of follow-up for a family, such that proband's end time is used as the end time for all family members. This prevents
  using future events to based predictions on.
 }
 \description{
-Title
+This function censors onset times for family members based on the proband's end of follow-up. This is done to prevent using future events to base predictions on.
+}
+\examples{
+See vignettes
 }

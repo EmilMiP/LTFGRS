@@ -2,16 +2,16 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{get_onset_time}
 \alias{get_onset_time}
-\title{Title}
+\title{Calculate age of diagnosis, age at end of follow up, and status}
 \usage{
 get_onset_time(
   tbl,
   start,
   end,
   event,
-  status_column = "status",
-  aod_column = "aod",
-  age_eof_column = "age_eof"
+  status_col = "status",
+  aod_col = "aod",
+  age_eof_col = "age_eof"
 )
 }
 \arguments{
@@ -23,15 +23,18 @@ get_onset_time(
 
 \item{event}{event of interest, typically date of diagnosis, must be a date column}
 
-\item{status_column}{column name of status column to be created}
+\item{status_col}{column name of status column to be created}
 
-\item{aod_column}{column name of age of diagnosis column to be created}
+\item{aod_col}{column name of age of diagnosis column to be created}
 
-\item{age_eof_column}{column name of age at end of follow-up column to be created}
+\item{age_eof_col}{column name of age at end of follow-up column to be created}
 }
 \value{
 tibble with added status, age of diagnosis, and age at end of follow-up
 }
 \description{
-Title
+Calculate age of diagnosis, age at end of follow up, and status
+}
+\examples{
+See vignettes
 }

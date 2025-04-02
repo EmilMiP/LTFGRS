@@ -38,3 +38,6 @@ A tibble with family specific values required for Kendler's FGRS calculation.
 \description{
 Title Helper function for Kendler's FGRS
 }
+\examples{
+See vignettes
+}

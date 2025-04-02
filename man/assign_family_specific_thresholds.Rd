@@ -2,12 +2,13 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{assign_family_specific_thresholds}
 \alias{assign_family_specific_thresholds}
-\title{Title}
+\title{Attach attributes to family graphs
+This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.}
 \usage{
 assign_family_specific_thresholds(
   cur_fam_graph,
   cur_proband,
-  fam_id_col,
+  fid,
   attr_tbl,
   attr_names,
   censor_proband_thrs = TRUE
@@ -18,7 +19,7 @@ assign_family_specific_thresholds(
 
 \item{cur_proband}{current proband id (center of the neighbourhood graph)}
 
-\item{fam_id_col}{column name of family id}
+\item{fid}{column name of family id}
 
 \item{attr_tbl}{tibble with family id and attributes for each family member}
 
@@ -30,5 +31,9 @@ assign_family_specific_thresholds(
 igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph
 }
 \description{
-Title
+Attach attributes to family graphs
+This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
+}
+\examples{
+See vignettes
 }

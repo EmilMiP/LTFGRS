@@ -15,7 +15,7 @@ utils::globalVariables(c("S", "varZ", "mZ", "sum_r", "cur_fam_id", "k_temp"))
 #' @export
 #' @importFrom stats var pnorm
 #' @importFrom dplyr pull
-#' @examples
+#' @examples See vignettes
 kendler_family_calculations = function(tbl,
                                        cov,
                                        pid,
@@ -117,7 +117,7 @@ kendler_family_calculations = function(tbl,
 #'
 #' @export
 #'
-#' @examples
+#' @examples See vignettes
 kendler = function(.tbl = NULL,
                    family_graphs = NULL,
                    family_graphs_col = "fam_graph",

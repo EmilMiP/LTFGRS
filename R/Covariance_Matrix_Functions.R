@@ -847,10 +847,10 @@ graph_based_covariance_construction = function(pid,
 
 
   # graph based kinship matrix, with genetic liability added
-  cov = get_kinship(fam_graph = cur_family_graph,
-                    h2 = h2,
-                    add_ind = add_ind,
-                    index_id = cur_proband_id)
+  cov = get_covmat(fam_graph = cur_family_graph,
+                   h2 = h2,
+                   add_ind = add_ind,
+                   index_id = cur_proband_id)
 
   # Now that we have extracted all the relevant information, we
   # only need to order the observations before we can run
@@ -972,12 +972,12 @@ graph_based_covariance_construction_multi = function(fam_id,
     for (j in i:ntrait) {
       j_ind = 1:fam_size + fam_size * (j - 1)
       if (i == j) {
-        cov[i_ind, j_ind] <- get_kinship(fam_graph = cur_family_graph,
+        cov[i_ind, j_ind] <- get_covmat(fam_graph = cur_family_graph,
                                          h2 = h2_vec[i],
                                          add_ind = add_ind,
                                          index_id = cur_proband_id)
       } else {
-        cov[i_ind, j_ind] <- cov[j_ind, i_ind] <- get_kinship(fam_graph = cur_family_graph,
+        cov[i_ind, j_ind] <- cov[j_ind, i_ind] <- get_covmat(fam_graph = cur_family_graph,
                                                               h2 = sqrt(h2_vec[i] * h2_vec[j]) * genetic_corrmat[i,j],
                                                               add_ind = add_ind,
                                                               index_id = cur_proband_id, fix_diag = F)
@@ -986,7 +986,7 @@ graph_based_covariance_construction_multi = function(fam_id,
     }
   }
 
-  for_name = get_kinship(fam_graph = cur_family_graph,
+  for_name = get_covmat(fam_graph = cur_family_graph,
                          h2 = h2_vec[1],
                          add_ind = add_ind,
                          index_id = cur_proband_id)

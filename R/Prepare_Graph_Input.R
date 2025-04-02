@@ -199,7 +199,8 @@ prepare_LTFHPlus_input = function(.tbl,
              lower = ifelse(!!as.symbol(status_col), thr, -Inf),
              upper = ifelse(!!as.symbol(status_col),
                             ifelse(use_fixed_case_thr, thr, Inf),
-                            thr))
+                            thr)) %>%
+      rename(K_i = cip_pred)
 
     return(.tbl)
 
@@ -348,25 +349,27 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, lower_col
 # mindist and mode are inherited directly from make_neighborhood_graph
 # the other parameters are used for selecting individuals and formatting
 
-#' Title
+#' Identify family members of degree n
+#'
+#' This function identifies individuals ndegree-steps away from the proband in the population graph
 #'
 #' @param pop_graph population graph from prepare_graph()
 #' @param ndegree number of steps away from proband to include
-#' @param probands vector of proband ids to create family graphs for
-#' @param pid_col column name of proband ids in the output
+#' @param proband_vec vector of proband ids to create family graphs for
+#' @param fid column name of proband ids in the output
 #' @param fam_graph_col column name of family graphs in the output
 #' @param mindist minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph
 #' @param mode type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph
 #'
-#' @returns tibble with two columns, proband ids and family graphs
+#' @returns tibble with two columns, family ids and family graphs
 #' @export
 #'
-#' @examples
-get_family_graphs = function(pop_graph, ndegree, probands, pid_col = "pid", fam_graph_col = "fam_graph", mindist = 0, mode = "all") {
-  ## TODO: mindist > 0, will get_kinship still work?
+#' @examples See vignettes
+get_family_graphs = function(pop_graph, ndegree, proband_vec, fid = "fid", fam_graph_col = "fam_graph", mindist = 0, mode = "all") {
+  ## TODO: mindist > 0, will get_covmat still work?
   tibble(
-    !!as.symbol(pid_col) := probands,
-    !!as.symbol(fam_graph_col) := igraph::make_neighborhood_graph(pop_graph, order = ndegree, mindist = mindist, nodes = probands, mode = mode)
+    !!as.symbol(fid) := proband_vec,
+    !!as.symbol(fam_graph_col) := igraph::make_neighborhood_graph(pop_graph, order = ndegree, mindist = mindist, nodes = proband_vec, mode = mode)
   )
 }
 
@@ -379,39 +382,39 @@ get_family_graphs = function(pop_graph, ndegree, probands, pid_col = "pid", fam_
 # start, end, event must be date columns.
 
 
-#' Title
+#' Calculate age of diagnosis, age at end of follow up, and status
 #'
 #' @param tbl tibble with start, end, and event as columns
 #' @param start start of follow up, typically birth date, must be a date column
 #' @param end end of follow up, must be a date column
 #' @param event event of interest, typically date of diagnosis, must be a date column
-#' @param status_column column name of status column to be created
-#' @param aod_column column name of age of diagnosis column to be created
-#' @param age_eof_column column name of age at end of follow-up column to be created
+#' @param status_col column name of status column to be created
+#' @param aod_col column name of age of diagnosis column to be created
+#' @param age_eof_col column name of age at end of follow-up column to be created
 #'
 #' @returns tibble with added status, age of diagnosis, and age at end of follow-up
 #' @export
 #'
-#' @examples
-get_onset_time = function(tbl, start, end, event, status_column = "status", aod_column = "aod", age_eof_column = "age_eof") {
+#' @examples See vignettes
+get_onset_time = function(tbl, start, end, event, status_col = "status", aod_col = "aod", age_eof_col = "age_eof") {
   # add checks that start, end, and event are date columns with lubridate
 
   tbl %>%
     mutate(
       # status, censoring events (diagnosis) that happen outside of start and end dates
-      !!as.symbol(status_column) := ifelse(!is.na(!!as.symbol(event)) &  !!as.symbol(event) %within% interval(!!as.symbol(start), !!as.symbol(end)), 1, 0),
+      !!as.symbol(status_col) := ifelse(!is.na(!!as.symbol(event)) &  !!as.symbol(event) %within% interval(!!as.symbol(start), !!as.symbol(end)), 1, 0),
 
       # age of diagnosis - NA if control
-      !!as.symbol(aod_column) := ifelse(
-        !!as.symbol(status_column) == 1,
+      !!as.symbol(aod_col) := ifelse(
+        !!as.symbol(status_col) == 1,
         time_length(interval(!!as.symbol(start), !!as.symbol(event)), "years"),
         NA),
 
       # age at end of follow-up (as given)
       # start = birth date, returns age att diagnosis or eof
-      !!as.symbol(age_eof_column) := pmin( #which happens first?
+      !!as.symbol(age_eof_col) := pmin( #which happens first?
         # aod from earlier
-        !!as.symbol(aod_column),
+        !!as.symbol(aod_col),
         # calculating age at end of follow up
         time_length(interval(!!as.symbol(start), !!as.symbol(end)), "years"),
         na.rm = T)
@@ -426,7 +429,9 @@ get_onset_time = function(tbl, start, end, event, status_column = "status", aod_
 # The age of the child would then be the time interval between the time of diagnosis of the parent
 # and the birth of the child ( the "start" is birth date, hence a negative time interval)
 
-#' Title
+#' Censor onset times in a family based on a proband's end of follow-up.
+#'
+#' This function censors onset times for family members based on the proband's end of follow-up. This is done to prevent using future events to base predictions on.
 #'
 #' @param tbl tibble with info on family members, censoring events based on cur_proband in proband_id_col, must contain start, end, and event as columns
 #' @param proband_id_col column name of proband ids within family
@@ -434,16 +439,17 @@ get_onset_time = function(tbl, start, end, event, status_column = "status", aod_
 #' @param start start of follow up, typically birth date, must be a date column
 #' @param end end of follow up, must be a date column
 #' @param event event of interest, typically date of diagnosis, must be a date column
-#' @param status_column column name of status column to be created
-#' @param aod_column column name of age of diagnosis column to be created
-#' @param age_eof_column column name of age at end of follow-up column to be created
+#' @param status_col column name of status column to be created
+#' @param aod_col column name of age of diagnosis column to be created
+#' @param age_eof_col column name of age at end of follow-up column to be created
 #'
 #' @returns tibble with updated end times, status, age of diagnosis, and age at end of follow-up for a family, such that proband's end time is used as the end time for all family members. This prevents
 #'  using future events to based predictions on.
 #' @export
 #'
-#' @examples
-censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, event, status_column, aod_column, age_eof_column) {
+#' @examples See vignettes
+censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, event, status_col, aod_col, age_eof_col) {
+  # TODO: This function may return negative ages. Should these people be removed? Negative ages are mostly due to the end of follow up happening before the birth of someone.
   # if event isnt a date column, throw error
   if (!is.Date(tbl[[event]])) stop(paste0("censor_family_onsets: event column '", event ,"' must be in a date format."))
 
@@ -463,17 +469,18 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
                    start = start,
                    end = end,
                    event = event,
-                   status_column = status_column,
-                   aod_column = aod_column,
-                   age_eof_column = age_eof_column)
+                   status_col = status_col,
+                   aod_col = aod_col,
+                   age_eof_col = age_eof_col)
 }
 
 
-#' Title
+#' Attach attributes to family graphs
+#' This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
 #'
 #' @param cur_fam_graph igraph object (neighbourhood graph around a proband) with family members of degree n
 #' @param cur_proband current proband id (center of the neighbourhood graph)
-#' @param fam_id_col column name of family id
+#' @param fid column name of family id
 #' @param attr_tbl tibble with family id and attributes for each family member
 #' @param attr_names names of attributes to be assigned to each node (family member) in the graph
 #' @param censor_proband_thrs should proband thresholds be censored? Defaults to TRUE. Used proband's information for prediction.
@@ -481,18 +488,24 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 #' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph
 #' @export
 #'
-#' @examples
-assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fam_id_col, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
+#' @examples See vignettes
+assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
   # get node names
   graph_vertex_names = igraph::vertex_attr(cur_fam_graph)$name
 
   # which nodes are present in thresholds?
-  to_keep_indx = which(graph_vertex_names %in% attr_tbl[[fam_id_col]])
+  to_keep_indx = which(graph_vertex_names %in% attr_tbl[[fid]])
   # get names of present nodes
   to_keep = graph_vertex_names[to_keep_indx]
 
   # order attributes after graph
-  attr_tbl_matched = attr_tbl %>% slice(match(to_keep, !!as.symbol(fam_id_col)))
+  attr_tbl_matched = attr_tbl %>% slice(match(to_keep, !!as.symbol(fid)))
+
+  # any attr_names columns not in attr_tbl?
+  if (any(!(attr_names %in% colnames(attr_tbl_matched)))) {
+    warning(paste0("assign_family_specific_thresholds: Not all attributes are present in attr_tbl!\n",
+                    " Missing attributes: ", paste(setdiff(attr_names, colnames(attr_tbl_matched)), collapse = ", ")))
+  }
 
   # only include columns of attr_tbl that are in attr_names
   for (attr in attr_names) {
@@ -516,4 +529,220 @@ assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fam_id_
   }
 
   return(cur_fam_graph)
+}
+
+
+
+#' Wrapper to attach attributes to family graphs
+#'
+#' This function can attach attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
+#' This function wraps around assign_family_specific_thresholds to ease the process of attaching attributes to family graphs in the standard format.
+#'
+#' @param family_graphs tibble with family ids and family graphs
+#' @param fam_attr tibble with attributes for each family member
+#' @param fam_graph_col column name of family graphs in family_graphs. defailts to "fam_graph"
+#' @param attached_fam_graph_col column name of the updated family graphs with attached attributes. defaults to "masked_fam_graph".
+#' @param fid column name of family id. Typically contains the name of the proband that a family graph is centred on. defaults to "fid".
+#' @param pid personal identifier for each individual in a family. Allows for multiple instances of the same individual across families. Defaults to "pid".
+#' @param cols_to_attach columns to attach to the family graphs from fam_attr, typically lower and upper thresholds. Mixture input also requires K_i and K_pop.
+#' @param censor_proband_thrs should proband thresholds be censored? Used for prediction to exclude information on the proband. Defaults to TRUE.
+#'
+#' @returns tibble with family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
+#' @export
+#'
+#' @examples See vignettes.
+fam_graph_attach_attribute = function(family_graphs,
+                                      fam_attr,
+                                      fam_graph_col = "fam_graph",
+                                      attached_fam_graph_col = "masked_fam_graph",
+                                      fid = "fid",
+                                      pid = "pid",
+                                      cols_to_attach = c("lower", "upper"),
+                                      censor_proband_thrs = T) {
+  fam_attr %>%
+    tidyr::nest(attrs = -fid) %>%
+    left_join(family_graphs, ., by = fid) %>%
+    mutate(
+      !!as.symbol(attached_fam_graph_col) := purrr::pmap(
+        .l = list(!!as.symbol(fid), !!as.symbol(fam_graph_col), attrs),
+        ~ assign_family_specific_thresholds(
+          cur_fam_graph = ..2,
+          attr_tbl = ..3, cur_proband = ..1,
+          fid = pid, attr_names = cols_to_attach,
+          censor_proband_thrs = censor_proband_thrs))) %>%
+    select(-attrs, -!!as.symbol(fam_graph_col))
+}
+
+
+
+#' All data preparation steps in one function.
+#'
+#' This function is a wrapper for the following functions:
+#' get_family_graphs, censor_family_onsets_per_family, prepare_LTFHPlus_input, and fam_graph_attach_attribute.
+#' See details on each function for more information.
+#'
+#' @param pop_graph population graph from prepare_graph()
+#' @param ndegree number of steps away from proband to include
+#' @param proband_vec vector of proband ids to create family graphs for
+#' @param fid column name of family id, column typically contains the name of the proband that a family graph is centred on
+#' @param fam_graph_col column name of family graphs in the output
+#' @param mindist minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph
+#' @param mode type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph
+#' @param pheno tibble with information on each considered individual
+#' @param start column name of start of follow up, typically date of birth
+#' @param end column name of the personalised end of follow up
+#' @param event column name of the event, typically age at diagnosis
+#' @param status_col column name of the status (to be created)
+#' @param aod_col column name of the age of diagnosis (to be created)
+#' @param age_eof_col column name of the age at end of follow up (to be created)
+#' @param merge_by column names to merge pheno to each individual in a family by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs.
+#' @param pid personal identifier for each individual in a family. Allows for multiple instances of the same individual across families. Defaults to "pid".
+#' @param CIP CIP object, must contain columns specified in CIP_merge_columns and CIP_cip_col
+#' @param CIP_merge_columns columns the CIPs are stratified by, column names must be shared with pheno or a named vector must be provided to merge_by.
+#' @param age_col column with the age in the CIP object
+#' @param CIP_cip_col column with the cumulative incidence proportions (CIP) values in the CIP object
+#' @param personal_thr Should threshold be assigned with a personalised threshold based on CIPs or population prevalence? Defaults to TRUE.
+#' @param use_fixed_case_thr Should upper and lower threshold be the same for cases? Defaults to FALSE.
+#' @param interpolation type of interpolation, defaults to "xgboost". See prepare_LTFHPlus_input for more information.
+#' @param attached_fam_graph_col column name of the updated family graphs with attached attributes.
+#' @param cols_to_attach columns to attach to the family graphs, typically lower and upper thresholds
+#' @param censor_proband_thrs should proband thresholds be censored? Used for prediction to exclude information on the proband. Defaults to TRUE.
+#'
+#' @returns A tibble with two columns, family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
+#' @export
+#'
+#' @examples See Vignettes.
+complete_data_preparation = function(
+    pop_graph,
+    fid = "fid",
+    ndegree,
+    fam_graph_col = "fam_graph",
+    proband_vec,
+    ###
+    pheno,
+    start,
+    end,
+    event,
+    status_col,
+    aod_col,
+    age_eof_col,
+    merge_by = setNames(c("id"), c("pid")),
+    pid = "pid",
+    ###
+    CIP,
+    CIP_merge_columns = c("age", "birth_year", "sex"),
+    age_col = "age",
+    CIP_cip_col = "cip",
+    personal_thr = TRUE,
+    use_fixed_case_thr = FALSE,
+    interpolation = "xgboost",
+    attached_fam_graph_col = "masked_fam_graph",
+    cols_to_attach = c("lower", "upper"),
+    censor_proband_thrs = T
+) {
+  # TODO: unoptimised, several implied loops, will likely not scale well.
+
+  # Identify family members of degree n
+  family_graphs = get_family_graphs(pop_graph = pop_graph,
+                                    ndegree = ndegree,
+                                    proband_vec = proband_vec,
+                                    fid = "fid",
+                                    fam_graph_col = "fam_graph")
+
+  # extract identified family members and attach the phenotype and related info
+  info = censor_family_onsets_per_family(family_graphs = family_graphs,
+                                         tbl = pheno,
+                                         start = start,
+                                         end = end,
+                                         event = event,
+                                         status_col = status_col,
+                                         aod_col = aod_col,
+                                         pid = pid,
+                                         fid = fid,
+                                         merge_by = merge_by,
+                                         age_eof_col = age_eof_col) %>%
+    # renaming age_eof_col to age_col, since age_col in prepare_ltfhplus_input
+    # is the stopping time for the individual, i.e. aod for cases and
+    # age at end of follow up for controls
+    rename(!!as.symbol(age_col) := !!as.symbol(age_eof_col)) %>%
+    # mutate(age = time_length(interval(fdato, indiv_eof), "years")) %>%
+    # attach family-specific threshold info
+    prepare_LTFHPlus_input(.tbl = .,
+                           CIP = CIP,
+                           age_col = age_col,
+                           CIP_merge_columns = CIP_merge_columns,
+                           CIP_cip_col = CIP_cip_col,
+                           status_col = status_col,
+                           personal_thr = personal_thr,
+                           use_fixed_case_thr = use_fixed_case_thr,
+                           interpolation = interpolation)
+
+
+  # finally attach the per-family censored outcomes
+  fam_graph_attach_attribute(family_graphs = family_graphs,
+                             fam_attr = info,
+                             fam_graph_col = fam_graph_col,
+                             attached_fam_graph_col = attached_fam_graph_col,
+                             fid = fid,
+                             cols_to_attach = cols_to_attach,
+                             censor_proband_thrs = censor_proband_thrs)
+
+}
+
+
+#' wrapper around censor_family_onsets
+#' This functions accepts a tibble with family graphs and each individual. It then censors the onset times for each individual based on the proband's end of follow-up.
+#' Returns a formatted output.
+#'
+#' @param family_graphs tibble with fid and family graphs columns
+#' @param tbl tibble with information on each considered individual
+#' @param start column name of start of follow up, typically date of birth
+#' @param end column name of the personalised end of follow up
+#' @param event column name of the event
+#' @param status_col column name of the status (to be created)
+#' @param aod_col column name of the age of diagnosis
+#' @param age_eof_col column name of the age at the end of follow up
+#' @param fam_graph_col column name of family graphs in the 'family_graphs' object
+#' @param fid family id, typically the name of the proband that a family graph is centred on
+#' @param pid personal identifier for each individual
+#' @param merge_by column names to merge by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs.
+#'
+#' @returns A tibble with family ids and updated status, age of diagnosis, and age at end of follow-up for each individual in the family based on the proband's end of follow-up.
+#' @export
+#'
+#' @examples see vignettes
+censor_family_onsets_per_family = function(
+    family_graphs,
+    tbl,
+    start,
+    end,
+    event,
+    status_col,
+    aod_col,
+    age_eof_col,
+    fam_graph_col = "fam_graph",
+    fid = "fid",
+    pid = "pid",
+    merge_by = pid) {
+
+  family_graphs %>%
+    mutate(
+      !!as.symbol(pid) := purrr::map(.x = !!as.symbol(fam_graph_col), ~ igraph::V(.x)$name)) %>%
+    select(-!!as.symbol(fam_graph_col)) %>%
+    tidyr::unnest(!!as.symbol(pid)) %>%
+    left_join(tbl, by = merge_by) %>%
+    tidyr::nest(data = -fid) %>%
+    # performing per-family operations:
+    mutate(data = purrr::map2(.x = fid, .y = data,
+                              ~ censor_family_onsets(
+                                tbl = .y,
+                                proband_id_col = pid,
+                                cur_proband = .x,
+                                start = start,
+                                end = end,
+                                event = event,
+                                status_col = status_col,
+                                aod_col = aod_col,
+                                age_eof_col = age_eof_col))) %>%
+    tidyr::unnest(cols = c(data))
 }

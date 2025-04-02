@@ -75,12 +75,12 @@ add_gen_liab_to_graph = function(fam_graph, index_id) {
 #'
 #' graph <- prepare_graph(fam, icol = "i", fcol = "f", mcol = "m", node_attributes = thresholds)
 #'
-#' get_kinship(graph, h2 = 0.5, index_id = "1")
+#' get_covmat(graph, h2 = 0.5, index_id = "1")
 #'
 #' @export
 #'
 
-get_kinship = function(fam_graph, h2, index_id = NA, add_ind = TRUE, fix_diag = TRUE) {
+get_covmat = function(fam_graph, h2, index_id = NA, add_ind = TRUE, fix_diag = TRUE) {
   if (add_ind) {
     index_id_g = paste0(index_id, "_g")
     # adding in point to act as genetic liability for index person
