@@ -130,13 +130,37 @@ prepare_LTFHPlus_input = function(.tbl,
                                   min_CIP_value = 1e-5,
                                   xgboost_itr = 30
 ) {
+
+# Checking input data -----------------------------------------------------
+  # check if CIP_merge_columns are in both .tbl and CIP:
+  if (any(!(CIP_merge_columns %in% colnames(.tbl)))) {
+    stop(paste0("prepare_LTFHPlus_input: The following columns are not present in the provided .tbl: ", paste(setdiff(CIP_merge_columns, colnames(.tbl)), collapse = ", ")))
+  }
+
+  if (any(!(CIP_merge_columns %in% colnames(CIP)))) {
+    stop(paste0("prepare_LTFHPlus_input: The following columns are not present in the provided CIP: ", paste(setdiff(CIP_merge_columns, colnames(CIP)), collapse = ", ")))
+  }
+
+  # checking whether the non-age columns used for merging in .tbl are present in CIP
+  # this allows CIP to only hold relevant stratification info.
+  # interpolation can be done on the age column.
+  overlap_test_tbl = sapply(setdiff(CIP_merge_columns, age_col), function(x) {
+    any(!(.tbl[[x]] %in% CIP[[x]]))
+  })
+  if( any(overlap_test_tbl) ) {
+    warning(paste0("prepare_LTFHPlus_input: The following CIP_merge_columns are not completely overlapping in CIP and .tbl:",
+                   paste(setdiff(CIP_merge_columns, age_col)[overlap_test_tbl], collapse = ", ")))
+  }
+
+
+# -------------------------------------------------------------------------
+
+
   # TODO:
-  # checks for the presence of all columns in .tbl and CIP goes here
-  # checks for the presence of all columns in .tbl and CIP goes here
   # ADD linear interpolation
 
   # interpolation with xgboost or merge on raw values?
-  if (!is.na(interpolation) && interpolation != "xgboost") stop("Invalid choice of interpolation method. Must be NULL or xgboost.")
+  if (!is.na(interpolation) && interpolation != "xgboost") stop("Invalid choice of interpolation method. Must be NA or xgboost.")
 
   # interpolate CIP values based on xgb
   if (is.na(interpolation)) {
@@ -202,6 +226,10 @@ prepare_LTFHPlus_input = function(.tbl,
                             thr)) %>%
       rename(K_i = cip_pred)
 
+    if (any(is.na(.tbl$lower)) | any(is.na(.tbl$upper))) {
+      warning(paste0("There are ", sum(is.na(select(.tbl, lower, upper))), " NA values in the upper and lower thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
+    }
+
     return(.tbl)
 
   } else {
@@ -219,10 +247,8 @@ prepare_LTFHPlus_input = function(.tbl,
 #' @param icol column name of column with proband ids.
 #' @param fcol column name of column with father ids.
 #' @param mcol column name of column with mother ids.
-#' @param node_attributes tibble with icol, lower_col and upper_col. Used to assign attributes to each node in the graph, e.g. lower and upper thresholds to individuals in the graph.
-#' @param lower_col Column name of column with proband's lower threshold.
-#' @param upper_col Column name of column with proband's upper threshold.
-#' @param missingID_patterns string of missing values in the ID columns. Multiple values can be used, but must be separated by "|". Defaults to "^0$".
+#' @param node_attributes tibble with icol and any additional information, such as sex, lower threshold, and upper threshold. Used to assign attributes to each node in the graph, e.g. lower and upper thresholds to individuals in the graph.
+#' @param missingID_patterns string of missing values in the ID columns. Multiple values can be used, but must be separated by "|". Defaults to "^0$". OBS: "0" is NOT enough, since it relies on regex.
 #'
 #' @return An igraph object. A (directed) graph object based on the links provided in .tbl, potentially with provided attributes stored for each node.
 #'
@@ -242,7 +268,7 @@ prepare_LTFHPlus_input = function(.tbl,
 #' prepare_graph(fam, icol = "id", fcol = "dadcol", mcol = "momcol", node_attributes = thresholds)
 #'
 #' @export
-prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, lower_col = "lower", upper_col = "upper", missingID_patterns = "^0$") {
+prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, missingID_patterns = "^0$") {
 
   # helper boolean to check if node_attributes is provided, since an offered node_attributes may have NA values in one or more
   # entries, hence the check on class of the object. NAs are logical and will lead to a FALSE.
@@ -388,16 +414,25 @@ get_family_graphs = function(pop_graph, ndegree, proband_vec, fid = "fid", fam_g
 #' @param start start of follow up, typically birth date, must be a date column
 #' @param end end of follow up, must be a date column
 #' @param event event of interest, typically date of diagnosis, must be a date column
-#' @param status_col column name of status column to be created
-#' @param aod_col column name of age of diagnosis column to be created
-#' @param age_eof_col column name of age at end of follow-up column to be created
+#' @param status_col column name of status column to be created. Defaults to "status".
+#' @param aod_col column name of age of diagnosis column to be created. Defaults to "aod".
+#' @param age_eof_col column name of age at end of follow-up column to be created. Defaults to "age_eof".
 #'
 #' @returns tibble with added status, age of diagnosis, and age at end of follow-up
 #' @export
 #'
+#' @importFrom lubridate interval is.Date time_length
+#' @importFrom dplyr %>% mutate
+#'
 #' @examples See vignettes
-get_onset_time = function(tbl, start, end, event, status_col = "status", aod_col = "aod", age_eof_col = "age_eof") {
+get_onset_time = function(tbl, start, end, event,
+                          status_col = "status",
+                          aod_col = "aod",
+                          age_eof_col = "age") {
   # add checks that start, end, and event are date columns with lubridate
+  if (!is.Date(tbl[[start]])) stop(paste0("get_onset_time: start column '", start ,"' must be in a date format."))
+  if (!is.Date(tbl[[end]])) stop(paste0("get_onset_time: end column '", end ,"' must be in a date format."))
+  if (!is.Date(tbl[[event]])) stop(paste0("get_onset_time: event column '", event ,"' must be in a date format."))
 
   tbl %>%
     mutate(
@@ -439,19 +474,26 @@ get_onset_time = function(tbl, start, end, event, status_col = "status", aod_col
 #' @param start start of follow up, typically birth date, must be a date column
 #' @param end end of follow up, must be a date column
 #' @param event event of interest, typically date of diagnosis, must be a date column
-#' @param status_col column name of status column to be created
-#' @param aod_col column name of age of diagnosis column to be created
-#' @param age_eof_col column name of age at end of follow-up column to be created
+#' @param status_col column name of status column to be created. Defaults to "status.
+#' @param aod_col column name of age of diagnosis (aod) column to be created. Defaults to "aod".
+#' @param age_eof_col column name of age at end of follow-up (eof) column to be created. Defaults to "age_eof".
 #'
 #' @returns tibble with updated end times, status, age of diagnosis, and age at end of follow-up for a family, such that proband's end time is used as the end time for all family members. This prevents
 #'  using future events to based predictions on.
 #' @export
 #'
 #' @examples See vignettes
-censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, event, status_col, aod_col, age_eof_col) {
+censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, event,
+                                status_col = "status",
+                                aod_col = "aod",
+                                age_eof_col = "age") {
   # TODO: This function may return negative ages. Should these people be removed? Negative ages are mostly due to the end of follow up happening before the birth of someone.
-  # if event isnt a date column, throw error
-  if (!is.Date(tbl[[event]])) stop(paste0("censor_family_onsets: event column '", event ,"' must be in a date format."))
+  # if event, start, or end is not a date column, throw error
+  if (!is.Date(tbl[[start]])) stop(paste0("get_onset_time: start column '", start ,"' must be in a date format."))
+  if (!is.Date(tbl[[end]])) stop(paste0("get_onset_time: end column '", end ,"' must be in a date format."))
+  if (!is.Date(tbl[[event]])) stop(paste0("get_onset_time: event column '", event ,"' must be in a date format."))
+
+
 
   # extract eof of proband
   proband_eof = tbl %>%
@@ -691,6 +733,7 @@ complete_data_preparation = function(
 
 
 #' wrapper around censor_family_onsets
+#'
 #' This functions accepts a tibble with family graphs and each individual. It then censors the onset times for each individual based on the proband's end of follow-up.
 #' Returns a formatted output.
 #'
@@ -705,7 +748,7 @@ complete_data_preparation = function(
 #' @param fam_graph_col column name of family graphs in the 'family_graphs' object
 #' @param fid family id, typically the name of the proband that a family graph is centred on
 #' @param pid personal identifier for each individual
-#' @param merge_by column names to merge by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs.
+#' @param merge_by column names to merge by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs. The column names used should reference the personal identifier.
 #'
 #' @returns A tibble with family ids and updated status, age of diagnosis, and age at end of follow-up for each individual in the family based on the proband's end of follow-up.
 #' @export
@@ -717,19 +760,59 @@ censor_family_onsets_per_family = function(
     start,
     end,
     event,
-    status_col,
-    aod_col,
-    age_eof_col,
+    status_col = "status",
+    aod_col = "aod",
+    age_eof_col = "age",
     fam_graph_col = "fam_graph",
     fid = "fid",
     pid = "pid",
     merge_by = pid) {
+  # check merge_by length:
+  if(length(merge_by) != 1) {
+    warning("censor_family_onsets_per_family: merge_by is tested with a single column name or a named vector of length.")
+  }
 
-  family_graphs %>%
+  # are the values in merge_by present in tbl and family_graphs?
+
+  # tbl
+  if (any(!(merge_by %in% colnames(tbl)))) {
+    stop(paste0("censor_family_onsets_per_family: The following columns are not present in the provided tbl: ", paste(setdiff(merge_by, colnames(tbl)), collapse = ", ")))
+  }
+  # family_graphs
+  if (is.null(names(merge_by))) {#if no names are set, names(X) returns NULL
+    fg_check_value = merge_by
+  } else {
+    fg_check_value = names(merge_by)
+  }
+
+  if ( any(!(fg_check_value %in% colnames(family_graphs))) ) {
+    stop(paste0("censor_family_onsets_per_family: The following columns are not present in the provided family_graphs: ", paste(setdiff(fg_check_value, colnames(family_graphs)), collapse = ", ")))
+  }
+
+  # are all 'fid's present in tbl?
+  if (any( !(family_graphs[[fid]] %in% tbl[[merge_by]]))) {
+    stop(paste0("censor_family_onsets_per_family: The following family ids are not present in the provided tbl: ", paste(setdiff(family_graphs[[fid]], tbl[[merge_by]]), collapse = ", ")))
+  }
+  # we cannot perform the reverse check, as we do not expect all values in tbl to be present in family graphs in the same way.
+  # instead we will extract IDs from the family graph and check that they are present in tbl.
+
+  family_graphs = family_graphs %>%
     mutate(
       !!as.symbol(pid) := purrr::map(.x = !!as.symbol(fam_graph_col), ~ igraph::V(.x)$name)) %>%
     select(-!!as.symbol(fam_graph_col)) %>%
-    tidyr::unnest(!!as.symbol(pid)) %>%
+    tidyr::unnest(!!as.symbol(pid))
+
+  # checking if all pid are present in tbl
+  if (typeof(family_graphs[[pid]]) != typeof(tbl[[merge_by]])) {
+    stop(paste0("censor_family_onsets_per_family: The following columns are not of the same type: '", pid, "' in family_graphs and '", unname(merge_by), "' in tbl."))
+  }
+
+  # check that all family graphs pid are present in tbl
+  if (any(!(unique(family_graphs[[pid]]) %in% tbl[[merge_by]]))) {
+    stop(paste0("censor_family_onsets_per_family: The following ids are not present in the provided family graphs (ids within fam_graph_col of family_graph): ", paste(setdiff(unique(family_graphs[[pid]]), tbl[[merge_by]]), collapse = ", ")))
+  }
+
+  family_graphs %>%
     left_join(tbl, by = merge_by) %>%
     tidyr::nest(data = -fid) %>%
     # performing per-family operations:
