@@ -11,7 +11,7 @@ get_onset_time(
   event,
   status_col = "status",
   aod_col = "aod",
-  age_eof_col = "age_eof"
+  age_eof_col = "age"
 )
 }
 \arguments{
@@ -23,11 +23,11 @@ get_onset_time(
 
 \item{event}{event of interest, typically date of diagnosis, must be a date column}
 
-\item{status_col}{column name of status column to be created}
+\item{status_col}{column name of status column to be created. Defaults to "status".}
 
-\item{aod_col}{column name of age of diagnosis column to be created}
+\item{aod_col}{column name of age of diagnosis column to be created. Defaults to "aod".}
 
-\item{age_eof_col}{column name of age at end of follow-up column to be created}
+\item{age_eof_col}{column name of age at end of follow-up column to be created. Defaults to "age_eof".}
 }
 \value{
 tibble with added status, age of diagnosis, and age at end of follow-up

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{get_family_graphs}
 \alias{get_family_graphs}
-\title{Identify family members of degree n}
+\title{Automatically identify family members of degree n}
 \usage{
 get_family_graphs(
   pop_graph,
@@ -15,25 +15,25 @@ get_family_graphs(
 )
 }
 \arguments{
-\item{pop_graph}{population graph from prepare_graph()}
+\item{pop_graph}{Population graph from prepare_graph()}
 
-\item{ndegree}{number of steps away from proband to include}
+\item{ndegree}{Number of steps away from proband to include}
 
-\item{proband_vec}{vector of proband ids to create family graphs for}
+\item{proband_vec}{Vector of proband ids to create family graphs for. Must be strings.}
 
-\item{fid}{column name of proband ids in the output}
+\item{fid}{Column name of proband ids in the output.}
 
-\item{fam_graph_col}{column name of family graphs in the output}
+\item{fam_graph_col}{Column name of family graphs in the output.}
 
-\item{mindist}{minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph}
+\item{mindist}{Minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph.}
 
-\item{mode}{type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph}
+\item{mode}{Type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph.}
 }
 \value{
-tibble with two columns, family ids and family graphs
+Tibble with two columns, family ids (fid) and family graphs (fam_graph_col).
 }
 \description{
-This function identifies individuals ndegree-steps away from the proband in the population graph
+This function identifies individuals ndegree-steps away from the proband in the population graph.
 }
 \examples{
 See vignettes

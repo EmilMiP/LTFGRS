@@ -2,7 +2,7 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{prepare_LTFHPlus_input}
 \alias{prepare_LTFHPlus_input}
-\title{Prepares input for \code{estimate_liability}}
+\title{Calculate (personalised) thresholds based on CIPs.}
 \usage{
 prepare_LTFHPlus_input(
   .tbl,
@@ -22,39 +22,39 @@ prepare_LTFHPlus_input(
 )
 }
 \arguments{
-\item{.tbl}{contains family and personal ids and role with a family.}
+\item{.tbl}{Tibble with  family and personal id columns, as well as CIP_merge_columns and status.}
 
-\item{CIP}{tibble with population representative cumulative incidence proportions. CIP values should be merged by \code{CIP_columns}.}
+\item{CIP}{Tibble with population representative cumulative incidence proportions. CIP must contain columns from \code{CIP_merge_columns} and \code{cIP_cip_col}.}
 
-\item{age_col}{name of column with age at the end of follow-up or age at diagnosis}
+\item{age_col}{Name of column with age at the end of follow-up or age at diagnosis for cases.}
 
 \item{CIP_merge_columns}{The columns the CIPs are subset by, e.g. CIPs by birth_year, sex.}
 
-\item{CIP_cip_col}{name of column with CIP values}
+\item{CIP_cip_col}{Name of column with CIP values.}
 
-\item{status_col}{Column that contains the status of each family member}
+\item{status_col}{Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).}
 
-\item{use_fixed_case_thr}{Should the threshold be fixed for cases? Can be used if CIPs are detailed, e.g. stratified by birth_year and sex.}
+\item{use_fixed_case_thr}{Should the threshold be fixed for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.}
 
-\item{personal_thr}{should thresholds be based on stratified CIPs or population prevalence?}
+\item{personal_thr}{Should thresholds be based on stratified CIPs or population prevalence?}
 
-\item{fam_id_col}{Column that contains the family ID}
+\item{fam_id_col}{Column that contains the family ID.}
 
-\item{personal_id_col}{Column that contains the personal ID}
+\item{personal_id_col}{Column that contains the personal ID.}
 
-\item{interpolation}{type of interpolation, defaults to NULL.}
+\item{interpolation}{Type of interpolation, defaults to NULL.}
 
-\item{bst.params}{list of parameters to pass on to xgboost}
+\item{bst.params}{List of parameters to pass on to xgboost. See xgboost documentation for details.}
 
-\item{min_CIP_value}{minimum cip value to allow, too low values may lead to numerical instabilities.}
+\item{min_CIP_value}{Minimum cip value to allow. Too low values may lead to numerical instabilities.}
 
 \item{xgboost_itr}{Number of iterations to run xgboost for.}
 }
 \value{
-tibble formatted for \code{estimate_liability}
+Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{fam_graph_attach_attribute}.
 }
 \description{
-Prepares input for \code{estimate_liability}
+This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs). Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
 }
 \examples{
 tbl = data.frame(

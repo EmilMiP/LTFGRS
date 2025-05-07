@@ -2,9 +2,7 @@
 % Please edit documentation in R/Prepare_Graph_Input.R
 \name{censor_family_onsets_per_family}
 \alias{censor_family_onsets_per_family}
-\title{wrapper around censor_family_onsets
-This functions accepts a tibble with family graphs and each individual. It then censors the onset times for each individual based on the proband's end of follow-up.
-Returns a formatted output.}
+\title{Censor Family Onsets for Multiple Families}
 \usage{
 censor_family_onsets_per_family(
   family_graphs,
@@ -12,9 +10,9 @@ censor_family_onsets_per_family(
   start,
   end,
   event,
-  status_col,
-  aod_col,
-  age_eof_col,
+  status_col = "status",
+  aod_col = "aod",
+  age_eof_col = "age",
   fam_graph_col = "fam_graph",
   fid = "fid",
   pid = "pid",
@@ -22,36 +20,35 @@ censor_family_onsets_per_family(
 )
 }
 \arguments{
-\item{family_graphs}{tibble with fid and family graphs columns}
+\item{family_graphs}{Tibble with fid and family graphs columns.}
 
-\item{tbl}{tibble with information on each considered individual}
+\item{tbl}{Tibble with information on each considered individual.}
 
-\item{start}{column name of start of follow up, typically date of birth}
+\item{start}{Column name of start of follow up, typically date of birth.}
 
-\item{end}{column name of the personalised end of follow up}
+\item{end}{Column name of the personalised end of follow up.}
 
-\item{event}{column name of the event}
+\item{event}{Column name of the event.}
 
-\item{status_col}{column name of the status (to be created)}
+\item{status_col}{Column name of the status (to be created). Defaults to "status".}
 
-\item{aod_col}{column name of the age of diagnosis}
+\item{aod_col}{Column name of the age of diagnosis (to be created). Defaults to "aod".}
 
-\item{age_eof_col}{column name of the age at the end of follow up}
+\item{age_eof_col}{Column name of the age at the end of follow up (to be created). Defaults to "age_eof".}
 
-\item{fam_graph_col}{column name of family graphs in the 'family_graphs' object}
+\item{fam_graph_col}{Column name of family graphs in the 'family_graphs' object. Defaults to "fam_graph".}
 
-\item{fid}{family id, typically the name of the proband that a family graph is centred on}
+\item{fid}{Family id, typically the name of the proband that a family graph is centred on. Defaults to "fid".}
 
-\item{pid}{personal identifier for each individual}
+\item{pid}{Personal identifier for each individual. Allows for multiple instances of the same individual across families. Defaults to "pid".}
 
-\item{merge_by}{column names to merge by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs.}
+\item{merge_by}{Column names to merge by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs. The column names used should reference the personal identifier.}
 }
 \value{
 A tibble with family ids and updated status, age of diagnosis, and age at end of follow-up for each individual in the family based on the proband's end of follow-up.
 }
 \description{
-wrapper around censor_family_onsets
-This functions accepts a tibble with family graphs and each individual. It then censors the onset times for each individual based on the proband's end of follow-up.
+This fucntion is a wrapper around \code{censor_family_onsets}. This functions accepts a tibble with family graphs from \code{get_family_graphs}. It censors the onset times for each individual in the family graph based on the proband's end of follow-up.
 Returns a formatted output.
 }
 \examples{

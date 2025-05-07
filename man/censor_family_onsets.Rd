@@ -11,9 +11,9 @@ censor_family_onsets(
   start,
   end,
   event,
-  status_col,
-  aod_col,
-  age_eof_col
+  status_col = "status",
+  aod_col = "aod",
+  age_eof_col = "age"
 )
 }
 \arguments{
@@ -29,11 +29,11 @@ censor_family_onsets(
 
 \item{event}{event of interest, typically date of diagnosis, must be a date column}
 
-\item{status_col}{column name of status column to be created}
+\item{status_col}{column name of status column to be created. Defaults to "status.}
 
-\item{aod_col}{column name of age of diagnosis column to be created}
+\item{aod_col}{column name of age of diagnosis (aod) column to be created. Defaults to "aod".}
 
-\item{age_eof_col}{column name of age at end of follow-up column to be created}
+\item{age_eof_col}{column name of age at end of follow-up (eof) column to be created. Defaults to "age_eof".}
 }
 \value{
 tibble with updated end times, status, age of diagnosis, and age at end of follow-up for a family, such that proband's end time is used as the end time for all family members. This prevents
