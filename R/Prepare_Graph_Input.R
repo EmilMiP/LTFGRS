@@ -381,7 +381,7 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, missingID
 #'
 #' @param pop_graph population graph from prepare_graph()
 #' @param ndegree number of steps away from proband to include
-#' @param proband_vec vector of proband ids to create family graphs for
+#' @param proband_vec vector of proband ids to create family graphs for. Must be strings.
 #' @param fid column name of proband ids in the output
 #' @param fam_graph_col column name of family graphs in the output
 #' @param mindist minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph
@@ -392,6 +392,12 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, missingID
 #'
 #' @examples See vignettes
 get_family_graphs = function(pop_graph, ndegree, proband_vec, fid = "fid", fam_graph_col = "fam_graph", mindist = 0, mode = "all") {
+  # later computations with igraph seem to internally convert ids to strings
+  # we will enforce string format for IDs here.
+  if (typeof(proband_vec) != "character") {
+    warning("get_family_graphs: proband_vec is not a character vector. Converting to character.")
+    proband_vec = as.character(proband_vec)
+  }
   ## TODO: mindist > 0, will get_covmat still work?
   tibble(
     !!as.symbol(fid) := proband_vec,
@@ -489,31 +495,36 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
                                 age_eof_col = "age") {
   # TODO: This function may return negative ages. Should these people be removed? Negative ages are mostly due to the end of follow up happening before the birth of someone.
   # if event, start, or end is not a date column, throw error
-  if (!is.Date(tbl[[start]])) stop(paste0("get_onset_time: start column '", start ,"' must be in a date format."))
-  if (!is.Date(tbl[[end]])) stop(paste0("get_onset_time: end column '", end ,"' must be in a date format."))
-  if (!is.Date(tbl[[event]])) stop(paste0("get_onset_time: event column '", event ,"' must be in a date format."))
+
+  # checks on date format is moved to censor_family_onsets_per_family
 
 
+  start_sym = sym(start)
+  end_sym = sym(end)
+  event_sym = sym(event)
+  proband_id_sym = sym(proband_id_col)
 
-  # extract eof of proband
+  if (!inherits(tbl[[event]], "Date")) {
+    stop(glue::glue("censor_family_onsets_new: event column '{event}' must be in a date format."))
+  }
+
   proband_eof = tbl %>%
-    filter(!!as.symbol(proband_id_col) == cur_proband) %>%
-    mutate(proband_eof = pmin(!!as.symbol(end), !!as.symbol(event), na.rm = T)) %>%
+    filter(!!proband_id_sym == cur_proband) %>%
+    mutate(proband_eof = pmin(!!end_sym, !!event_sym, na.rm = TRUE)) %>%
     pull(proband_eof)
 
   tbl %>%
     mutate(
-      # updating end time to be proband's end time if it is before current end time
-      # this avoids using events after proband's eof (typically diagnosis, death, other censoring)
-      !!as.symbol(end) := pmin(!!as.symbol(end), proband_eof)) %>%
-    # get status, age of diagnosis, age at end of follow up, etc:
-    get_onset_time(tbl = .,
-                   start = start,
-                   end = end,
-                   event = event,
-                   status_col = status_col,
-                   aod_col = aod_col,
-                   age_eof_col = age_eof_col)
+      !!end_sym := pmin(!!end_sym, proband_eof)
+    ) %>%
+    get_onset_time_new(
+      start = start,
+      end = end,
+      event = event,
+      status_col = status_col,
+      aod_col = aod_col,
+      age_eof_col = age_eof_col
+    )
 }
 
 
@@ -617,120 +628,6 @@ fam_graph_attach_attribute = function(family_graphs,
 
 
 
-#' All data preparation steps in one function.
-#'
-#' This function is a wrapper for the following functions:
-#' get_family_graphs, censor_family_onsets_per_family, prepare_LTFHPlus_input, and fam_graph_attach_attribute.
-#' See details on each function for more information.
-#'
-#' @param pop_graph population graph from prepare_graph()
-#' @param ndegree number of steps away from proband to include
-#' @param proband_vec vector of proband ids to create family graphs for
-#' @param fid column name of family id, column typically contains the name of the proband that a family graph is centred on
-#' @param fam_graph_col column name of family graphs in the output
-#' @param mindist minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph
-#' @param mode type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph
-#' @param pheno tibble with information on each considered individual
-#' @param start column name of start of follow up, typically date of birth
-#' @param end column name of the personalised end of follow up
-#' @param event column name of the event, typically age at diagnosis
-#' @param status_col column name of the status (to be created)
-#' @param aod_col column name of the age of diagnosis (to be created)
-#' @param age_eof_col column name of the age at end of follow up (to be created)
-#' @param merge_by column names to merge pheno to each individual in a family by. If different names are used for family graphs and tbl, a named vector can be specified: setNames(c("id"), c("pid")). Note id is the column name in tbl and pid is the column name in family_graphs.
-#' @param pid personal identifier for each individual in a family. Allows for multiple instances of the same individual across families. Defaults to "pid".
-#' @param CIP CIP object, must contain columns specified in CIP_merge_columns and CIP_cip_col
-#' @param CIP_merge_columns columns the CIPs are stratified by, column names must be shared with pheno or a named vector must be provided to merge_by.
-#' @param age_col column with the age in the CIP object
-#' @param CIP_cip_col column with the cumulative incidence proportions (CIP) values in the CIP object
-#' @param personal_thr Should threshold be assigned with a personalised threshold based on CIPs or population prevalence? Defaults to TRUE.
-#' @param use_fixed_case_thr Should upper and lower threshold be the same for cases? Defaults to FALSE.
-#' @param interpolation type of interpolation, defaults to "xgboost". See prepare_LTFHPlus_input for more information.
-#' @param attached_fam_graph_col column name of the updated family graphs with attached attributes.
-#' @param cols_to_attach columns to attach to the family graphs, typically lower and upper thresholds
-#' @param censor_proband_thrs should proband thresholds be censored? Used for prediction to exclude information on the proband. Defaults to TRUE.
-#'
-#' @returns A tibble with two columns, family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
-#' @export
-#'
-#' @examples See Vignettes.
-complete_data_preparation = function(
-    pop_graph,
-    fid = "fid",
-    ndegree,
-    fam_graph_col = "fam_graph",
-    proband_vec,
-    ###
-    pheno,
-    start,
-    end,
-    event,
-    status_col,
-    aod_col,
-    age_eof_col,
-    merge_by = setNames(c("id"), c("pid")),
-    pid = "pid",
-    ###
-    CIP,
-    CIP_merge_columns = c("age", "birth_year", "sex"),
-    age_col = "age",
-    CIP_cip_col = "cip",
-    personal_thr = TRUE,
-    use_fixed_case_thr = FALSE,
-    interpolation = "xgboost",
-    attached_fam_graph_col = "masked_fam_graph",
-    cols_to_attach = c("lower", "upper"),
-    censor_proband_thrs = T
-) {
-  # TODO: unoptimised, several implied loops, will likely not scale well.
-
-  # Identify family members of degree n
-  family_graphs = get_family_graphs(pop_graph = pop_graph,
-                                    ndegree = ndegree,
-                                    proband_vec = proband_vec,
-                                    fid = "fid",
-                                    fam_graph_col = "fam_graph")
-
-  # extract identified family members and attach the phenotype and related info
-  info = censor_family_onsets_per_family(family_graphs = family_graphs,
-                                         tbl = pheno,
-                                         start = start,
-                                         end = end,
-                                         event = event,
-                                         status_col = status_col,
-                                         aod_col = aod_col,
-                                         pid = pid,
-                                         fid = fid,
-                                         merge_by = merge_by,
-                                         age_eof_col = age_eof_col) %>%
-    # renaming age_eof_col to age_col, since age_col in prepare_ltfhplus_input
-    # is the stopping time for the individual, i.e. aod for cases and
-    # age at end of follow up for controls
-    rename(!!as.symbol(age_col) := !!as.symbol(age_eof_col)) %>%
-    # mutate(age = time_length(interval(fdato, indiv_eof), "years")) %>%
-    # attach family-specific threshold info
-    prepare_LTFHPlus_input(.tbl = .,
-                           CIP = CIP,
-                           age_col = age_col,
-                           CIP_merge_columns = CIP_merge_columns,
-                           CIP_cip_col = CIP_cip_col,
-                           status_col = status_col,
-                           personal_thr = personal_thr,
-                           use_fixed_case_thr = use_fixed_case_thr,
-                           interpolation = interpolation)
-
-
-  # finally attach the per-family censored outcomes
-  fam_graph_attach_attribute(family_graphs = family_graphs,
-                             fam_attr = info,
-                             fam_graph_col = fam_graph_col,
-                             attached_fam_graph_col = attached_fam_graph_col,
-                             fid = fid,
-                             cols_to_attach = cols_to_attach,
-                             censor_proband_thrs = censor_proband_thrs)
-
-}
-
 
 #' wrapper around censor_family_onsets
 #'
@@ -767,8 +664,13 @@ censor_family_onsets_per_family = function(
     fid = "fid",
     pid = "pid",
     merge_by = pid) {
+
+
+# Checking input ----------------------------------------------------------
+
+
   # check merge_by length:
-  if(length(merge_by) != 1) {
+  if (length(merge_by) != 1) {
     warning("censor_family_onsets_per_family: merge_by is tested with a single column name or a named vector of length.")
   }
 
@@ -811,6 +713,12 @@ censor_family_onsets_per_family = function(
   if (any(!(unique(family_graphs[[pid]]) %in% tbl[[merge_by]]))) {
     stop(paste0("censor_family_onsets_per_family: The following ids are not present in the provided family graphs (ids within fam_graph_col of family_graph): ", paste(setdiff(unique(family_graphs[[pid]]), tbl[[merge_by]]), collapse = ", ")))
   }
+
+  # checking date format of tbl
+  if (!is.Date(tbl[[start]])) stop(paste0("get_onset_time: start column '", start ,"' must be in a date format."))
+  if (!is.Date(tbl[[end]])) stop(paste0("get_onset_time: end column '", end ,"' must be in a date format."))
+  if (!is.Date(tbl[[event]])) stop(paste0("get_onset_time: event column '", event ,"' must be in a date format."))
+
 
   family_graphs %>%
     left_join(tbl, by = merge_by) %>%
