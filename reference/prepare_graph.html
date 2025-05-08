@@ -44,8 +44,6 @@
 <span>  <span class="va">fcol</span>,</span>
 <span>  <span class="va">mcol</span>,</span>
 <span>  node_attributes <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  lower_col <span class="op">=</span> <span class="st">"lower"</span>,</span>
-<span>  upper_col <span class="op">=</span> <span class="st">"upper"</span>,</span>
 <span>  missingID_patterns <span class="op">=</span> <span class="st">"^0$"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -71,19 +69,11 @@
 
 
 <dt id="arg-node-attributes">node_attributes<a class="anchor" aria-label="anchor" href="#arg-node-attributes"></a></dt>
-<dd><p>tibble with icol, lower_col and upper_col. Used to assign attributes to each node in the graph, e.g. lower and upper thresholds to individuals in the graph.</p></dd>
-
-
-<dt id="arg-lower-col">lower_col<a class="anchor" aria-label="anchor" href="#arg-lower-col"></a></dt>
-<dd><p>Column name of column with proband's lower threshold.</p></dd>
-
-
-<dt id="arg-upper-col">upper_col<a class="anchor" aria-label="anchor" href="#arg-upper-col"></a></dt>
-<dd><p>Column name of column with proband's upper threshold.</p></dd>
+<dd><p>tibble with icol and any additional information, such as sex, lower threshold, and upper threshold. Used to assign attributes to each node in the graph, e.g. lower and upper thresholds to individuals in the graph.</p></dd>
 
 
 <dt id="arg-missingid-patterns">missingID_patterns<a class="anchor" aria-label="anchor" href="#arg-missingid-patterns"></a></dt>
-<dd><p>string of missing values in the ID columns. Multiple values can be used, but must be separated by "|". Defaults to "^0$".</p></dd>
+<dd><p>string of missing values in the ID columns. Multiple values can be used, but must be separated by "|". Defaults to "^0$". OBS: "0" is NOT enough, since it relies on regex.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -104,9 +94,9 @@
 <span class="r-in"><span>  upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.8</span>, <span class="fl">0.8</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">prepare_graph</span><span class="op">(</span><span class="va">fam</span>, icol <span class="op">=</span> <span class="st">"id"</span>, fcol <span class="op">=</span> <span class="st">"dadcol"</span>, mcol <span class="op">=</span> <span class="st">"momcol"</span>, node_attributes <span class="op">=</span> <span class="va">thresholds</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 0889ad5 DN-- 4 3 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 08fdac6 DN-- 4 3 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (v/c), lower (v/n), upper (v/n)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 0889ad5 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 08fdac6 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] dad-&gt;pid mom-&gt;pid pgf-&gt;dad</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

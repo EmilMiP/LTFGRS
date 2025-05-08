@@ -46,23 +46,27 @@
 
 
 <dl><dt id="arg-mu">mu<a class="anchor" aria-label="anchor" href="#arg-mu"></a></dt>
-<dd><p>mean value of normal distribution</p></dd>
+<dd><p>Mean value of normal distribution.</p></dd>
 
 
 <dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
-<dd><p>variance of normal distribution</p></dd>
+<dd><p>Variance of normal distribution.</p></dd>
 
 
 <dt id="arg-lower">lower<a class="anchor" aria-label="anchor" href="#arg-lower"></a></dt>
-<dd><p>lower threshold (can be -Inf)</p></dd>
+<dd><p>Lower threshold (can be -Inf).</p></dd>
 
 
 <dt id="arg-upper">upper<a class="anchor" aria-label="anchor" href="#arg-upper"></a></dt>
-<dd><p>upper threshold (can be Inf)</p></dd>
+<dd><p>Upper threshold (can be Inf).</p></dd>
 
 
-<dt id="arg-kp">Kp<a class="anchor" aria-label="anchor" href="#arg-kp"></a></dt>
-<dd><p>(stratified) cumulative incidence proportion for the individual</p></dd>
+<dt id="arg-k-i">K_i<a class="anchor" aria-label="anchor" href="#arg-k-i"></a></dt>
+<dd><p>(Stratified) cumulative incidence proportion for the individual.</p></dd>
+
+
+<dt id="arg-k-pop">K_pop<a class="anchor" aria-label="anchor" href="#arg-k-pop"></a></dt>
+<dd><p>Population prevalence (cumulative incidence proportion).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -72,10 +76,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tnorm_mixture_conditional</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">0</span>, var <span class="op">=</span> <span class="fl">1</span>, lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="cn">Inf</span>, Kp <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf,     Kp = 0):</span> unused argument (Kp = 0)</span>
-<span class="r-in"><span><span class="fu">tnorm_mixture_conditional</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">0</span>, var <span class="op">=</span> <span class="fl">1</span>, lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="fl">2</span>, Kp <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2,     Kp = 0.01):</span> unused argument (Kp = 0.01)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tnorm_mixture_conditional</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">0</span>, var <span class="op">=</span> <span class="fl">1</span>, lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="cn">Inf</span>, K_i <span class="op">=</span> <span class="fl">0</span>, K_pop <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">tnorm_mixture_conditional</span><span class="op">(</span>mu <span class="op">=</span> <span class="fl">0</span>, var <span class="op">=</span> <span class="fl">1</span>, lower <span class="op">=</span> <span class="op">-</span><span class="cn">Inf</span>, upper <span class="op">=</span> <span class="fl">2</span>, K_i <span class="op">=</span> <span class="fl">.01</span>, K_pop <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.04287187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $var</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.083906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
