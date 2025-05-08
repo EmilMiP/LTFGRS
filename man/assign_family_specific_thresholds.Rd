@@ -14,7 +14,7 @@ assign_family_specific_thresholds(
 )
 }
 \arguments{
-\item{cur_fam_graph}{igraph object (neighbourhood graph around a proband) with family members of degree n.}
+\item{cur_fam_graph}{An igraph object (neighbourhood graph around a proband) with family members up to degree n.}
 
 \item{cur_proband}{Current proband id (center of the neighbourhood graph).}
 
@@ -24,14 +24,11 @@ assign_family_specific_thresholds(
 
 \item{attr_names}{Names of attributes to be assigned to each node (family member) in the graph.}
 
-\item{censor_proband_thrs}{Should proband thresholds be censored? Defaults to TRUE. Used proband's information for prediction.}
+\item{censor_proband_thrs}{Should proband thresholds be censored? Defaults to TRUE. Used to exclude proband's information for prediction.}
 }
 \value{
-igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph
+igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
 }
 \description{
-This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
-}
-\examples{
-See vignettes
+This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for a user-friendly way to attach personalised thresholds and other per-family specific attributes to the family graphs.
 }

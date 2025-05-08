@@ -40,5 +40,5 @@ This function can attach attributes to family graphs, such as lower and upper th
 This function wraps around assign_family_specific_thresholds to ease the process of attaching attributes to family graphs in the standard format.
 }
 \examples{
-See vignettes.
+# See Vignettes.
 }

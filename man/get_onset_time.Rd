@@ -36,5 +36,5 @@ tibble with added status, age of diagnosis, and age at end of follow-up
 Calculate age of diagnosis, age at end of follow up, and status
 }
 \examples{
-See vignettes
+# See vignettes.
 }

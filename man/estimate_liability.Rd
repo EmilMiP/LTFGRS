@@ -91,6 +91,9 @@ standard error of the mean is below 0.2. Defaults to 0.01.}
 Current implementation of PA only supports estimates of genetic liability. For full or both
 genetic and full liability estimates use "Gibbs".}
 
+\item{useMixture}{Logical indicating whether the mixture model should be used to calculate the genetic liability.
+Requires K_i and K_pop columns as well as lower and upper. Defaults to FALSE.}
+
 \item{genetic_corrmat}{Either \code{NULL} (if \code{h2} is a number) or a numeric
 matrix (if \code{h2} is a vector of length > 1) holding the genetic correlations
 between the desired phenotypes. All diagonal entries must be equal to one, while

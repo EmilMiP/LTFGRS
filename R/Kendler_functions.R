@@ -12,10 +12,14 @@ utils::globalVariables(c("S", "varZ", "mZ", "sum_r", "cur_fam_id", "k_temp"))
 #' @param env_cor_m  Cohabitation effect, i.e. Factor by which the mother is weighted. Defaults to 1.
 #'
 #' @returns A tibble with family specific values required for Kendler's FGRS calculation.
-#' @export
+#'
 #' @importFrom stats var pnorm
 #' @importFrom dplyr pull
-#' @examples See vignettes
+#'
+#' @export
+#'
+#' @examples
+#' # See Vignettes.
 kendler_family_calculations = function(tbl,
                                        cov,
                                        pid,
@@ -114,10 +118,10 @@ kendler_family_calculations = function(tbl,
 #'
 #' @returns A tibble with summary values used to calculate the kendler FGRS and the FGRS itself.
 #'
-#'
 #' @export
 #'
-#' @examples See vignettes
+#' @examples
+#' # See Vignettes.
 kendler = function(.tbl = NULL,
                    family_graphs = NULL,
                    family_graphs_col = "fam_graph",

@@ -793,6 +793,8 @@ The lower and upper thresholds will be swapped...")
 #' names. These names will be used to create the row and column names for the
 #' covariance matrix. If it is not specified, the names will default to
 #' phenotype1, phenotype2, etc. Defaults to NULL.
+#' @param useMixture Logical indicating whether the mixture model should be used to calculate the genetic liability.
+#' Requires K_i and K_pop columns as well as lower and upper. Defaults to FALSE.
 #'
 #' @return If \code{family} and \code{threshs} are two matrices, lists or
 #' data frames that can be converted into tibbles, if \code{family} has two

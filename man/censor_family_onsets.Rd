@@ -43,5 +43,5 @@ tibble with updated end times, status, age of diagnosis, and age at end of follo
 This function censors onset times for family members based on the proband's end of follow-up. This is done to prevent using future events to base predictions on.
 }
 \examples{
-See vignettes
+# See Vignettes.
 }

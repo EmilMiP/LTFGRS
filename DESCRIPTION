@@ -21,6 +21,7 @@ Imports:
     dplyr,
     future.apply, 
     future,
+    lubridate,
     purrr,
     Rcpp,
     rlang,

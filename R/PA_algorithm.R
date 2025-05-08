@@ -1,4 +1,5 @@
-
+utils::globalVariables("K_i")
+utils::globalVariables("K_pop")
 
 #' Title Pearson-Aitken algorithm to calculate mean values in truncated multivariate normal distributions
 #'

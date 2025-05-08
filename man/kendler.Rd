@@ -85,5 +85,5 @@ A tibble with summary values used to calculate the kendler FGRS and the FGRS its
 Title Kendler's FGRS
 }
 \examples{
-See vignettes
+# See Vignettes.
 }

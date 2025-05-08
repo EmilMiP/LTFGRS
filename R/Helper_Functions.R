@@ -1,5 +1,7 @@
 utils::globalVariables("cir")
 utils::globalVariables("thresh")
+utils::globalVariables("K_i")
+utils::globalVariables("K_pop")
 
 #' Positive definite matrices
 #'
@@ -790,19 +792,20 @@ tnorm_var = function(mu = 0, sigma = 1, lower = -Inf, upper = Inf) {
 
 #' Title: Calculates mean and variance of mixture of two truncated normal distributions
 #'
-#' @param mu mean value of normal distribution
-#' @param var variance of normal distribution
-#' @param lower lower threshold (can be -Inf)
-#' @param upper upper threshold (can be Inf)
-#' @param Kp (stratified) cumulative incidence proportion for the individual
+#' @param mu Mean value of normal distribution.
+#' @param var Variance of normal distribution.
+#' @param lower Lower threshold (can be -Inf).
+#' @param upper Upper threshold (can be Inf).
+#' @param K_i (Stratified) cumulative incidence proportion for the individual.
+#' @param K_pop Population prevalence (cumulative incidence proportion).
 #'
 #' @returns mean and variance of mixture distribution between two truncated normal distributions
 #' @export
 #'
 #' @importFrom dplyr case_when
 #' @examples
-#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, Kp = 0)
-#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, Kp = .01)
+#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, K_i = 0, K_pop = 0.01)
+#' tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, K_i = .01, K_pop = 0.05)
 tnorm_mixture_conditional = function(mu, var, lower, upper, K_i, K_pop) {
   # converting to sd for computations
   cur_sigma = sqrt(var)
@@ -827,9 +830,9 @@ tnorm_mixture_conditional = function(mu, var, lower, upper, K_i, K_pop) {
 
   # # calculating mixture probabilities
   # w_below = case_when(
-  #   Kp == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
-  #   upper == Inf | upper == lower | is.na(Kp) ~ 1,
-  #   TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * Kp / pnorm(upper, lower.tail = FALSE))
+  #   K_i == 0 ~ pnorm(upper, mean = mu, sd = cur_sigma),
+  #   upper == Inf | upper == lower | is.na(K_i) ~ 1,
+  #   TRUE ~ pnorm(upper, mean = mu, sd = cur_sigma) / (1 - pnorm(upper, mean = mu, sd = cur_sigma, lower.tail = FALSE) * K_i / pnorm(upper, lower.tail = FALSE))
   #   )
   # w_above = 1 - w_below
 

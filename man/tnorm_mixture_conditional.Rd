@@ -7,15 +7,17 @@
 tnorm_mixture_conditional(mu, var, lower, upper, K_i, K_pop)
 }
 \arguments{
-\item{mu}{mean value of normal distribution}
+\item{mu}{Mean value of normal distribution.}
 
-\item{var}{variance of normal distribution}
+\item{var}{Variance of normal distribution.}
 
-\item{lower}{lower threshold (can be -Inf)}
+\item{lower}{Lower threshold (can be -Inf).}
 
-\item{upper}{upper threshold (can be Inf)}
+\item{upper}{Upper threshold (can be Inf).}
 
-\item{Kp}{(stratified) cumulative incidence proportion for the individual}
+\item{K_i}{(Stratified) cumulative incidence proportion for the individual.}
+
+\item{K_pop}{Population prevalence (cumulative incidence proportion).}
 }
 \value{
 mean and variance of mixture distribution between two truncated normal distributions
@@ -24,6 +26,6 @@ mean and variance of mixture distribution between two truncated normal distribut
 Title: Calculates mean and variance of mixture of two truncated normal distributions
 }
 \examples{
-tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, Kp = 0)
-tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, Kp = .01)
+tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = Inf, K_i = 0, K_pop = 0.01)
+tnorm_mixture_conditional(mu = 0, var = 1, lower = -Inf, upper = 2, K_i = .01, K_pop = 0.05)
 }

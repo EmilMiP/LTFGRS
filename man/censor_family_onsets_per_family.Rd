@@ -52,5 +52,5 @@ This fucntion is a wrapper around \code{censor_family_onsets}. This functions ac
 Returns a formatted output.
 }
 \examples{
-see vignettes
+# See Vignettes.
 }

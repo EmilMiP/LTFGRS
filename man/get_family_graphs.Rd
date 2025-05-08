@@ -25,7 +25,7 @@ get_family_graphs(
 
 \item{fam_graph_col}{Column name of family graphs in the output.}
 
-\item{mindist}{Minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph.}
+\item{mindist}{Minimum distance from proband to exclude in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph.}
 
 \item{mode}{Type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph.}
 }
@@ -36,5 +36,5 @@ Tibble with two columns, family ids (fid) and family graphs (fam_graph_col).
 This function identifies individuals ndegree-steps away from the proband in the population graph.
 }
 \examples{
-See vignettes
+# See Vignettes.
 }

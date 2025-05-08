@@ -11,6 +11,8 @@ utils::globalVariables("to")
 utils::globalVariables("event_age")
 utils::globalVariables("cip_pred")
 utils::globalVariables("thr")
+utils::globalVariables("attrs")
+utils::globalVariables("data")
 
 #' Attempts to convert the list entry input format to a long format
 #'
@@ -50,8 +52,8 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
     # if "_" is present, a role will be there too.
     if (any(stringr::str_detect(family[[personal_id_col]], "_"))) { #if true, extract role
       #split pid_role in two:
-      family[[role_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl=TRUE) %>% sapply(., function(x) x[2])
-      family[[personal_id_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl=TRUE) %>% sapply(., function(x) x[1])
+      family[[role_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl = TRUE) %>% sapply(., function(x) x[2])
+      family[[personal_id_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl = TRUE) %>% sapply(., function(x) x[1])
 
       warning("We've tried converting from list entries to a long format internally. If you see this print, please run prepare_LTFHPlus_input and use the .tbl input going forward! \n")
     } else {
@@ -65,7 +67,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 
 #' Calculate (personalised) thresholds based on CIPs.
 #'
-#' This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs). Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
+#' This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs) with options for interpolation for ages between CIP values. Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
 #'
 #' @param .tbl Tibble with  family and personal id columns, as well as CIP_merge_columns and status.
 #' @param CIP Tibble with population representative cumulative incidence proportions. CIP must contain columns from \code{CIP_merge_columns} and \code{cIP_cip_col}.
@@ -90,26 +92,22 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #'
 #' @examples
 #' tbl = data.frame(
-#'   fam_id = c(1, 1, 1, 1),
-#'   pid = c(1, 2, 3, 4),
-#'   role = c("o", "m", "f", "pgf"),
-#'   sex = c(1, 0, 1, 1),
-#'   status = c(0, 0, 1, 1),
-#'   age = c(22, 42, 48, 78),
-#'   birth_year = 2023 - c(22, 42, 48, 78),
-#'   aoo = c(NA, NA, 43, 45))
+#' fam_id = c(1, 1, 1, 1),
+#' pid = c(1, 2, 3, 4),
+#' role = c("o", "m", "f", "pgf"),
+#' sex = c(1, 0, 1, 1),
+#' status = c(0, 0, 1, 1),
+#' age = c(22, 42, 48, 78),
+#' birth_year = 2023 - c(22, 42, 48, 78),
+#' aoo = c(NA, NA, 43, 45))
 #'
 #' cip = data.frame(
-#'   age = c(22, 42, 43, 45, 48, 78),
-#'   birth_year = c(2001, 1981, 1975, 1945, 1975, 1945),
-#'   sex = c(1, 0, 1, 1, 1, 1),
-#'   cip = c(0.1, 0.2, 0.3, 0.3, 0.3, 0.4))
+#' age = c(22, 42, 43, 45, 48, 78),
+#' birth_year = c(2001, 1981, 1975, 1945, 1975, 1945),
+#' sex = c(1, 0, 1, 1, 1, 1),
+#' cip = c(0.1, 0.2, 0.3, 0.3, 0.3, 0.4))
 #'
-#' prepare_LTFHPlus_input(.tbl = tbl,
-#'                        CIP = cip,
-#'                        age_col = "age",
-#'                        aoo_col = "aoo",
-#'                        interpolation = NA)
+#' prepare_LTFHPlus_input(.tbl = tbl, CIP = cip, age_col = "age", interpolation = NA)
 #'
 #' @export
 prepare_LTFHPlus_input = function(.tbl,
@@ -386,13 +384,14 @@ prepare_graph = function(.tbl, icol, fcol, mcol, node_attributes = NA, missingID
 #' @param proband_vec Vector of proband ids to create family graphs for. Must be strings.
 #' @param fid Column name of proband ids in the output.
 #' @param fam_graph_col Column name of family graphs in the output.
-#' @param mindist Minimum distance from proband to include in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph.
+#' @param mindist Minimum distance from proband to exclude in the graph (experimental, untested), defaults to 0, passed directly to make_neighborhood_graph.
 #' @param mode Type of distance measure in the graph (experimental, untested), defaults to "all", passed directly to make_neighborhood_graph.
 #'
 #' @returns Tibble with two columns, family ids (fid) and family graphs (fam_graph_col).
 #' @export
 #'
-#' @examples See vignettes
+#' @examples
+#' # See Vignettes.
 get_family_graphs = function(pop_graph, ndegree, proband_vec, fid = "fid", fam_graph_col = "fam_graph", mindist = 0, mode = "all") {
   ## TODO: mindist > 0, will get_covmat still work?
 
@@ -434,8 +433,10 @@ get_family_graphs = function(pop_graph, ndegree, proband_vec, fid = "fid", fam_g
 #'
 #' @importFrom lubridate interval is.Date time_length
 #' @importFrom dplyr %>% mutate
+#' @importFrom rlang sym
 #'
-#' @examples See vignettes
+#' @examples
+#' # See vignettes.
 get_onset_time = function(tbl, start, end, event,
                           status_col = "status",
                           aod_col = "aod",
@@ -493,7 +494,11 @@ get_onset_time = function(tbl, start, end, event,
 #'  using future events to based predictions on.
 #' @export
 #'
-#' @examples See vignettes
+#' @importFrom rlang sym
+#' @importFrom dplyr %>% mutate filter pull
+#'
+#' @examples
+#' # See Vignettes.
 censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, event,
                                 status_col = "status",
                                 aod_col = "aod",
@@ -542,19 +547,18 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 
 #' Attach attributes to family graphs
 #'
-#' This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
+#' This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for a user-friendly way to attach personalised thresholds and other per-family specific attributes to the family graphs.
 #'
-#' @param cur_fam_graph igraph object (neighbourhood graph around a proband) with family members of degree n.
+#' @param cur_fam_graph An igraph object (neighbourhood graph around a proband) with family members up to degree n.
 #' @param cur_proband Current proband id (center of the neighbourhood graph).
 #' @param fid Column name of family id.
 #' @param attr_tbl Tibble with family id and attributes for each family member.
 #' @param attr_names Names of attributes to be assigned to each node (family member) in the graph.
-#' @param censor_proband_thrs Should proband thresholds be censored? Defaults to TRUE. Used proband's information for prediction.
+#' @param censor_proband_thrs Should proband thresholds be censored? Defaults to TRUE. Used to exclude proband's information for prediction.
 #'
-#' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph
+#' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
+#'
 #' @export
-#'
-#' @examples See vignettes
 assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
   # get node names
   graph_vertex_names = igraph::vertex_attr(cur_fam_graph)$name
@@ -614,9 +618,11 @@ assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, at
 #' @param censor_proband_thrs should proband thresholds be censored? Used for prediction to exclude information on the proband. Defaults to TRUE.
 #'
 #' @returns tibble with family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
+#'
 #' @export
 #'
-#' @examples See vignettes.
+#' @examples
+#' # See Vignettes.
 fam_graph_attach_attribute = function(family_graphs,
                                       fam_attr,
                                       fam_graph_col = "fam_graph",
@@ -663,7 +669,8 @@ fam_graph_attach_attribute = function(family_graphs,
 #' @returns A tibble with family ids and updated status, age of diagnosis, and age at end of follow-up for each individual in the family based on the proband's end of follow-up.
 #' @export
 #'
-#' @examples see vignettes
+#' @examples
+#' # See Vignettes.
 censor_family_onsets_per_family = function(
     family_graphs,
     tbl,

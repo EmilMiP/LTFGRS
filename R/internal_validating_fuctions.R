@@ -1,4 +1,5 @@
-
+utils::globalVariables("K_i")
+utils::globalVariables("K_pop")
 
 #' Title Internal function used to validate the .tbl input
 #'
@@ -6,6 +7,7 @@
 #' @param pid personal identified
 #' @param fam_id family identifier
 #' @param role role of the individual(s)
+#' @param useMixture logical variable. If TRUE, the function will return for K_i and K_pop columns for mixture estimates of liability.
 #'
 #' @returns validated tibble
 #'
@@ -43,8 +45,8 @@ validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
                    !!as.symbol(role),
                    tidyselect::starts_with("lower"),
                    tidyselect::starts_with("upper"),
-                   tidyrselect::starts_with("K_i"),
-                   tidyrselect::starts_with("K_pop"))
+                   tidyselect::starts_with("K_i"),
+                   tidyselect::starts_with("K_pop"))
   } else {
 
     .tbl <- select(.tbl,

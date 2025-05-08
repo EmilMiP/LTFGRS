@@ -54,29 +54,25 @@ prepare_LTFHPlus_input(
 Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{fam_graph_attach_attribute}.
 }
 \description{
-This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs). Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
+This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs) with options for interpolation for ages between CIP values. Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
 }
 \examples{
 tbl = data.frame(
-  fam_id = c(1, 1, 1, 1),
-  pid = c(1, 2, 3, 4),
-  role = c("o", "m", "f", "pgf"),
-  sex = c(1, 0, 1, 1),
-  status = c(0, 0, 1, 1),
-  age = c(22, 42, 48, 78),
-  birth_year = 2023 - c(22, 42, 48, 78),
-  aoo = c(NA, NA, 43, 45))
+fam_id = c(1, 1, 1, 1),
+pid = c(1, 2, 3, 4),
+role = c("o", "m", "f", "pgf"),
+sex = c(1, 0, 1, 1),
+status = c(0, 0, 1, 1),
+age = c(22, 42, 48, 78),
+birth_year = 2023 - c(22, 42, 48, 78),
+aoo = c(NA, NA, 43, 45))
 
 cip = data.frame(
-  age = c(22, 42, 43, 45, 48, 78),
-  birth_year = c(2001, 1981, 1975, 1945, 1975, 1945),
-  sex = c(1, 0, 1, 1, 1, 1),
-  cip = c(0.1, 0.2, 0.3, 0.3, 0.3, 0.4))
+age = c(22, 42, 43, 45, 48, 78),
+birth_year = c(2001, 1981, 1975, 1945, 1975, 1945),
+sex = c(1, 0, 1, 1, 1, 1),
+cip = c(0.1, 0.2, 0.3, 0.3, 0.3, 0.4))
 
-prepare_LTFHPlus_input(.tbl = tbl,
-                       CIP = cip,
-                       age_col = "age",
-                       aoo_col = "aoo",
-                       interpolation = NA)
+prepare_LTFHPlus_input(.tbl = tbl, CIP = cip, age_col = "age", interpolation = NA)
 
 }
