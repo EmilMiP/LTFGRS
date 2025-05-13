@@ -90,7 +90,7 @@ validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
 #'
 #' @returns Nothing. The function is used for validation purposes.
 #'
-#' @importFrom igraph get.vertex.attribute
+#' @importFrom igraph vertex_attr
 #' @importFrom dplyr pull
 #' @noRd
 
@@ -106,7 +106,7 @@ validating_graph_input = function(family_graphs, pid, family_graphs_col, useMixt
   }
 
   # extract attributes from graph
-  graph_attrs = get.vertex.attribute((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
+  graph_attrs = vertex_attr((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
 
   if (useMixture) {
     if ( !(any(c("lower", "upper", "K_i", "K_pop") %in% names(graph_attrs))) ) {

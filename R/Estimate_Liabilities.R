@@ -120,7 +120,7 @@ utils::globalVariables("name")
 #' @importFrom dplyr %>% pull bind_rows bind_cols select filter tibble
 #' @importFrom stringr str_ends str_split str_subset str_detect
 #' @importFrom rlang :=
-#' @importFrom igraph get.vertex.attribute
+#' @importFrom igraph vertex_attr
 #'
 #' @export
 estimate_liability_single <- function(.tbl = NULL,
@@ -397,7 +397,7 @@ estimate_liability_single <- function(.tbl = NULL,
 #' @importFrom rlang :=
 #' @importFrom stringr str_detect
 #' @importFrom tidyselect starts_with
-#' @importFrom igraph get.vertex.attribute
+#' @importFrom igraph vertex_attr
 #'
 #' @export
 estimate_liability_multi <- function(.tbl = NULL,
@@ -519,7 +519,7 @@ The lower and upper thresholds will be swapped...")
       stop(paste0("The column ", family_graphs_col," does not exist in the tibble family_graphs."))
     }
     # extract graph attributes
-    graph_attrs = get.vertex.attribute((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
+    graph_attrs = vertex_attr((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
 
     # check if the upper and lower thresholds are present for each provided phenotype name in phen_names.
     if ( !(any(paste(rep(c("lower", "upper"), length(phen_names)), rep(phen_names, each = 2), sep = "_") %in% names(graph_attrs))) ) {

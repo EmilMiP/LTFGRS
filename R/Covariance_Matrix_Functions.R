@@ -800,7 +800,7 @@ construct_covmat <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","pgf"), 
 #' cov, is the covariance matrix of the local graph centered on the current proband.
 #'
 #' @importFrom dplyr as_tibble tibble mutate bind_rows %>%
-#' @importFrom igraph get.vertex.attribute
+#' @importFrom igraph vertex_attr
 #'
 #' @examples
 #' fam <- data.frame(
@@ -828,7 +828,7 @@ graph_based_covariance_construction = function(pid,
                                                h2,
                                                add_ind = TRUE) {
   # constructing tibble with ids and thresholds
-  temp_tbl = as_tibble(get.vertex.attribute(cur_family_graph)) %>%
+  temp_tbl = as_tibble(vertex_attr(cur_family_graph)) %>%
     rename(!!as.symbol(pid) := name) %>%
     relocate(!!as.symbol(pid))
 
@@ -894,7 +894,7 @@ graph_based_covariance_construction = function(pid,
 #' which is the order of ids from pid and phen_names pasted together, such that order can be enforced elsewhere too.
 #'
 #' @importFrom dplyr as_tibble tibble mutate bind_rows %>%
-#' @importFrom igraph get.vertex.attribute
+#' @importFrom igraph vertex_attr
 #' @importFrom stringr str_replace_all
 #'
 #' @examples
@@ -942,7 +942,7 @@ graph_based_covariance_construction_multi = function(fam_id,
   ntrait = length(phen_names)
 
   # constructing tibble with ids and thresholds
-  temp_tbl = as_tibble(get.vertex.attribute(cur_family_graph)) %>%
+  temp_tbl = as_tibble(vertex_attr(cur_family_graph)) %>%
     rename(!!as.symbol(pid) := name) %>%
     mutate(!!as.symbol(fam_id) := cur_proband_id) %>%
     relocate(!!as.symbol(fam_id), !!as.symbol(pid))
