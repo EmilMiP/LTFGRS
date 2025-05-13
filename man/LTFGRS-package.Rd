@@ -4,7 +4,7 @@
 \name{LTFGRS-package}
 \alias{LTFGRS}
 \alias{LTFGRS-package}
-\title{LTFGRS: What the Package Does (Title Case)}
+\title{LTFGRS: Implementation of several phenotype-based family history genetic predictors}
 \description{
 More about what it does (maybe more than one line). Continuation lines should be indented.
 }
@@ -17,7 +17,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jane Doe \email{jane@example.com}
+\strong{Maintainer}: Emil Michael Pedersen \email{emp@ph.au.dk}
+
+Authors:
+\itemize{
+  \item Jette Steinbach \email{jst@econ.au.dk}
+}
+
+Other contributors:
+\itemize{
+  \item Lucas Rasmussen \email{lar.ncrr@au.dk} [contributor]
+}
 
 }
 \keyword{internal}

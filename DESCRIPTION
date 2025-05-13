@@ -1,14 +1,11 @@
 Package: LTFGRS
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Implementation of several phenotype-based family genetic risk scores
 Version: 0.1.0
 Authors@R: c(
-    person(
-      "Jane", "Doe",
-      email = "jane@example.com",
-      role = c("aut", "cre")
-    )
-  )
+    person("Emil Michael", "Pedersen", email = "emp@ph.au.dk", role = c("aut", "cre")),
+    person("Jette", "Steinbach", , "jst@econ.au.dk", role = "aut"),
+    person("Lucas", "Rasmussen", email = "lar.ncrr@au.dk", role = "ctb"))
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
 License: GPL (>= 3) + file LICENSE
@@ -34,7 +31,10 @@ Imports:
     xgboost,
     tidyr
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: Rcpp
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr

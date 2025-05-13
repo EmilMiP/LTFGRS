@@ -11,7 +11,7 @@ to-do:
 - [x] Add PA algorithm
 - [x] Add kendler
 - [x] Ensure PA-FGRS can be run with unified (graph) input
-- [ ] Add a description of the functions
+- [x] Add a description of the functions
 - [ ] Add (linear) interpolation to input function
 - [ ] Remove references to LT-FH++ in the code and descriptions
 - [ ] Rename prepare_LTFHPlus_input function 
@@ -22,10 +22,11 @@ to-do:
 - [ ] Add a vignette on how to use the package to perform simulations
 - [ ] Formalise pkgdown site
 - [ ] Ensure only required packages are in the DESCRIPTION file
-- [ ] Add functions that allow us to manage thresholds and censor event
-- [ ] Add functions that allow us to remove / add / modify exising node attributes
-- [ ] Add functions that calculate thresholds given CIP data with interpolation options
-- [ ] Replace 'list.vertex.attributes()' (deprecated) with 'vertex_attr_names()'(new function) in the code
-- [ ] replace 'get.vertex.attribute()' (deprecated) with 'vertex_attr()' (new function) in the code
+- [x] Add functions that allow us to manage thresholds and censor event
+- [x] Add functions that allow us to remove / add / modify exising node attributes
+- [x] Add functions that calculate thresholds given CIP data with interpolation options
+- [x] Replace 'list.vertex.attributes()' (deprecated) with 'vertex_attr_names()'(new function) in the code
+- [x] replace 'get.vertex.attribute()' (deprecated) with 'vertex_attr()' (new function) in the code
 - [ ] ensure all functions have at least one example
 - [ ] ensure the documentation of estimate_liability() reflects the different names of the returned column names depending on estimation method
+- [ ] Should Lucas be a contributor on the package?
