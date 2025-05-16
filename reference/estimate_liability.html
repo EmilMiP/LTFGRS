@@ -22,6 +22,11 @@ estimate_liability_single and estimate_liability_multi."></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/LTFGRS_workflow.html">LTFGRS Workflow: Prepare Genetic Liability for Prediction</a></li>
+  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/EmilMiP/LTFGRS/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -254,9 +259,6 @@ full liability, the full liability or both for a variable number of traits.</p>
 <span class="r-in"><span>genetic_corrmat <span class="op">=</span> <span class="va">genetic_corrmat</span>, full_corrmat <span class="op">=</span> <span class="va">full_corrmat</span>,</span></span>
 <span class="r-in"><span>pid <span class="op">=</span> <span class="st">"indiv_ID"</span>, fam_id <span class="op">=</span> <span class="st">"fam_ID"</span>, role <span class="op">=</span> <span class="st">"role"</span>, out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>phen_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"phenotype"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, tol <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 method overwritten by 'future':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method               from      </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   all.equal.connection parallelly</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The number of workers is 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   fam_ID   indiv_ID genetic_phenotype1_est genetic_phenotype1_se</span>
@@ -273,7 +275,7 @@ full liability, the full liability or both for a variable number of traits.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Jane Doe.</p>
+  <p>Developed by Emil Michael Pedersen, Jette Steinbach.</p>
 </div>
 
 <div class="pkgdown-footer-right">
