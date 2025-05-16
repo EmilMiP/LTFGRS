@@ -30,3 +30,10 @@ to-do:
 - [ ] ensure all functions have at least one example
 - [ ] ensure the documentation of estimate_liability() reflects the different names of the returned column names depending on estimation method
 - [ ] Should Lucas be a contributor on the package?
+- [ ] Rename "use_fixed_case_thr" in prepare_LTFHPlus_input to "use_fixed_case_thr" to something more informative + update documentation to reflect what fixed means
+- [ ] Add a wrapper function to format input with no family-wise censoring
+- [ ] more flexibility to k_pop in prepare_LTFHPlus_input. Add K_pop = "useMax" or K_pop = tbl (if some specific values are desired) instead?
+- [ ] rename prepare_LTFHPlus_input to something else. prepare_thresholds?
+- [ ] rename censor_family_onsets_per_family. familywise_censoring?
+- [ ] rename assign_family_specific_thresholds or fam_graph_attach_attributes to something else?
+- [ ] replace all arguments of "fam_id" with "fid" to standardise all inputs. 
