@@ -2,7 +2,7 @@
 title: "LTFGRS Workflow: Prepare Genetic Liability for Prediction"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{LTFGRS_workflow}
+  %\VignetteIndexEntry{LTFGRS_workflow_prediction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -267,7 +267,7 @@ ltfgrs_pa = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid
                                useMixture = F)
 paged_table(ltfgrs_pa)
 ```
-When using `method = "PA"`, an iterative conditioning is performed, which means the resulting
+When using `method = "PA"`, an iterative conditioning is performed, which means the resulting estimate and uncertainty of the estimate is the expected mean value and variance of the last iteration, which is the proband's genetic liability. This is highlighted by the use of `var` in the output.
 
 ```{r}
 ltfgrs_gibbs = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid), 
@@ -279,6 +279,8 @@ ltfgrs_gibbs = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = 
                                   useMixture = F)
 paged_table(ltfgrs_gibbs)
 ```
+When using `method = Gibbs`, samples are drawn from a truncated multivariate normal distribution until the convergence criteria is met. The output is the mean of genetic liability and the uncertainty is the standard error of the mean. The standard error is denoted with the `se` in the column name. Noteably, the uncertainties with the Gibbs and PA methods are different and should not be directly compared.
+
 ### Parallelisation 
 The function `estimate_liability()` is able to use the `future` package to parallelise the estimation of the genetic liability. This is done by setting a suitable `plan` with the future backend. A plan suitable for most needs is `plan(multisession, workers = NCORES)`, which means that the function will run in parallel on the local PC utilising `NCORES`-cores. Other parallelisation options exist, but they are all handled by the future suit of packages.
 
