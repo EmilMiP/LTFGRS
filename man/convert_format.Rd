@@ -16,7 +16,7 @@ convert_format(family, threshs, personal_id_col = "pid", role_col = NULL)
 \item{role_col}{column name that holds the role}
 }
 \value{
-returns a format similar to \code{prepare_LTFHPlus_input}, which is used by \code{estimate_liability}
+returns a format similar to \code{prepare_thresholds}, which is used by \code{estimate_liability}
 }
 \description{
 Attempts to convert the list entry input format to a long format

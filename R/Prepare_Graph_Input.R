@@ -21,7 +21,7 @@ utils::globalVariables("data")
 #' @param personal_id_col column name that holds the personal id
 #' @param role_col column name that holds the role
 #'
-#' @return returns a format similar to \code{prepare_LTFHPlus_input}, which is used by \code{estimate_liability}
+#' @return returns a format similar to \code{prepare_thresholds}, which is used by \code{estimate_liability}
 #'
 #' @examples
 #' family <- data.frame(
@@ -55,10 +55,10 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
       family[[role_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl = TRUE) %>% sapply(., function(x) x[2])
       family[[personal_id_col]] = strsplit(family[[personal_id_col]], "_(?=[^_]+$)", perl = TRUE) %>% sapply(., function(x) x[1])
 
-      warning("We've tried converting from list entries to a long format internally. If you see this print, please run prepare_LTFHPlus_input and use the .tbl input going forward! \n")
+      warning("We've tried converting from list entries to a long format internally. If you see this print, please run prepare_thresholds and use the .tbl input going forward! \n")
     } else {
       if (is.null(role_col)) stop("Please provide family roles for each family member. e.g. father(f), mother(m), siblings (s1-s9), etc.")
-      stop("We weren't able to convert data input automatically. Please use prepare_LTFHPlus_input and use the .tbl input!\n")
+      stop("We weren't able to convert data input automatically. Please use prepare_thresholds and use the .tbl input!\n")
     }
   }
   .tbl = left_join(family, threshs, by = personal_id_col)
@@ -107,38 +107,38 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' sex = c(1, 0, 1, 1, 1, 1),
 #' cip = c(0.1, 0.2, 0.3, 0.3, 0.3, 0.4))
 #'
-#' prepare_LTFHPlus_input(.tbl = tbl, CIP = cip, age_col = "age", interpolation = NA)
+#' prepare_thresholds(.tbl = tbl, CIP = cip, age_col = "age", interpolation = NA)
 #'
 #' @export
-prepare_LTFHPlus_input = function(.tbl,
-                                  CIP,
-                                  age_col,
-                                  CIP_merge_columns = c("sex", "birth_year", "age"),
-                                  CIP_cip_col = "cip",
-                                  status_col = "status",
-                                  use_fixed_case_thr = FALSE,
-                                  personal_thr = FALSE,
-                                  fam_id_col = "fam_id",
-                                  personal_id_col = "pid",
-                                  interpolation = NULL,
-                                  bst.params = list(
-                                    max_depth = 10,
-                                    base_score = 0,
-                                    nthread = 4,
-                                    min_child_weight = 10
-                                  ),
-                                  min_CIP_value = 1e-5,
-                                  xgboost_itr = 30
+prepare_thresholds = function(.tbl,
+                              CIP,
+                              age_col,
+                              CIP_merge_columns = c("sex", "birth_year", "age"),
+                              CIP_cip_col = "cip",
+                              status_col = "status",
+                              use_fixed_case_thr = FALSE,
+                              personal_thr = FALSE,
+                              fam_id_col = "fam_id",
+                              personal_id_col = "pid",
+                              interpolation = NULL,
+                              bst.params = list(
+                                max_depth = 10,
+                                base_score = 0,
+                                nthread = 4,
+                                min_child_weight = 10
+                                ),
+                              min_CIP_value = 1e-5,
+                              xgboost_itr = 30
 ) {
 
 # Checking input data -----------------------------------------------------
   # check if CIP_merge_columns are in both .tbl and CIP:
   if (any(!(CIP_merge_columns %in% colnames(.tbl)))) {
-    stop(paste0("prepare_LTFHPlus_input: The following columns are not present in the provided .tbl: ", paste(setdiff(CIP_merge_columns, colnames(.tbl)), collapse = ", ")))
+    stop(paste0("prepare_thresholds: The following columns are not present in the provided .tbl: ", paste(setdiff(CIP_merge_columns, colnames(.tbl)), collapse = ", ")))
   }
 
   if (any(!(CIP_merge_columns %in% colnames(CIP)))) {
-    stop(paste0("prepare_LTFHPlus_input: The following columns are not present in the provided CIP: ", paste(setdiff(CIP_merge_columns, colnames(CIP)), collapse = ", ")))
+    stop(paste0("prepare_thresholds: The following columns are not present in the provided CIP: ", paste(setdiff(CIP_merge_columns, colnames(CIP)), collapse = ", ")))
   }
 
   # checking whether the non-age columns used for merging in .tbl are present in CIP
@@ -148,7 +148,7 @@ prepare_LTFHPlus_input = function(.tbl,
     any(!(.tbl[[x]] %in% CIP[[x]]))
   })
   if ( any(overlap_test_tbl) ) {
-    warning(paste0("prepare_LTFHPlus_input: The following CIP_merge_columns are not completely overlapping in CIP and .tbl:",
+    warning(paste0("prepare_thresholds: The following CIP_merge_columns are not completely overlapping in CIP and .tbl:",
                    paste(setdiff(CIP_merge_columns, age_col)[overlap_test_tbl], collapse = ", ")))
   }
 
