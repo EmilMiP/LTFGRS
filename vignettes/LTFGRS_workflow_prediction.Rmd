@@ -169,11 +169,11 @@ family_graphs$fam_graph[[1]]
 ### Censoring of future events on a family basis
 
 The purpose of the genetic liability estimated here is prediction. In epidemiology (and many other fields) there is an emphasis on ensuring future events are not used to base predictions on. Hence, we need to ensure that, within a family, no events that happen after the end of follow up of the proband is used to estimate the genetic liability of the proband. In real world analysis, the end of follow up can be due to the proband being diagnosed or any censoring event, such as end of register follow up, emigration, or death.
-   The function `censor_family_onsets_per_family()` offers a way to censor future events on a family basis, by censoring all events that happen after the end of follow up of the proband (`indiv_eof`).
+   The function `familywise_censoring()` offers a way to censor future events on a family basis, by censoring all events that happen after the end of follow up of the proband (`indiv_eof`).
 
 ```{r}
 # calculate family specific thresholds
-info = censor_family_onsets_per_family(
+info = familywise_censoring(
   family_graphs = family_graphs,
   tbl = pheno,
   start = "fdato",
@@ -183,7 +183,7 @@ info = censor_family_onsets_per_family(
 
 paged_table(info)
 ```
-The function `censor_family_onsets_per_family()` will return a tibble with the following additional columns:
+The function `familywise_censoring()` will return a tibble with the following additional columns:
 
 - `status`: Assigned case-control status based on the family-wise censoring time, i.e. if the event happened after the end of follow up of the family, the status is set to `FALSE` (0).
 - `aod`: The age of diagnosis, NA for controls.
@@ -201,7 +201,7 @@ fam_thrs = prepare_thresholds(
   .tbl = info,
   CIP = CIP,
   age_col = "age" ,
-  use_fixed_case_thr = FALSE,
+  lower_equal_upper = FALSE,
   personal_thr = TRUE, 
   fam_id_col = "fid",
   personal_id_col = "pid",
@@ -215,7 +215,7 @@ paged_table(fam_thrs)
 ```
 Note: Currently, it is possible to experience negative ages at the end of follow up. This is due to the family-wise end of follow up ending before an individual is born, e.g. proband is diagnosed in their youth, then has a child later in life. These individuals will get a non-informative threshold ($-\infty$ to max of `min_CIP_value` and the predicted CIP [`K_i`]). In other words, these individuals will have no impact on the estimate.
 
-The function `prepare_thresholds()` has several options that are worth pointing out. The first is `use_fixed_case_thr`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`.
+The function `prepare_thresholds()` has several options that are worth pointing out. The first is `lower_equal_upper`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`.
 
 The function `prepare_thresholds()` will return a tibble with the following additional columns:
 
