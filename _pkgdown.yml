@@ -17,7 +17,7 @@ reference:
   - attach_attributes
   - censor_family_onsets
   - familywise_censoring
-  - fam_graph_attach_attribute
+  - familywise_attach_attributes
   - get_family_graphs
   - get_onset_time
   - prepare_thresholds

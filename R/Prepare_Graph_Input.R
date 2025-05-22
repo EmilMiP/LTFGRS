@@ -88,7 +88,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' @importFrom stats qnorm predict
 #' @importFrom dplyr all_of mutate select %>% left_join group_by ungroup arrange across
 #'
-#' @return Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{fam_graph_attach_attribute}.
+#' @return Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{familywise_attach_attributes}.
 #'
 #' @examples
 #' tbl = data.frame(
@@ -554,7 +554,7 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 #' @param fid Column name of family id.
 #' @param attr_tbl Tibble with family id and attributes for each family member.
 #' @param attr_names Names of attributes to be assigned to each node (family member) in the graph.
-#' @param censor_proband_thrs Should proband upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
+#' @param censor_proband_thrs Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
 #'
 #' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
 #'
@@ -615,7 +615,7 @@ attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_nam
 #' @param fid column name of family id. Typically contains the name of the proband that a family graph is centred on. defaults to "fid".
 #' @param pid personal identifier for each individual in a family. Allows for multiple instances of the same individual across families. Defaults to "pid".
 #' @param cols_to_attach columns to attach to the family graphs from fam_attr, typically lower and upper thresholds. Mixture input also requires K_i and K_pop.
-#' @param censor_proband_thrs should proband thresholds be censored? Used for prediction to exclude information on the proband. Defaults to TRUE.
+#' @param censor_proband_thrs Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
 #'
 #' @returns tibble with family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
 #'
@@ -623,14 +623,14 @@ attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_nam
 #'
 #' @examples
 #' # See Vignettes.
-fam_graph_attach_attribute = function(family_graphs,
-                                      fam_attr,
-                                      fam_graph_col = "fam_graph",
-                                      attached_fam_graph_col = "masked_fam_graph",
-                                      fid = "fid",
-                                      pid = "pid",
-                                      cols_to_attach = c("lower", "upper"),
-                                      censor_proband_thrs = T) {
+familywise_attach_attributes = function(family_graphs,
+                                        fam_attr,
+                                        fam_graph_col = "fam_graph",
+                                        attached_fam_graph_col = "masked_fam_graph",
+                                        fid = "fid",
+                                        pid = "pid",
+                                        cols_to_attach = c("lower", "upper"),
+                                        censor_proband_thrs = T) {
   fam_attr %>%
     tidyr::nest(attrs = -fid) %>%
     left_join(family_graphs, ., by = fid) %>%

@@ -24,7 +24,7 @@ attach_attributes(
 
 \item{attr_names}{Names of attributes to be assigned to each node (family member) in the graph.}
 
-\item{censor_proband_thrs}{Should proband upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.}
+\item{censor_proband_thrs}{Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.}
 }
 \value{
 igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.

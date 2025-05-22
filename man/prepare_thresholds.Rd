@@ -51,7 +51,7 @@ prepare_thresholds(
 \item{xgboost_itr}{Number of iterations to run xgboost for.}
 }
 \value{
-Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{fam_graph_attach_attribute}.
+Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum). The threshold and other potentially relevant information can be added to the family graphs with \code{familywise_attach_attributes}.
 }
 \description{
 This function prepares input for \code{estimate_liability} by calculating thresholds based on stratified cumulative incidence proportions (CIPs) with options for interpolation for ages between CIP values. Given a tibble with families and family members and (stratified) CIPs, personalised thresholds will be calculated for each individual present in \code{.tbl}. An individual may be in multiple families, but only once in the same family.
