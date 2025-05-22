@@ -37,7 +37,7 @@ tibble with family ids and an updated family graph with attached attributes. If 
 }
 \description{
 This function can attach attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
-This function wraps around assign_family_specific_thresholds to ease the process of attaching attributes to family graphs in the standard format.
+This function wraps around attach_attributes to ease the process of attaching attributes to family graphs in the standard format.
 }
 \examples{
 # See Vignettes.

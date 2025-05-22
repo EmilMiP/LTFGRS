@@ -14,7 +14,7 @@ reference:
 - title: "Data preparation functions"
   desc: "Functions used to prepare data for the family history estimators."
   contents:
-  - assign_family_specific_thresholds
+  - attach_attributes
   - censor_family_onsets
   - familywise_censoring
   - fam_graph_attach_attribute

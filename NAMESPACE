@@ -2,7 +2,7 @@
 
 export(Gibbs_estimator)
 export(PA_algorithm)
-export(assign_family_specific_thresholds)
+export(attach_attributes)
 export(censor_family_onsets)
 export(construct_covmat)
 export(construct_covmat_multi)

@@ -545,7 +545,7 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 }
 
 
-#' Attach attributes to family graphs
+#' Attach attributes to a family graphs
 #'
 #' This function attaches attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for a user-friendly way to attach personalised thresholds and other per-family specific attributes to the family graphs.
 #'
@@ -554,12 +554,12 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 #' @param fid Column name of family id.
 #' @param attr_tbl Tibble with family id and attributes for each family member.
 #' @param attr_names Names of attributes to be assigned to each node (family member) in the graph.
-#' @param censor_proband_thrs Should proband thresholds be censored? Defaults to TRUE. Used to exclude proband's information for prediction.
+#' @param censor_proband_thrs Should proband upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
 #'
 #' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
 #'
 #' @export
-assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
+attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
   # get node names
   graph_vertex_names = igraph::vertex_attr(cur_fam_graph)$name
 
@@ -573,7 +573,7 @@ assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, at
 
   # any attr_names columns not in attr_tbl?
   if (any(!(attr_names %in% colnames(attr_tbl_matched)))) {
-    warning(paste0("assign_family_specific_thresholds: Not all attributes are present in attr_tbl!\n",
+    warning(paste0("attach_attributes: Not all attributes are present in attr_tbl!\n",
                     " Missing attributes: ", paste(setdiff(attr_names, colnames(attr_tbl_matched)), collapse = ", ")))
   }
 
@@ -606,7 +606,7 @@ assign_family_specific_thresholds = function(cur_fam_graph, cur_proband, fid, at
 #' Wrapper to attach attributes to family graphs
 #'
 #' This function can attach attributes to family graphs, such as lower and upper thresholds, for each family member. This allows for personalised thresholds and other per-family specific attributes.
-#' This function wraps around assign_family_specific_thresholds to ease the process of attaching attributes to family graphs in the standard format.
+#' This function wraps around attach_attributes to ease the process of attaching attributes to family graphs in the standard format.
 #'
 #' @param family_graphs tibble with family ids and family graphs
 #' @param fam_attr tibble with attributes for each family member
@@ -637,7 +637,7 @@ fam_graph_attach_attribute = function(family_graphs,
     mutate(
       !!as.symbol(attached_fam_graph_col) := purrr::pmap(
         .l = list(!!as.symbol(fid), !!as.symbol(fam_graph_col), attrs),
-        ~ assign_family_specific_thresholds(
+        ~ attach_attributes(
           cur_fam_graph = ..2,
           attr_tbl = ..3, cur_proband = ..1,
           fid = pid, attr_names = cols_to_attach,
