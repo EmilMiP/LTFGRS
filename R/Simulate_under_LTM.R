@@ -1,4 +1,4 @@
-utils::globalVariables("fam_ID")
+utils::globalVariables("fid")
 utils::globalVariables("PID")
 utils::globalVariables("lower")
 utils::globalVariables("upper")
@@ -123,15 +123,15 @@ simulate_under_LTM_single <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm"
 
   # Turning the matrix into a tibble and adding the family ID
   liabs <- tibble::as_tibble(liabs) %>%
-    mutate(fam_ID = paste0("fam_ID_", 1:n())) %>%
-    relocate(., fam_ID)
+    mutate(fid = paste0("fid_", 1:n())) %>%
+    relocate(., fid)
 
   # Adding the disease status for all individuals.
   # Remark: across() can be used to apply a function (.fns)
   # to a subset of columns (.cols) and storing the resulting
   # columns under pre-specified names (.names).
   # .cols uses the same syntax as select().
-  liabs <- mutate(liabs, across(.cols = -c(matches("^g$"), matches("^fam_ID$")),
+  liabs <- mutate(liabs, across(.cols = -c(matches("^g$"), matches("^fid$")),
                                 .fns = ~ .x > qnorm(pop_prev, lower.tail = FALSE),
                                 .names = "{.col}_status" ))
 
@@ -404,8 +404,8 @@ simulate_under_LTM_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm",
 
   # Turning the matrix into a tibble and adding the individual ID
   liabs <- tibble::as_tibble(liabs) %>%
-    mutate(fam_ID = paste0("fam_ID_", 1:n())) %>%
-    relocate(., fam_ID)
+    mutate(fid = paste0("fid_", 1:n())) %>%
+    relocate(., fid)
 
   # Adding the disease status for all individuals.
   # RemarK: across() can be used to apply a function (.fns)
@@ -509,7 +509,7 @@ simulate_under_LTM_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm",
 
   res <- lapply(seq_along(phen_names), function(i){
 
-    i_liabs <- select(liabs, fam_ID, contains(phen_names[i]), ends_with("_age")) %>%
+    i_liabs <- select(liabs, fid, contains(phen_names[i]), ends_with("_age")) %>%
       mutate(., construct_aoo(fam_mem = fam_vec, .tbl = ., pop_prev = pop_prev[i], phen_name = phen_names[i]))
 
     i_threshs <- construct_thresholds(fam_mem = fam_vec, .tbl = i_liabs, pop_prev = pop_prev[i], phen_name = phen_names[i])
@@ -529,7 +529,7 @@ simulate_under_LTM_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm",
 
     }else{
 
-      thresh <- left_join(thresh, res[[i]]$thresholds, by = c("fam_ID", "indiv_ID", "role"))
+      thresh <- left_join(thresh, res[[i]]$thresholds, by = c("fid", "indiv_ID", "role"))
     }
 
     res[[i]]$thresholds <- NULL

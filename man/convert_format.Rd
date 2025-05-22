@@ -23,7 +23,7 @@ Attempts to convert the list entry input format to a long format
 }
 \examples{
 family <- data.frame(
-fam_id = c(1, 1, 1, 1),
+fid = c(1, 1, 1, 1),
 pid = c(1, 2, 3, 4),
 role = c("o", "m", "f", "pgf")
 )

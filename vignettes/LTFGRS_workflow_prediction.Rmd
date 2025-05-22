@@ -203,7 +203,7 @@ fam_thrs = prepare_thresholds(
   age_col = "age" ,
   lower_equal_upper = FALSE,
   personal_thr = TRUE, 
-  fam_id_col = "fid",
+  fid_col = "fid",
   personal_id_col = "pid",
   interpolation = "xgboost"
 )
@@ -215,7 +215,7 @@ paged_table(fam_thrs)
 ```
 Note: Currently, it is possible to experience negative ages at the end of follow up. This is due to the family-wise end of follow up ending before an individual is born, e.g. proband is diagnosed in their youth, then has a child later in life. These individuals will get a non-informative threshold ($-\infty$ to max of `min_CIP_value` and the predicted CIP [`K_i`]). In other words, these individuals will have no impact on the estimate.
 
-The function `prepare_thresholds()` has several options that are worth pointing out. The first is `lower_equal_upper`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`.
+The function `prepare_thresholds()` has several options that are worth pointing out. The first is `lower_equal_upper`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`. Basing the thresholds on `K_i` yields personalised thresholds that are based on the stratification of the CIPs. 
 
 The function `prepare_thresholds()` will return a tibble with the following additional columns:
 
@@ -262,7 +262,7 @@ The second argument is `useMixture`, which specifies whether to use the mixture 
 ```{r}
 ltfgrs_pa = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid),
                                h2 = h2, 
-                               fam_id = "fid",
+                               fid = "fid",
                                pid = "pid",
                                family_graphs_col = "masked_fam_graph",
                                method = "PA", # <- METHOD
@@ -274,7 +274,7 @@ When using `method = "PA"`, an iterative conditioning is performed, which means 
 ```{r}
 ltfgrs_gibbs = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid), 
                                   h2 = h2,
-                                  fam_id = "fid",
+                                  fid = "fid",
                                   pid = "pid",
                                   family_graphs_col = "masked_fam_graph",
                                   method = "Gibbs", # <- METHOD

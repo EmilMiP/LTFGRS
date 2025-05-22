@@ -879,7 +879,7 @@ graph_based_covariance_construction = function(pid,
 #' Function that constructs the genetic covariance matrix given a graph around a proband
 #' and extracts the threshold information from the graph.
 #'
-#' @param fam_id Name of column with the family ID
+#' @param fid Name of column with the family ID
 #' @param pid Name of column of personal ID
 #' @param cur_proband_id id of proband
 #' @param cur_family_graph local graph of current proband
@@ -921,7 +921,7 @@ graph_based_covariance_construction = function(pid,
 #' diag(full_corrmat) <- 1
 #' h2_vec <- rep(0.6, ntrait)
 #'
-#' graph_based_covariance_construction_multi(fam_id = "fam",
+#' graph_based_covariance_construction_multi(fid = "fam",
 #'                                           pid = "id",
 #'                                           cur_proband_id = "pid",
 #'                                           cur_family_graph = graph,
@@ -930,7 +930,7 @@ graph_based_covariance_construction = function(pid,
 #'                                           phen_names = c("1", "2"))
 #'
 #' @export
-graph_based_covariance_construction_multi = function(fam_id,
+graph_based_covariance_construction_multi = function(fid,
                                                      pid,
                                                      cur_proband_id,
                                                      cur_family_graph,
@@ -944,13 +944,13 @@ graph_based_covariance_construction_multi = function(fam_id,
   # constructing tibble with ids and thresholds
   temp_tbl = as_tibble(vertex_attr(cur_family_graph)) %>%
     rename(!!as.symbol(pid) := name) %>%
-    mutate(!!as.symbol(fam_id) := cur_proband_id) %>%
-    relocate(!!as.symbol(fam_id), !!as.symbol(pid))
+    mutate(!!as.symbol(fid) := cur_proband_id) %>%
+    relocate(!!as.symbol(fid), !!as.symbol(pid))
 
   # add genetic liability if required
   if (add_ind) {
     temp_tbl = tibble(
-      !!as.symbol(fam_id) := pull(temp_tbl, !!as.symbol(fam_id))[1],
+      !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
       !!as.symbol(pid)    := paste0(cur_proband_id, "_g")
     ) %>%
       bind_cols(

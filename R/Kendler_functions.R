@@ -1,4 +1,4 @@
-utils::globalVariables(c("S", "varZ", "mZ", "sum_r", "cur_fam_id", "k_temp"))
+utils::globalVariables(c("S", "varZ", "mZ", "sum_r", "cur_fid", "k_temp"))
 
 #' Title Helper function for Kendler's FGRS
 #'
@@ -90,8 +90,8 @@ kendler_family_calculations = function(tbl,
 #' See prepare_graph for construction of the graphs. The family graphs Defaults to NULL.
 #' @param  pid A string holding the name of the column in \code{.tbl} (or \code{family} and
 #' \code{threshs}) that hold the personal identifier(s). Defaults to "PID".
-#' @param fam_id A string holding the name of the column in \code{.tbl} or \code{family} that
-#' holds the family identifier. Defaults to "fam_ID".
+#' @param fid A string holding the name of the column in \code{.tbl} or \code{family} that
+#' holds the family identifier. Defaults to "fid".
 #' @param role A string holding the name of the column in \code{.tbl} that
 #' holds the role. Each role must be chosen from the following list of abbreviations
 #' - \code{g} (Genetic component of full liability)
@@ -125,8 +125,8 @@ kendler_family_calculations = function(tbl,
 kendler = function(.tbl = NULL,
                    family_graphs = NULL,
                    family_graphs_col = "fam_graph",
-                   pid = "PID",
-                   fam_id = "fam_ID",
+                   pid = "pid",
+                   fid = "fid",
                    role = NULL,
                    dadcol,
                    momcol,
@@ -136,10 +136,10 @@ kendler = function(.tbl = NULL,
 
   if ( !is.null(.tbl) ) { #### .tbl input ####
     # validating .tbl input
-    .tbl <- validating_tbl_input(.tbl = .tbl, pid = pid, fam_id = fam_id, role = role)
+    .tbl <- validating_tbl_input(.tbl = .tbl, pid = pid, fid = fid, role = role)
 
     # Extracting the (unique) family identifiers
-    fam_list <- unique(pull(.tbl, !!as.symbol(fam_id)))
+    fam_list <- unique(pull(.tbl, !!as.symbol(fid)))
 
   } else if ( !is.null(family_graphs) ) { #### Graph input ####
 
@@ -161,7 +161,7 @@ kendler = function(.tbl = NULL,
       info = extract_estimation_info_graph(
         # no need to pass family_Graphs, family_graphs_Col, or 'i' this way:
         cur_fam_graph = family_graphs[[family_graphs_col]][[i]],
-        cur_fam_id = cur_fam_id,
+        cur_fid = cur_fid,
         h2 = 1,
         pid = pid,
         add_ind = FALSE)
@@ -171,8 +171,8 @@ kendler = function(.tbl = NULL,
       info = extract_estimation_info_tbl(
         .tbl = .tbl,
         pid = pid,
-        fam_id = fam_id,
-        cur_fam_id = cur_fam_id,
+        fid = fid,
+        cur_fid = cur_fid,
         role = role,
         h2 = 1,
         add_ind = FALSE)

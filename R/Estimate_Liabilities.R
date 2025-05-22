@@ -42,8 +42,8 @@ utils::globalVariables("name")
 #' Defaults to 0.5.
 #' @param  pid A string holding the name of the column in \code{.tbl} (or \code{family} and
 #' \code{threshs}) that hold the personal identifier(s). Defaults to "PID".
-#' @param fam_id A string holding the name of the column in \code{.tbl} or \code{family} that
-#' holds the family identifier. Defaults to "fam_ID".
+#' @param fid A string holding the name of the column in \code{.tbl} or \code{family} that
+#' holds the family identifier. Defaults to "fid".
 #' @param role A string holding the name of the column in \code{.tbl} that
 #' holds the role. Each role must be chosen from the following list of abbreviations
 #' - \code{g} (Genetic component of full liability)
@@ -79,13 +79,13 @@ utils::globalVariables("name")
 #'
 #' @return If \code{family} and \code{threshs} are two matrices, lists or
 #' data frames that can be converted into tibbles, if \code{family} has two
-#' columns named like the strings represented in \code{pid} and \code{fam_id}, if
+#' columns named like the strings represented in \code{pid} and \code{fid}, if
 #' \code{threshs} has a column named like the string given in \code{pid} as
 #' well as a column named "lower" and a column named "upper" and if the
 #' liability-scale heritability \code{h2}, \code{out}, \code{tol} and
 #' \code{always_add} are of the required form, then the function returns a
 #' tibble with either four or six columns (depending on the length of out).
-#' The first two columns correspond to the columns \code{fam_id} and \code{pid} '
+#' The first two columns correspond to the columns \code{fid} and \code{pid} '
 #' present in \code{family}.
 #' If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third
 #' and fourth column hold the estimated genetic liability as well as the
@@ -104,14 +104,14 @@ utils::globalVariables("name")
 #' add_ind = TRUE, h2 = 0.5, n_sim=10, pop_prev = .05)
 #' #
 #' estimate_liability_single(.tbl = sims$thresholds,
-#' h2 = 0.5, pid = "indiv_ID", fam_id = "fam_ID", role = "role", out = c(1),
+#' h2 = 0.5, pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 #' tol = 0.01)
 #' #
 #' sims <- simulate_under_LTM(fam_vec = c(), n_fam = NULL, add_ind = TRUE,
 #' h2 = 0.5, n_sim=10, pop_prev = .05)
 #' #
 #' estimate_liability_single(.tbl = sims$thresholds,
-#' h2 = 0.5, pid = "indiv_ID", fam_id = "fam_ID", role = "role",
+#' h2 = 0.5, pid = "indiv_ID", fid = "fid", role = "role",
 #' out = c("genetic"), tol = 0.01)
 #'
 #' @seealso \code{\link[future.apply]{future_apply}}, \code{\link{estimate_liability_multi}},
@@ -126,8 +126,8 @@ utils::globalVariables("name")
 estimate_liability_single <- function(.tbl = NULL,
                                       family_graphs = NULL,
                                       h2 = 0.5,
-                                      pid = "PID",
-                                      fam_id = "fam_ID",
+                                      pid = "pid",
+                                      fid = "fid",
                                       family_graphs_col = "fam_graph",
                                       role = NULL,
                                       out = c(1),
@@ -140,9 +140,9 @@ estimate_liability_single <- function(.tbl = NULL,
   if (!(method %in% c("PA", "Gibbs"))) {
     stop(paste0("estimate_liability_single: method must be either 'PA' or 'Gibbs'!\n You entered: ", method))
   }
-  # Turning pid and fam_id into strings
+  # Turning pid and fid into strings
   pid <- as.character(pid)
-  fam_id <- as.character(fam_id)
+  fid <- as.character(fid)
 
   # Checking that the heritability is valid
   if (validate_proportion(h2)) invisible()
@@ -182,12 +182,12 @@ estimate_liability_single <- function(.tbl = NULL,
     # validating .tbl input
     .tbl <- validating_tbl_input(.tbl = .tbl,
                                  pid = pid,
-                                 fam_id = fam_id,
+                                 fid = fid,
                                  role = role,
                                  useMixture = useMixture)
 
     # Extracting the (unique) family identifiers
-    fam_list <- unique(pull(.tbl, !!as.symbol(fam_id)))
+    fam_list <- unique(pull(.tbl, !!as.symbol(fid)))
 
   } else if ( !is.null(family_graphs) ) { #### Graph input ####
 
@@ -213,7 +213,7 @@ estimate_liability_single <- function(.tbl = NULL,
   gibbs_res <- future.apply::future_lapply(X = 1:length(fam_list), FUN = function(i){
 
     # current family id (proband id for graphs)
-    cur_fam_id = fam_list[i]
+    cur_fid = fam_list[i]
 
     ##### Ultimately, we get cov and temp_tbl from both of the cases below #####
 
@@ -221,7 +221,7 @@ estimate_liability_single <- function(.tbl = NULL,
       ph = extract_estimation_info_graph(
         # no need to pass family_Graphs, family_graphs_Col, or 'i' this way:
         cur_fam_graph = family_graphs[[family_graphs_col]][[i]],
-        cur_fam_id = cur_fam_id,
+        cur_fid = cur_fid,
         h2 = h2,
         pid = pid)
 
@@ -234,8 +234,8 @@ estimate_liability_single <- function(.tbl = NULL,
       ph = extract_estimation_info_tbl(
         .tbl = .tbl,
         pid = pid,
-        fam_id = fam_id,
-        cur_fam_id = cur_fam_id,
+        fid = fid,
+        cur_fid = cur_fid,
         role = role,
         h2 = h2)
       temp_tbl = ph$tbl
@@ -248,7 +248,7 @@ estimate_liability_single <- function(.tbl = NULL,
 
     cur_target_id = case_when(
       !is.null(.tbl) & method == "PA" ~ "g",
-      TRUE ~ paste0(cur_fam_id, "_g")
+      TRUE ~ paste0(cur_fid, "_g")
     )
 
     # estimation function that takes covariance matrix, thresholds,
@@ -266,8 +266,8 @@ estimate_liability_single <- function(.tbl = NULL,
 
 
     # formatting and returning result
-    tibble(!!as.symbol(fam_id) := cur_fam_id,
-           !!as.symbol(pid) := cur_fam_id) %>%
+    tibble(!!as.symbol(fid) := cur_fid,
+           !!as.symbol(pid) := cur_fid) %>%
       bind_cols(res)
 
   }, future.seed = TRUE) %>%
@@ -319,10 +319,10 @@ estimate_liability_single <- function(.tbl = NULL,
 #' will be used to create the row and column names for the covariance matrix.
 #' If it is not specified, the names will default to phenotype1, phenotype2, etc.
 #' Defaults to NULL.
-#' @param  pid A string holding the name of the column in \code{family} and
+#' @param pid A string holding the name of the column in \code{family} and
 #' \code{threshs} that hold the personal identifier(s). Defaults to "PID".
-#' @param fam_id A string holding the name of the column in \code{family} that
-#' holds the family identifier. Defaults to "fam_ID".
+#' @param fid A string holding the name of the column in \code{family} that
+#' holds the family identifier. Defaults to "fid".
 #' @param role A string holding the name of the column in \code{.tbl} that
 #' holds the role.Each role must be chosen from the following list of abbreviations
 #' - \code{g} (Genetic component of full liability)
@@ -353,13 +353,13 @@ estimate_liability_single <- function(.tbl = NULL,
 #'
 #' @return If \code{family} and \code{threshs} are two matrices, lists or data frames
 #' that can be converted into tibbles, if \code{family} has two columns named like
-#' the strings represented in \code{pid} and \code{fam_id}, if \code{threshs} has a
+#' the strings represented in \code{pid} and \code{fid}, if \code{threshs} has a
 #' column named like the string given in \code{pid} as well as a column named \code{"lower"}
 #' and a column named \code{"upper"} and if the liability-scale heritabilities in \code{h2_vec},
 #' \code{genetic_corrmat}, \code{full_corrmat}, \code{out} and \code{tol} are of the
 #' required form, then the function returns a tibble with at least six columns (depending
 #' on the length of out).
-#' The first two columns correspond to the columns \code{fam_id} and \code{pid} present in
+#' The first two columns correspond to the columns \code{fid} and \code{pid} present in
 #' the tibble \code{family}.
 #' If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third and fourth columns
 #' hold the estimated genetic liability as well as the corresponding standard error for the
@@ -386,7 +386,7 @@ estimate_liability_single <- function(.tbl = NULL,
 #' n_sim = 1, pop_prev = rep(.1,3))
 #' estimate_liability_multi(.tbl = sims$thresholds, h2_vec = rep(.5,3),
 #' genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
-#' pid = "indiv_ID", fam_id = "fam_ID", role = "role", out = c(1),
+#' pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 #' phen_names = paste0("phenotype", 1:3), tol = 0.01)
 #'
 #'
@@ -406,8 +406,8 @@ estimate_liability_multi <- function(.tbl = NULL,
                                      genetic_corrmat,
                                      full_corrmat,
                                      phen_names = NULL,
-                                     pid = "PID",
-                                     fam_id = "fam_ID",
+                                     pid = "pid",
+                                     fid = "fid",
                                      role = "role",
                                      family_graphs_col = "fam_graph",
                                      out = c(1),
@@ -415,9 +415,9 @@ estimate_liability_multi <- function(.tbl = NULL,
 
   # validating input-agnostic variables --------------------------------------
 
-  # Turning pid, fam_id into strings
+  # Turning pid, fid into strings
   pid <- as.character(pid)
-  fam_id <- as.character(fam_id)
+  fid <- as.character(fid)
 
   # Checking that the heritability is valid
   if (validate_proportion(h2_vec)) invisible()
@@ -471,9 +471,9 @@ estimate_liability_multi <- function(.tbl = NULL,
     # Turning role into string
     role <- as.character(role)
 
-    # Checking that .tbl has three columns named pid_col, fam_id and role
+    # Checking that .tbl has three columns named pid_col, fid and role
     if (!(pid %in% colnames(.tbl))) stop(paste0("The column ", pid," does not exist in the tibble .tbl..."))
-    if (!(fam_id %in% colnames(.tbl))) stop(paste0("The column ", fam_id," does not exist in the tibble .tbl..."))
+    if (!(fid %in% colnames(.tbl))) stop(paste0("The column ", fid," does not exist in the tibble .tbl..."))
     if (!(role %in% colnames(.tbl))) stop(paste0("The column ", role," does not exist in the tibble .tbl..."))
 
     # In addition, we check that the two columns lower and upper are present
@@ -481,7 +481,7 @@ estimate_liability_multi <- function(.tbl = NULL,
 
     # If the tibble consists of more than the required columns,
     # we select only the relevant ones.
-    .tbl <- select(.tbl, !!as.symbol(fam_id), !!as.symbol(pid), !!as.symbol(role), tidyselect::starts_with("lower"), tidyselect::starts_with("upper"))
+    .tbl <- select(.tbl, !!as.symbol(fid), !!as.symbol(pid), !!as.symbol(role), tidyselect::starts_with("lower"), tidyselect::starts_with("upper"))
 
     # checking if the correct number of columns is present
     if (ncol(.tbl) != (2*n_pheno + 3)) stop("Something is wrong with the number of phenotypes... \n
@@ -506,7 +506,7 @@ The lower and upper thresholds will be swapped...")
     }
 
     #  Extracting the (unique) family identifiers
-    fam_list <- unique(pull(.tbl, !!as.symbol(fam_id)))
+    fam_list <- unique(pull(.tbl, !!as.symbol(fid)))
 
   } else if ( !is.null(family_graphs) ) { #### Graph input ####
 
@@ -538,7 +538,7 @@ The lower and upper thresholds will be swapped...")
   gibbs_res <- future.apply::future_lapply(X = 1:length(fam_list), FUN = function(i){
 
     # current family id (proband id for graphs)
-    cur_fam_id = fam_list[i]
+    cur_fid = fam_list[i]
 
     ##### Ultimately, we get cov and temp_tbl from both of the cases below #####
 
@@ -547,7 +547,7 @@ The lower and upper thresholds will be swapped...")
       # Extracting the thresholds for all family members,
       # including the thresholds for o and/or g,
       # and all phenotypes
-      temp_tbl = filter(.tbl, !!as.symbol(fam_id) == cur_fam_id)
+      temp_tbl = filter(.tbl, !!as.symbol(fid) == cur_fid)
 
       # Extract the personal IDs and roles for all family members
       pids  <- pull(temp_tbl, !!as.symbol(pid))
@@ -573,9 +573,9 @@ The lower and upper thresholds will be swapped...")
         temp_tbl = temp_tbl,
         role = role,
         cur_roles = roles,
-        cur_fam_id = cur_fam_id,
+        cur_fid = cur_fid,
         pid = pid,
-        fam_id = fam_id,
+        fid = fid,
         phen_names = phen_names
       )
 
@@ -599,7 +599,7 @@ The lower and upper thresholds will be swapped...")
         tidyr::pivot_longer(., cols = starts_with("upper"), names_to = "phenotype", values_to = "upper") %>%
         mutate(., phenotype = gsub("upper_","",phenotype)) %>%
         # join upper and left thresholds
-        left_join(fam_threshs,., by = stats::setNames(c(fam_id,pid,role,"phenotype"), c(fam_id,pid,role,"phenotype"))) %>%
+        left_join(fam_threshs,., by = stats::setNames(c(fid,pid,role,"phenotype"), c(fid,pid,role,"phenotype"))) %>%
         mutate(., phenotype = factor(phenotype, levels = phen_names)) %>%
         # order the tibble, such that it matches the covariance matrix
         arrange(., phenotype, !!as.symbol(role))
@@ -610,9 +610,9 @@ The lower and upper thresholds will be swapped...")
       cur_fam_graph = family_graphs[[family_graphs_col]][[i]]
 
       # construct covariance and extract threshold information from graph.
-      cov_obj = graph_based_covariance_construction_multi(fam_id = fam_id,
+      cov_obj = graph_based_covariance_construction_multi(fid = fid,
                                                           pid = pid,
-                                                          cur_proband_id = cur_fam_id,
+                                                          cur_proband_id = cur_fid,
                                                           cur_family_graph = cur_fam_graph,
                                                           h2_vec = h2_vec,
                                                           genetic_corrmat = genetic_corrmat,
@@ -641,7 +641,7 @@ The lower and upper thresholds will be swapped...")
         tidyr::pivot_longer(., cols = starts_with("upper"), names_to = "phenotype", values_to = "upper") %>%
         mutate(., phenotype = gsub("upper_","",phenotype)) %>%
         # join upper and left thresholds
-        left_join(fam_threshs,., by = stats::setNames(c(fam_id,pid,"phenotype"), c(fam_id,pid,"phenotype"))) %>%
+        left_join(fam_threshs,., by = stats::setNames(c(fid,pid,"phenotype"), c(fid,pid,"phenotype"))) %>%
         # mutate(., phenotype = factor(phenotype, levels = phen_names)) %>%
         # order the tibble, such that it matches the covariance matrix
         slice(match(newOrder, paste0(!!as.symbol(pid), "_", phenotype)))
@@ -699,8 +699,8 @@ The lower and upper thresholds will be swapped...")
       tibble::deframe(.)
 
     # formatting and returning result
-    tibble(!!as.symbol(fam_id) := cur_fam_id,
-           !!as.symbol(pid) := cur_fam_id,
+    tibble(!!as.symbol(fid) := cur_fid,
+           !!as.symbol(pid) := cur_fid,
            !!!stats::setNames(res, names(res)))
 
   }, future.seed = TRUE) %>%
@@ -747,8 +747,8 @@ The lower and upper thresholds will be swapped...")
 #' for all phenotypes. All entries in h2 must be non-negative and at most 1.
 #' @param  pid A string holding the name of the column in \code{family} and
 #' \code{threshs} that hold the personal identifier(s). Defaults to \code{"PID"}.
-#' @param fam_id A string holding the name of the column in \code{family} that
-#' holds the family identifier. Defaults to \code{"fam_ID"}.
+#' @param fid A string holding the name of the column in \code{family} that
+#' holds the family identifier. Defaults to \code{"fid"}.
 #' @param role A string holding the name of the column in \code{.tbl} that
 #' holds the role.Each role must be chosen from the following list of abbreviations
 #' - \code{g} (Genetic component of full liability)
@@ -798,14 +798,14 @@ The lower and upper thresholds will be swapped...")
 #'
 #' @return If \code{family} and \code{threshs} are two matrices, lists or
 #' data frames that can be converted into tibbles, if \code{family} has two
-#' columns named like the strings represented in \code{pid} and \code{fam_id}, if
+#' columns named like the strings represented in \code{pid} and \code{fid}, if
 #' \code{threshs} has a column named like the string given in \code{pid} as
 #' well as a column named "lower" and a column named "upper" and if the
 #' liability-scale heritability \code{h2} is a number (\code{length(h2)=1}),
 #' and \code{out}, \code{tol} and
 #' \code{always_add} are of the required form, then the function returns a
 #' tibble with either four or six columns (depending on the length of out).
-#' The first two columns correspond to the columns \code{fam_id} and \code{pid} '
+#' The first two columns correspond to the columns \code{fid} and \code{pid} '
 #' present in \code{family}.
 #' If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third
 #' and fourth column hold the estimated genetic liability as well as the
@@ -822,7 +822,7 @@ The lower and upper thresholds will be swapped...")
 #' \code{genetic_corrmat}, \code{full_corrmat}, \code{out} and \code{tol} are of the
 #' required form, then the function returns a tibble with at least six columns (depending
 #' on the length of out).
-#' The first two columns correspond to the columns \code{fam_id} and \code{pid} present in
+#' The first two columns correspond to the columns \code{fid} and \code{pid} present in
 #' the tibble \code{family}.
 #' If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third and fourth columns
 #' hold the estimated genetic liability as well as the corresponding standard error for the
@@ -849,7 +849,7 @@ The lower and upper thresholds will be swapped...")
 #' n_sim = 1, pop_prev = rep(.1,3))
 #' estimate_liability(.tbl = sims$thresholds, h2 = rep(.5,3),
 #' genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
-#' pid = "indiv_ID", fam_id = "fam_ID", role = "role", out = c(1),
+#' pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 #' phen_names = paste0("phenotype", 1:3), tol = 0.01)
 #'
 #' @seealso \code{\link[future.apply]{future_apply}}, \code{\link{estimate_liability_single}},
@@ -862,8 +862,8 @@ The lower and upper thresholds will be swapped...")
 estimate_liability <- function(.tbl = NULL,
                                family_graphs = NULL,
                                h2 = 0.5,
-                               pid = "PID",
-                               fam_id = "fam_ID",
+                               pid = "pid",
+                               fid = "fid",
                                role = "role",
                                family_graphs_col = "fam_graph",
                                out = c(1),
@@ -883,7 +883,7 @@ estimate_liability <- function(.tbl = NULL,
                                      family_graphs = family_graphs,
                                      h2 = h2,
                                      pid = pid,
-                                     fam_id = fam_id,
+                                     fid = fid,
                                      role = role,
                                      family_graphs_col = family_graphs_col,
                                      out = out,
@@ -900,7 +900,7 @@ estimate_liability <- function(.tbl = NULL,
                                     full_corrmat = full_corrmat,
                                     phen_names = phen_names,
                                     pid = pid,
-                                    fam_id = fam_id,
+                                    fid = fid,
                                     role = role,
                                     family_graphs_col = family_graphs_col,
                                     out = out,

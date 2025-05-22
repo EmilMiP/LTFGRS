@@ -5,7 +5,7 @@
 \title{Constructing covariance matrix from local family graph for multi trait analysis}
 \usage{
 graph_based_covariance_construction_multi(
-  fam_id,
+  fid,
   pid,
   cur_proband_id,
   cur_family_graph,
@@ -16,7 +16,7 @@ graph_based_covariance_construction_multi(
 )
 }
 \arguments{
-\item{fam_id}{Name of column with the family ID}
+\item{fid}{Name of column with the family ID}
 
 \item{pid}{Name of column of personal ID}
 
@@ -66,7 +66,7 @@ full_corrmat <- matrix(0.3, ncol = ntrait, nrow = ntrait)
 diag(full_corrmat) <- 1
 h2_vec <- rep(0.6, ntrait)
 
-graph_based_covariance_construction_multi(fam_id = "fam",
+graph_based_covariance_construction_multi(fid = "fam",
                                           pid = "id",
                                           cur_proband_id = "pid",
                                           cur_family_graph = graph,

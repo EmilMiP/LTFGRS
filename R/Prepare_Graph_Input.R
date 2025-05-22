@@ -25,7 +25,7 @@ utils::globalVariables("data")
 #'
 #' @examples
 #' family <- data.frame(
-#' fam_id = c(1, 1, 1, 1),
+#' fid = c(1, 1, 1, 1),
 #' pid = c(1, 2, 3, 4),
 #' role = c("o", "m", "f", "pgf")
 #' )
@@ -76,7 +76,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' @param CIP_cip_col Name of column with CIP values.
 #' @param status_col Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).
 #' @param lower_equal_upper Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
-#' @param fam_id_col Column that contains the family ID.
+#' @param fid_col Column that contains the family ID.
 #' @param personal_id_col Column that contains the personal ID.
 #' @param personal_thr Should thresholds be based on stratified CIPs or population prevalence?
 #' @param interpolation Type of interpolation, defaults to NULL.
@@ -92,7 +92,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #'
 #' @examples
 #' tbl = data.frame(
-#' fam_id = c(1, 1, 1, 1),
+#' fid = c(1, 1, 1, 1),
 #' pid = c(1, 2, 3, 4),
 #' role = c("o", "m", "f", "pgf"),
 #' sex = c(1, 0, 1, 1),
@@ -118,7 +118,7 @@ prepare_thresholds = function(.tbl,
                               status_col = "status",
                               lower_equal_upper = FALSE,
                               personal_thr = FALSE,
-                              fam_id_col = "fam_id",
+                              fid_col = "fid",
                               personal_id_col = "pid",
                               interpolation = NULL,
                               bst.params = list(

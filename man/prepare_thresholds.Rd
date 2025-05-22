@@ -13,7 +13,7 @@ prepare_thresholds(
   status_col = "status",
   lower_equal_upper = FALSE,
   personal_thr = FALSE,
-  fam_id_col = "fam_id",
+  fid_col = "fid",
   personal_id_col = "pid",
   interpolation = NULL,
   bst.params = list(max_depth = 10, base_score = 0, nthread = 4, min_child_weight = 10),
@@ -38,7 +38,7 @@ prepare_thresholds(
 
 \item{personal_thr}{Should thresholds be based on stratified CIPs or population prevalence?}
 
-\item{fam_id_col}{Column that contains the family ID.}
+\item{fid_col}{Column that contains the family ID.}
 
 \item{personal_id_col}{Column that contains the personal ID.}
 
@@ -58,7 +58,7 @@ This function prepares input for \code{estimate_liability} by calculating thresh
 }
 \examples{
 tbl = data.frame(
-fam_id = c(1, 1, 1, 1),
+fid = c(1, 1, 1, 1),
 pid = c(1, 2, 3, 4),
 role = c("o", "m", "f", "pgf"),
 sex = c(1, 0, 1, 1),

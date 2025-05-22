@@ -11,8 +11,8 @@ estimate_liability_multi(
   genetic_corrmat,
   full_corrmat,
   phen_names = NULL,
-  pid = "PID",
-  fam_id = "fam_ID",
+  pid = "pid",
+  fid = "fid",
   role = "role",
   family_graphs_col = "fam_graph",
   out = c(1),
@@ -62,8 +62,8 @@ Defaults to NULL.}
 \item{pid}{A string holding the name of the column in \code{family} and
 \code{threshs} that hold the personal identifier(s). Defaults to "PID".}
 
-\item{fam_id}{A string holding the name of the column in \code{family} that
-holds the family identifier. Defaults to "fam_ID".}
+\item{fid}{A string holding the name of the column in \code{family} that
+holds the family identifier. Defaults to "fid".}
 
 \item{role}{A string holding the name of the column in \code{.tbl} that
 holds the role.Each role must be chosen from the following list of abbreviations
@@ -99,13 +99,13 @@ standard error of the mean is below 0.2. Defaults to 0.01.}
 \value{
 If \code{family} and \code{threshs} are two matrices, lists or data frames
 that can be converted into tibbles, if \code{family} has two columns named like
-the strings represented in \code{pid} and \code{fam_id}, if \code{threshs} has a
+the strings represented in \code{pid} and \code{fid}, if \code{threshs} has a
 column named like the string given in \code{pid} as well as a column named \code{"lower"}
 and a column named \code{"upper"} and if the liability-scale heritabilities in \code{h2_vec},
 \code{genetic_corrmat}, \code{full_corrmat}, \code{out} and \code{tol} are of the
 required form, then the function returns a tibble with at least six columns (depending
 on the length of out).
-The first two columns correspond to the columns \code{fam_id} and \code{pid} present in
+The first two columns correspond to the columns \code{fid} and \code{pid} present in
 the tibble \code{family}.
 If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third and fourth columns
 hold the estimated genetic liability as well as the corresponding standard error for the
@@ -141,7 +141,7 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, h2 = rep(.5,3),
 n_sim = 1, pop_prev = rep(.1,3))
 estimate_liability_multi(.tbl = sims$thresholds, h2_vec = rep(.5,3),
 genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
-pid = "indiv_ID", fam_id = "fam_ID", role = "role", out = c(1),
+pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 phen_names = paste0("phenotype", 1:3), tol = 0.01)
 
 

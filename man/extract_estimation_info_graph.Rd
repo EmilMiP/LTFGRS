@@ -4,18 +4,12 @@
 \alias{extract_estimation_info_graph}
 \title{Title Internal Function used to extact input needed from graph input for liability estimation}
 \usage{
-extract_estimation_info_graph(
-  cur_fam_graph,
-  cur_fam_id,
-  h2,
-  pid,
-  add_ind = TRUE
-)
+extract_estimation_info_graph(cur_fam_graph, cur_fid, h2, pid, add_ind = TRUE)
 }
 \arguments{
 \item{cur_fam_graph}{neightbourhood graph of degree n around proband}
 
-\item{cur_fam_id}{proband ID}
+\item{cur_fid}{proband ID}
 
 \item{h2}{heritability value from estimate_liability}
 

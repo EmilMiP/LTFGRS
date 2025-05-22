@@ -1,5 +1,5 @@
 utils::globalVariables("role")
-utils::globalVariables("fam_ID")
+utils::globalVariables("fid")
 utils::globalVariables("indiv_ID")
 
 
@@ -105,18 +105,18 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 
       # Selecting the family ID, disease status and age/aoo for
       # individual j, in order to compute the thresholds.
-      select(.tbl, c(fam_ID,
+      select(.tbl, c(fid,
                      tidyselect::matches(paste0(j, "_", phen_name, "_status")),
                      tidyselect::matches(paste0(j, "_", phen_name, "_aoo")))) %>%
         rowwise() %>%
-        mutate(., indiv_ID = paste0(fam_ID,"_", nbr),
+        mutate(., indiv_ID = paste0(fid,"_", nbr),
                role = paste0(j),
                upper = convert_age_to_thresh(!!as.symbol(paste0(j, "_", phen_name, "_aoo")), dist = "logistic", pop_prev = pop_prev, mid_point = 60, slope = 1/8),
                lower = ifelse(!!as.symbol(paste0(j, "_", phen_name, "_status")),
                               convert_age_to_thresh(!!as.symbol(paste0(j, "_", phen_name, "_aoo")), dist = "logistic", pop_prev = pop_prev, mid_point = 60, slope = 1/8),
                               -Inf)) %>%
         rename(., !!as.symbol(paste0("lower_", phen_name)) := lower, !!as.symbol(paste0("upper_", phen_name)) := upper) %>%
-        select(., fam_ID, indiv_ID, role, starts_with("lower"), starts_with("upper")) %>%
+        select(., fid, indiv_ID, role, starts_with("lower"), starts_with("upper")) %>%
         ungroup()
 
     }) %>% do.call("bind_rows",.)
@@ -130,17 +130,17 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 
       # Selecting the family ID, disease status and age/aoo for
       # individual i, in order to compute the thresholds.
-      select(.tbl, c(fam_ID,
+      select(.tbl, c(fid,
                      tidyselect::matches(paste0("^",j,"_status$")),
                      tidyselect::matches(paste0("^",j,"_aoo$")))) %>%
         rowwise() %>%
-        mutate(., indiv_ID = paste0(fam_ID,"_", nbr),
+        mutate(., indiv_ID = paste0(fid,"_", nbr),
                role = paste0(j),
                upper = convert_age_to_thresh(!!as.symbol(paste0(j,"_aoo")), dist = "logistic", pop_prev = pop_prev, mid_point = 60, slope = 1/8),
                lower = ifelse(!!as.symbol(paste0(j,"_status")),
                               convert_age_to_thresh(!!as.symbol(paste0(j,"_aoo")), dist = "logistic", pop_prev = pop_prev, mid_point = 60, slope = 1/8),
                               -Inf)) %>%
-        select(., fam_ID, indiv_ID, role, starts_with("lower"), starts_with("upper")) %>%
+        select(., fid, indiv_ID, role, starts_with("lower"), starts_with("upper")) %>%
         ungroup()
 
     }) %>% do.call("bind_rows",.)
@@ -155,9 +155,9 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 #' @param temp_tbl tibble to add missing proband roles to; originates from .tbl of estimate_liability.
 #' @param role name of role column
 #' @param cur_roles values of the role column
-#' @param cur_fam_id current family ID being worked on
+#' @param cur_fid current family ID being worked on
 #' @param pid name of column with personal IDs
-#' @param fam_id name of column with family IDs
+#' @param fid name of column with family IDs
 #' @param phen_names vector of phenotype names as given in .tbl of estimate_liability. Defaults to NULL (which is single trait).
 #'
 #' @return The provided temp_tbl object is returned, but with the missing "g" and/or "o" roles added, where -Inf and Inf values
@@ -167,7 +167,7 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 #' @importFrom dplyr filter pull tibble %>% bind_rows
 #' @noRd
 
-add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, pid, fam_id, phen_names = NULL) {
+add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fid, pid, fid, phen_names = NULL) {
   # role types to check for, centered on proband
   to_check_for = c("g", "o")
 
@@ -179,7 +179,7 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
   if (length(present) > 0 ) {
     i_pid = (temp_tbl %>% filter(!!as.symbol(role) == present) %>% pull(!!as.symbol(pid)))[1]
   } else {
-    i_pid = pull(temp_tbl, !!as.symbol(fam_id))[1]
+    i_pid = pull(temp_tbl, !!as.symbol(fid))[1]
   }
   # suffixes of roles to be added
   id_suffixes = paste0("_",to_be_added) %>% stringr::str_replace_all(., "_o", "")
@@ -187,7 +187,7 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
   if ( is.null(phen_names) ) { # single trait
     # construct tibble with desired roles
     tibble(
-      !!as.symbol(fam_id) := pull(temp_tbl, !!as.symbol(fam_id))[1],
+      !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
       !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
       !!as.symbol(role)   := to_be_added,
       lower = rep(-Inf, length(to_be_added)),
@@ -198,7 +198,7 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
   } else { # multi trait
     # constructs id rows, then adds lower and upper thresholds from phen_names provided
     tibble(
-      !!as.symbol(fam_id) := pull(temp_tbl, !!as.symbol(fam_id))[1],
+      !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
       !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
       !!as.symbol(role)   := to_be_added
     ) %>%
@@ -218,9 +218,9 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
 #' Title Internal Function used to extact input needed for liability estimation
 #'
 #' @param .tbl .tbl input from estimate_liability
-#' @param cur_fam_id current family ID being worked on
+#' @param cur_fid current family ID being worked on
 #' @param h2 heritability value from estimate_liability
-#' @param fam_id name of family ID column
+#' @param fid name of family ID column
 #' @param pid name of personal ID column
 #' @param role name of role column
 #' @param add_ind Whether the genetic liability be added. Default is TRUE.
@@ -228,9 +228,9 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fam_id, 
 #' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through construct_covmat()
 #'
 #' @export
-extract_estimation_info_tbl = function(.tbl, cur_fam_id, h2, fam_id, pid, role, add_ind = TRUE) {
+extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_ind = TRUE) {
   # extract all with current family ID.
-  temp_tbl = filter(.tbl, !!as.symbol(fam_id) == cur_fam_id)
+  temp_tbl = filter(.tbl, !!as.symbol(fid) == cur_fid)
 
   # Extract the personal numbers and roles for all family members
   pids  <- pull(temp_tbl, !!as.symbol(pid))
@@ -249,9 +249,9 @@ extract_estimation_info_tbl = function(.tbl, cur_fam_id, h2, fam_id, pid, role, 
     temp_tbl = add_missing_roles_for_proband(temp_tbl = temp_tbl,
                                              role = role,
                                              cur_roles = roles,
-                                             cur_fam_id = cur_fam_id,
+                                             cur_fid = cur_fid,
                                              pid = pid,
-                                             fam_id = fam_id)
+                                             fid = fid)
 
   }
 
@@ -269,7 +269,7 @@ extract_estimation_info_tbl = function(.tbl, cur_fam_id, h2, fam_id, pid, role, 
 #' Title Internal Function used to extact input needed from graph input for liability estimation
 #'
 #' @param cur_fam_graph neightbourhood graph of degree n around proband
-#' @param cur_fam_id proband ID
+#' @param cur_fid proband ID
 #' @param h2 heritability value from estimate_liability
 #' @param pid Name of column of personal ID
 #' @param add_ind Whether the genetic liability be added. Default is TRUE.
@@ -278,11 +278,11 @@ extract_estimation_info_tbl = function(.tbl, cur_fam_id, h2, fam_id, pid, role, 
 #'
 #' @export
 #'
-extract_estimation_info_graph = function(cur_fam_graph, cur_fam_id, h2, pid, add_ind = TRUE) {
+extract_estimation_info_graph = function(cur_fam_graph, cur_fid, h2, pid, add_ind = TRUE) {
   # extract current (local) family graph and
   # construct covariance and extract threshold information from graph.
   cov_obj = graph_based_covariance_construction(pid = pid,
-                                                cur_proband_id = cur_fam_id,
+                                                cur_proband_id = cur_fid,
                                                 cur_family_graph = cur_fam_graph,
                                                 h2 = h2, add_ind = add_ind)
   # cov and temp_tbl are ordered during construction

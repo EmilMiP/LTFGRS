@@ -8,8 +8,8 @@ estimate_liability_single(
   .tbl = NULL,
   family_graphs = NULL,
   h2 = 0.5,
-  pid = "PID",
-  fam_id = "fam_ID",
+  pid = "pid",
+  fid = "fid",
   family_graphs_col = "fam_graph",
   role = NULL,
   out = c(1),
@@ -50,8 +50,8 @@ Defaults to 0.5.}
 \item{pid}{A string holding the name of the column in \code{.tbl} (or \code{family} and
 \code{threshs}) that hold the personal identifier(s). Defaults to "PID".}
 
-\item{fam_id}{A string holding the name of the column in \code{.tbl} or \code{family} that
-holds the family identifier. Defaults to "fam_ID".}
+\item{fid}{A string holding the name of the column in \code{.tbl} or \code{family} that
+holds the family identifier. Defaults to "fid".}
 
 \item{family_graphs_col}{Name of column with family graphs in family_graphs. Defaults to "fam_graph".}
 
@@ -94,13 +94,13 @@ genetic and full liability estimates use "Gibbs".}
 \value{
 If \code{family} and \code{threshs} are two matrices, lists or
 data frames that can be converted into tibbles, if \code{family} has two
-columns named like the strings represented in \code{pid} and \code{fam_id}, if
+columns named like the strings represented in \code{pid} and \code{fid}, if
 \code{threshs} has a column named like the string given in \code{pid} as
 well as a column named "lower" and a column named "upper" and if the
 liability-scale heritability \code{h2}, \code{out}, \code{tol} and
 \code{always_add} are of the required form, then the function returns a
 tibble with either four or six columns (depending on the length of out).
-The first two columns correspond to the columns \code{fam_id} and \code{pid} '
+The first two columns correspond to the columns \code{fid} and \code{pid} '
 present in \code{family}.
 If \code{out} is equal to \code{c(1)} or \code{c("genetic")}, the third
 and fourth column hold the estimated genetic liability as well as the
@@ -128,14 +128,14 @@ sims <- simulate_under_LTM(fam_vec = c("m","f","s1"), n_fam = NULL,
 add_ind = TRUE, h2 = 0.5, n_sim=10, pop_prev = .05)
 #
 estimate_liability_single(.tbl = sims$thresholds,
-h2 = 0.5, pid = "indiv_ID", fam_id = "fam_ID", role = "role", out = c(1),
+h2 = 0.5, pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 tol = 0.01)
 #
 sims <- simulate_under_LTM(fam_vec = c(), n_fam = NULL, add_ind = TRUE,
 h2 = 0.5, n_sim=10, pop_prev = .05)
 #
 estimate_liability_single(.tbl = sims$thresholds,
-h2 = 0.5, pid = "indiv_ID", fam_id = "fam_ID", role = "role",
+h2 = 0.5, pid = "indiv_ID", fid = "fid", role = "role",
 out = c("genetic"), tol = 0.01)
 
 }

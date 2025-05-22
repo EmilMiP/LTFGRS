@@ -8,8 +8,8 @@ kendler(
   .tbl = NULL,
   family_graphs = NULL,
   family_graphs_col = "fam_graph",
-  pid = "PID",
-  fam_id = "fam_ID",
+  pid = "pid",
+  fid = "fid",
   role = NULL,
   dadcol,
   momcol,
@@ -47,8 +47,8 @@ See prepare_graph for construction of the graphs. The family graphs Defaults to 
 \item{pid}{A string holding the name of the column in \code{.tbl} (or \code{family} and
 \code{threshs}) that hold the personal identifier(s). Defaults to "PID".}
 
-\item{fam_id}{A string holding the name of the column in \code{.tbl} or \code{family} that
-holds the family identifier. Defaults to "fam_ID".}
+\item{fid}{A string holding the name of the column in \code{.tbl} or \code{family} that
+holds the family identifier. Defaults to "fid".}
 
 \item{role}{A string holding the name of the column in \code{.tbl} that
 holds the role. Each role must be chosen from the following list of abbreviations

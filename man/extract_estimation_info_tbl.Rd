@@ -4,24 +4,16 @@
 \alias{extract_estimation_info_tbl}
 \title{Title Internal Function used to extact input needed for liability estimation}
 \usage{
-extract_estimation_info_tbl(
-  .tbl,
-  cur_fam_id,
-  h2,
-  fam_id,
-  pid,
-  role,
-  add_ind = TRUE
-)
+extract_estimation_info_tbl(.tbl, cur_fid, h2, fid, pid, role, add_ind = TRUE)
 }
 \arguments{
 \item{.tbl}{.tbl input from estimate_liability}
 
-\item{cur_fam_id}{current family ID being worked on}
+\item{cur_fid}{current family ID being worked on}
 
 \item{h2}{heritability value from estimate_liability}
 
-\item{fam_id}{name of family ID column}
+\item{fid}{name of family ID column}
 
 \item{pid}{name of personal ID column}
 

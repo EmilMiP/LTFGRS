@@ -5,7 +5,7 @@ utils::globalVariables("K_pop")
 #'
 #' @param .tbl tibble with threshold and role information
 #' @param pid personal identified
-#' @param fam_id family identifier
+#' @param fid family identifier
 #' @param role role of the individual(s)
 #' @param useMixture logical variable. If TRUE, the function will return for K_i and K_pop columns for mixture estimates of liability.
 #'
@@ -13,7 +13,7 @@ utils::globalVariables("K_pop")
 #'
 #' @importFrom dplyr pull select
 #' @noRd
-validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
+validating_tbl_input = function(.tbl, pid, fid, role, useMixture) {
   # Turning .tbl into a tibble
   # if it is not of class tbl
   if (!is.null(.tbl) && !tibble::is_tibble(.tbl))  .tbl <- tibble::as_tibble(.tbl)
@@ -23,9 +23,9 @@ validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
   # if role is supplied, convert to string
   if (!is.null(role)) role <- as.character(role)
 
-  # Checking that .tbl has three columns named pid, fam_id and role
+  # Checking that .tbl has three columns named pid, fid and role
   if (!(pid %in% colnames(.tbl))) stop(paste0("The column ", pid," does not exist in the tibble .tbl..."))
-  if (!(fam_id %in% colnames(.tbl))) stop(paste0("The column ", fam_id," does not exist in the tibble .tbl..."))
+  if (!(fid %in% colnames(.tbl))) stop(paste0("The column ", fid," does not exist in the tibble .tbl..."))
   if (!(role %in% colnames(.tbl))) stop(paste0("The column ", role," does not exist in the tibble .tbl..."))
 
   # In addition, we check that two columns named lower and upper are present
@@ -40,7 +40,7 @@ validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
   # we select only the relevant ones.
   if (useMixture) {
     .tbl <- select(.tbl,
-                   !!as.symbol(fam_id),
+                   !!as.symbol(fid),
                    !!as.symbol(pid),
                    !!as.symbol(role),
                    tidyselect::starts_with("lower"),
@@ -50,7 +50,7 @@ validating_tbl_input = function(.tbl, pid, fam_id, role, useMixture) {
   } else {
 
     .tbl <- select(.tbl,
-                   !!as.symbol(fam_id),
+                   !!as.symbol(fid),
                    !!as.symbol(pid),
                    !!as.symbol(role),
                    tidyselect::starts_with("lower"),
