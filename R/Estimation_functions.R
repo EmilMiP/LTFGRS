@@ -39,7 +39,7 @@ estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn
 }
 
 
-#' Title Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband
+#' Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband
 #'
 #' @param cov Covariance (kinship matrix times heritability with corrected diagonal) matrix
 #' @param tbl Tibble with lower and upper bounds for the Gibbs sampler
@@ -47,7 +47,7 @@ estimation_function = function(tbl, cov, out = NA, tol = 0.01, method = NA, burn
 #' @param tol Convergence criteria, tolerance
 #' @param burn_in Number of burn-in iterations
 #'
-#' @returns Formatted liability estiamte(s) and standard error(s) of the mean for the proband.
+#' @returns Formatted liability estimate(s) and standard error(s) of the mean for the proband.
 #' @export
 #'
 #' @importFrom dplyr pull

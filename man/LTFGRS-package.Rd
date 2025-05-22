@@ -4,7 +4,7 @@
 \name{LTFGRS-package}
 \alias{LTFGRS}
 \alias{LTFGRS-package}
-\title{LTFGRS: Implementation of several phenotype-based family history genetic predictors}
+\title{LTFGRS: Implementation of several phenotype-based family genetic risk scores}
 \description{
 More about what it does (maybe more than one line). Continuation lines should be indented.
 }

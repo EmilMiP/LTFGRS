@@ -2,7 +2,7 @@
 % Please edit documentation in R/Estimation_functions.R
 \name{Gibbs_estimator}
 \alias{Gibbs_estimator}
-\title{Title Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband}
+\title{Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband}
 \usage{
 Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000)
 }
@@ -18,10 +18,10 @@ Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000)
 \item{burn_in}{Number of burn-in iterations}
 }
 \value{
-Formatted liability estiamte(s) and standard error(s) of the mean for the proband.
+Formatted liability estimate(s) and standard error(s) of the mean for the proband.
 }
 \description{
-Title Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband
+Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband
 }
 \examples{
 # uninformative sampling:

@@ -1,8 +1,10 @@
 ---
 title: "LTFGRS Workflow: Prepare Genetic Liability for Prediction"
 output: rmarkdown::html_vignette
+author: "Emil M. Pedersen"
+date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{LTFGRS_workflow_prediction}
+  %\VignetteIndexEntry{LTFGRS Workflow: Prepare Genetic Liability for Prediction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

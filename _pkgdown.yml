@@ -2,3 +2,62 @@ url: https://emilmip.github.io/LTFGRS/
 template:
   bootstrap: 5
 
+
+reference:
+- title: "Family history estimators"
+  desc: "Family history estimators available in the LTFGRS package."
+  contents:
+  - estimate_liability
+  - estimate_gen_liability_ltfh
+  - kendler
+
+- title: "Data preparation functions"
+  desc: "Functions used to prepare data for the family history estimators."
+  contents:
+  - assign_family_specific_thresholds
+  - censor_family_onsets
+  - censor_family_onsets_per_family
+  - fam_graph_attach_attribute
+  - get_family_graphs
+  - get_onset_time
+  - prepare_LTFHPlus_input
+  - prepare_graph
+
+- title: "Simulation functions"
+  desc: "Functions used to simulate data for the liability threshold model family history estimators."
+  contents:
+  - construct_covmat
+  - construct_covmat_multi
+  - construct_covmat_single
+  - convert_age_to_cir
+  - convert_age_to_thresh
+  - convert_cir_to_age
+  - convert_liability_to_aoo
+  - estimate_liability_single
+  - estimate_liability_multi
+  - simulate_under_LTM
+  - simulate_under_LTM_multi
+  - simulate_under_LTM_single
+  - convert_format
+
+- title: "Internal functions and functions used in the estimator functions"
+  desc: "The primary functions used in the family history estimators and some helper functions."
+  contents:
+  - Gibbs_estimator
+  - PA_algorithm
+  - rtmvnorm.gibbs
+  - tnorm_mean
+  - tnorm_var
+  - tnorm_mixture_conditional
+  - truncated_normal_cdf
+  - get_relatedness
+  - get_all_combs
+  - get_covmat
+  - graph_based_covariance_construction
+  - graph_based_covariance_construction_multi
+  - extract_estimation_info_graph
+  - extract_estimation_info_tbl
+  - correct_positive_definite
+  - kendler_family_calculations
+  - convert_observed_to_liability_scale
+
