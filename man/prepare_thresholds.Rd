@@ -11,7 +11,7 @@ prepare_thresholds(
   CIP_merge_columns = c("sex", "birth_year", "age"),
   CIP_cip_col = "cip",
   status_col = "status",
-  use_fixed_case_thr = FALSE,
+  lower_equal_upper = FALSE,
   personal_thr = FALSE,
   fam_id_col = "fam_id",
   personal_id_col = "pid",
@@ -34,7 +34,7 @@ prepare_thresholds(
 
 \item{status_col}{Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).}
 
-\item{use_fixed_case_thr}{Should the threshold be fixed for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.}
+\item{lower_equal_upper}{Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.}
 
 \item{personal_thr}{Should thresholds be based on stratified CIPs or population prevalence?}
 

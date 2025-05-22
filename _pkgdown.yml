@@ -16,11 +16,11 @@ reference:
   contents:
   - assign_family_specific_thresholds
   - censor_family_onsets
-  - censor_family_onsets_per_family
+  - familywise_censoring
   - fam_graph_attach_attribute
   - get_family_graphs
   - get_onset_time
-  - prepare_LTFHPlus_input
+  - prepare_thresholds
   - prepare_graph
 
 - title: "Simulation functions"

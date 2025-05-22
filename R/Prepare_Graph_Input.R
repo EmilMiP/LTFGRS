@@ -75,7 +75,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' @param CIP_merge_columns The columns the CIPs are subset by, e.g. CIPs by birth_year, sex.
 #' @param CIP_cip_col Name of column with CIP values.
 #' @param status_col Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).
-#' @param use_fixed_case_thr Should the threshold be fixed for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
+#' @param lower_equal_upper Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
 #' @param fam_id_col Column that contains the family ID.
 #' @param personal_id_col Column that contains the personal ID.
 #' @param personal_thr Should thresholds be based on stratified CIPs or population prevalence?
@@ -116,7 +116,7 @@ prepare_thresholds = function(.tbl,
                               CIP_merge_columns = c("sex", "birth_year", "age"),
                               CIP_cip_col = "cip",
                               status_col = "status",
-                              use_fixed_case_thr = FALSE,
+                              lower_equal_upper = FALSE,
                               personal_thr = FALSE,
                               fam_id_col = "fam_id",
                               personal_id_col = "pid",
@@ -173,7 +173,7 @@ prepare_thresholds = function(.tbl,
       dplyr::mutate(thr = qnorm(!!as.symbol(CIP_cip_col), lower.tail = FALSE),
                     lower = ifelse(!!as.symbol(status_col) == 1, thr, -Inf),
                     upper = ifelse(!!as.symbol(status_col) == 1,
-                                   ifelse(use_fixed_case_thr, thr, Inf),
+                                   ifelse(lower_equal_upper, thr, Inf),
                                    thr))
 
 
@@ -222,7 +222,7 @@ prepare_thresholds = function(.tbl,
                           qnorm(K_pop, lower.tail = FALSE)),
              lower = ifelse(!!as.symbol(status_col), thr, -Inf),
              upper = ifelse(!!as.symbol(status_col),
-                            ifelse(use_fixed_case_thr, thr, Inf),
+                            ifelse(lower_equal_upper, thr, Inf),
                             thr)) %>%
       rename(K_i = cip_pred)
 
@@ -441,7 +441,7 @@ get_onset_time = function(tbl, start, end, event,
                           status_col = "status",
                           aod_col = "aod",
                           age_eof_col = "age") {
-  # checks on date format is moved to censor_family_onsets_per_family
+  # checks on date format is moved to familywise_censoring
 
   start_sym = sym(start)
   end_sym = sym(end)
@@ -506,7 +506,7 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
   # TODO: This function may return negative ages. Should these people be removed? Negative ages are mostly due to the end of follow up happening before the birth of someone.
   # if event, start, or end is not a date column, throw error
 
-  # checks on date format is moved to censor_family_onsets_per_family
+  # checks on date format is moved to familywise_censoring
 
   # only doing these once
   start_sym = sym(start)
@@ -671,7 +671,7 @@ fam_graph_attach_attribute = function(family_graphs,
 #'
 #' @examples
 #' # See Vignettes.
-censor_family_onsets_per_family = function(
+familywise_censoring = function(
     family_graphs,
     tbl,
     start,
@@ -691,25 +691,25 @@ censor_family_onsets_per_family = function(
 
   # check merge_by length:
   if (length(merge_by) != 1) {
-    warning("censor_family_onsets_per_family: merge_by is tested with a single column name or a named vector of length.")
+    warning("familywise_censoring: merge_by is tested with a single column name or a named vector of length.")
   }
 
   # are the values in merge_by present in tbl and family_graphs?
 
   # tbl
   if (any(!(merge_by %in% colnames(tbl)))) {
-    stop(paste0("censor_family_onsets_per_family: The following columns are not present in the provided tbl: ", paste(setdiff(merge_by, colnames(tbl)), collapse = ", ")))
+    stop(paste0("familywise_censoring: The following columns are not present in the provided tbl: ", paste(setdiff(merge_by, colnames(tbl)), collapse = ", ")))
   }
   # note: it does not make sense to check for presence in family_graphs
   # since that column is created in this function.
 
   if (fid == pid) {
-    stop("censor_family_onsets_per_family: fid and pid cannot be the same. Please provide different column names.")
+    stop("familywise_censoring: fid and pid cannot be the same. Please provide different column names.")
   }
 
   # are all 'fid's present in tbl?
   if (any( !(family_graphs[[fid]] %in% tbl[[merge_by]]))) {
-    stop(paste0("censor_family_onsets_per_family: The following family ids are not present in the provided tbl: ", paste(setdiff(family_graphs[[fid]], tbl[[merge_by]]), collapse = ", ")))
+    stop(paste0("familywise_censoring: The following family ids are not present in the provided tbl: ", paste(setdiff(family_graphs[[fid]], tbl[[merge_by]]), collapse = ", ")))
   }
   # we cannot perform the reverse check, as we do not expect all values in tbl to be present in family graphs in the same way.
   # instead we will extract IDs from the family graph and check that they are present in tbl.
@@ -722,12 +722,12 @@ censor_family_onsets_per_family = function(
 
   # checking if all pid are present in tbl
   if (typeof(family_graphs[[pid]]) != typeof(tbl[[merge_by]])) {
-    stop(paste0("censor_family_onsets_per_family: The following columns are not of the same type: '", pid, "' in family_graphs and '", unname(merge_by), "' in tbl."))
+    stop(paste0("familywise_censoring: The following columns are not of the same type: '", pid, "' in family_graphs and '", unname(merge_by), "' in tbl."))
   }
 
   # check that all family graphs pid are present in tbl
   if (any(!(unique(family_graphs[[pid]]) %in% tbl[[merge_by]]))) {
-    stop(paste0("censor_family_onsets_per_family: The following ids are not present in the provided family graphs (ids within fam_graph_col of family_graph): ", paste(setdiff(unique(family_graphs[[pid]]), tbl[[merge_by]]), collapse = ", ")))
+    stop(paste0("familywise_censoring: The following ids are not present in the provided family graphs (ids within fam_graph_col of family_graph): ", paste(setdiff(unique(family_graphs[[pid]]), tbl[[merge_by]]), collapse = ", ")))
   }
 
   # checking date format of tbl
