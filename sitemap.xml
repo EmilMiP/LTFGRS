@@ -10,9 +10,8 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/Gibbs_estimator.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/LTFGRS-package.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/PA_algorithm.html</loc></url>
-<url><loc>https://emilmip.github.io/LTFGRS/reference/assign_family_specific_thresholds.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/attach_attributes.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/censor_family_onsets.html</loc></url>
-<url><loc>https://emilmip.github.io/LTFGRS/reference/censor_family_onsets_per_family.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat_single.html</loc></url>
@@ -29,7 +28,8 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/estimate_liability_single.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_graph.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl.html</loc></url>
-<url><loc>https://emilmip.github.io/LTFGRS/reference/fam_graph_attach_attribute.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/familywise_attach_attributes.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/familywise_censoring.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_all_combs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_family_graphs.html</loc></url>
@@ -40,8 +40,8 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/index.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/kendler.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/kendler_family_calculations.html</loc></url>
-<url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_LTFHPlus_input.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_graph.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_thresholds.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/rtmvnorm.gibbs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM_multi.html</loc></url>

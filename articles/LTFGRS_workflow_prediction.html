@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">Emil M.
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2025-05-22</h4>
+            <h4 data-toc-skip class="date">2025-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/LTFGRS_workflow_prediction.Rmd" class="external-link"><code>vignettes/LTFGRS_workflow_prediction.Rmd</code></a></small>
       <div class="d-none name"><code>LTFGRS_workflow_prediction.Rmd</code></div>
@@ -319,9 +319,9 @@ context:</p>
 illustrate the new pedigree.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_graphs</span><span class="op">$</span><span class="va">fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH f3d8cee DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH db340a9 DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c)</span></span>
-<span><span class="co">#&gt; + edges from f3d8cee (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from db340a9 (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -338,12 +338,12 @@ follow up of the proband is used to estimate the genetic liability of
 the proband. In real world analysis, the end of follow up can be due to
 the proband being diagnosed or any censoring event, such as end of
 register follow up, emigration, or death. The function
-<code><a href="../reference/censor_family_onsets_per_family.html">censor_family_onsets_per_family()</a></code> offers a way to censor
-future events on a family basis, by censoring all events that happen
-after the end of follow up of the proband (<code>indiv_eof</code>).</p>
+<code><a href="../reference/familywise_censoring.html">familywise_censoring()</a></code> offers a way to censor future events
+on a family basis, by censoring all events that happen after the end of
+follow up of the proband (<code>indiv_eof</code>).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate family specific thresholds</span></span>
-<span><span class="va">info</span> <span class="op">=</span> <span class="fu"><a href="../reference/censor_family_onsets_per_family.html">censor_family_onsets_per_family</a></span><span class="op">(</span></span>
+<span><span class="va">info</span> <span class="op">=</span> <span class="fu"><a href="../reference/familywise_censoring.html">familywise_censoring</a></span><span class="op">(</span></span>
 <span>  family_graphs <span class="op">=</span> <span class="va">family_graphs</span>,</span>
 <span>  tbl <span class="op">=</span> <span class="va">pheno</span>,</span>
 <span>  start <span class="op">=</span> <span class="st">"fdato"</span>,</span>
@@ -357,8 +357,8 @@ after the end of follow up of the proband (<code>indiv_eof</code>).</p>
 {"columns":[{"label":["fid"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pid"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sex"],"name":[3],"type":["int"],"align":["right"]},{"label":["fdato"],"name":[4],"type":["date"],"align":["right"]},{"label":["birth_year"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["adhd"],"name":[6],"type":["date"],"align":["right"]},{"label":["indiv_eof"],"name":[7],"type":["date"],"align":["right"]},{"label":["status"],"name":[8],"type":["int"],"align":["right"]},{"label":["aod"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"dad","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"dad","2":"pgf","3":"1","4":"2000-06-10","5":"2000","6":"2008-12-22","7":"2010-12-31","8":"1","9":"8.533881","10":"8.533880903"},{"1":"dad","2":"pgm","3":"1","4":"1998-09-13","5":"1998","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"12.298425736"},{"1":"dad","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"28.772073922"},{"1":"dad","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"19.879534565"},{"1":"dad","2":"sib","3":"1","4":"1969-11-11","5":"1969","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"41.136208077"},{"1":"dad","2":"pid","3":"1","4":"1958-10-17","5":"1958","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"52.205338809"},{"1":"dad","2":"phs","3":"0","4":"1987-06-01","5":"1987","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"23.583846680"},{"1":"mom","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"1969-11-08","8":"1","9":"12.142368","10":"12.142368241"},{"1":"mom","2":"mgf","3":"1","4":"1993-11-04","5":"1993","6":"2004-04-23","7":"1969-11-08","8":"0","9":"NA","10":"-23.989048597"},{"1":"mom","2":"mgm","3":"1","4":"1953-03-23","5":"1953","6":"<NA>","7":"1969-11-08","8":"0","9":"NA","10":"16.629705681"},{"1":"mom","2":"maunt","3":"0","4":"1956-10-04","5":"1956","6":"<NA>","7":"1969-11-08","8":"0","9":"NA","10":"13.095140315"},{"1":"mom","2":"sib","3":"1","4":"1969-11-11","5":"1969","6":"<NA>","7":"1969-11-08","8":"0","9":"NA","10":"-0.008213552"},{"1":"mom","2":"pid","3":"1","4":"1958-10-17","5":"1958","6":"<NA>","7":"1969-11-08","8":"0","9":"NA","10":"11.060917180"},{"1":"mom","2":"mhs","3":"0","4":"1958-11-21","5":"1958","6":"1991-03-02","7":"1969-11-08","8":"0","9":"NA","10":"10.965092402"},{"1":"dad2","2":"dad2","3":"1","4":"2000-01-27","5":"2000","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"10.926762491"},{"1":"dad2","2":"pgf2","3":"1","4":"1977-12-11","5":"1977","6":"2018-11-28","7":"2010-12-31","8":"0","9":"NA","10":"33.054072553"},{"1":"dad2","2":"pgm2","3":"0","4":"1994-11-16","5":"1994","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"16.123203285"},{"1":"dad2","2":"mhs","3":"0","4":"1958-11-21","5":"1958","6":"1991-03-02","7":"2010-12-31","8":"1","9":"32.276523","10":"32.276522930"},{"1":"mom2","2":"mom2","3":"1","4":"1978-08-17","5":"1978","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"32.372347707"},{"1":"mom2","2":"phs","3":"0","4":"1987-06-01","5":"1987","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"23.583846680"},{"1":"mgf","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"2004-04-23","8":"1","9":"12.142368","10":"12.142368241"},{"1":"mgf","2":"mgf","3":"1","4":"1993-11-04","5":"1993","6":"2004-04-23","7":"2004-04-23","8":"1","9":"10.466804","10":"10.466803559"},{"1":"mgf","2":"maunt","3":"0","4":"1956-10-04","5":"1956","6":"<NA>","7":"2004-04-23","8":"0","9":"NA","10":"47.550992471"},{"1":"mgf","2":"hsmuncle","3":"0","4":"1948-08-08","5":"1948","6":"2015-04-21","7":"2004-04-23","8":"0","9":"NA","10":"55.707049966"},{"1":"mgm","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"2010-12-31","8":"1","9":"12.142368","10":"12.142368241"},{"1":"mgm","2":"mgm","3":"1","4":"1953-03-23","5":"1953","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"57.774127310"},{"1":"mgm","2":"maunt","3":"0","4":"1956-10-04","5":"1956","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"54.239561944"},{"1":"pgf","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2008-12-22","8":"0","9":"NA","10":"51.266255989"},{"1":"pgf","2":"pgf","3":"1","4":"2000-06-10","5":"2000","6":"2008-12-22","7":"2008-12-22","8":"1","9":"8.533881","10":"8.533880903"},{"1":"pgf","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2008-12-22","8":"0","9":"NA","10":"26.748802190"},{"1":"pgf","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2008-12-22","8":"0","9":"NA","10":"17.856262834"},{"1":"pgm","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"pgm","2":"pgm","3":"1","4":"1998-09-13","5":"1998","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"12.298425736"},{"1":"pgm","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"28.772073922"},{"1":"pgm","2":"hspaunt","3":"0","4":"1973-12-09","5":"1973","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"37.059548255"},{"1":"pgm","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"19.879534565"},{"1":"pgf2","2":"dad2","3":"1","4":"2000-01-27","5":"2000","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"10.926762491"},{"1":"pgf2","2":"pgf2","3":"1","4":"1977-12-11","5":"1977","6":"2018-11-28","7":"2010-12-31","8":"0","9":"NA","10":"33.054072553"},{"1":"pgm2","2":"dad2","3":"1","4":"2000-01-27","5":"2000","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"10.926762491"},{"1":"pgm2","2":"pgm2","3":"0","4":"1994-11-16","5":"1994","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"16.123203285"},{"1":"pauntH","2":"pauntH","3":"1","4":"1997-11-05","5":"1997","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"13.152635181"},{"1":"pauntH","2":"pacousin","3":"0","4":"1984-02-23","5":"1984","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"26.852840520"},{"1":"paunt","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"paunt","2":"pgf","3":"1","4":"2000-06-10","5":"2000","6":"2008-12-22","7":"2010-12-31","8":"1","9":"8.533881","10":"8.533880903"},{"1":"paunt","2":"pgm","3":"1","4":"1998-09-13","5":"1998","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"12.298425736"},{"1":"paunt","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"28.772073922"},{"1":"paunt","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"19.879534565"},{"1":"paunt","2":"pacousin","3":"0","4":"1984-02-23","5":"1984","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"26.852840520"},{"1":"newpgf","2":"newpgf","3":"1","4":"1976-05-22","5":"1976","6":"1979-12-16","7":"1979-12-16","8":"1","9":"3.567420","10":"3.567419576"},{"1":"newpgf","2":"hspaunt","3":"0","4":"1973-12-09","5":"1973","6":"<NA>","7":"1979-12-16","8":"0","9":"NA","10":"6.017796030"},{"1":"hspauntH","2":"hspauntH","3":"0","4":"1998-05-13","5":"1998","6":"2000-07-09","7":"2000-07-09","8":"1","9":"2.157426","10":"2.157426420"},{"1":"hspauntH","2":"hspacousin","3":"1","4":"1975-11-18","5":"1975","6":"2018-09-18","7":"2000-07-09","8":"0","9":"NA","10":"24.640657084"},{"1":"hspaunt","2":"pgm","3":"1","4":"1998-09-13","5":"1998","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"12.298425736"},{"1":"hspaunt","2":"newpgf","3":"1","4":"1976-05-22","5":"1976","6":"1979-12-16","7":"2010-12-31","8":"1","9":"3.567420","10":"3.567419576"},{"1":"hspaunt","2":"hspaunt","3":"0","4":"1973-12-09","5":"1973","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"37.059548255"},{"1":"hspaunt","2":"hspacousin","3":"1","4":"1975-11-18","5":"1975","6":"2018-09-18","7":"2010-12-31","8":"0","9":"NA","10":"35.118412047"},{"1":"puncle","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"puncle","2":"pgf","3":"1","4":"2000-06-10","5":"2000","6":"2008-12-22","7":"2010-12-31","8":"1","9":"8.533881","10":"8.533880903"},{"1":"puncle","2":"pgm","3":"1","4":"1998-09-13","5":"1998","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"12.298425736"},{"1":"puncle","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"28.772073922"},{"1":"puncle","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"19.879534565"},{"1":"puncle","2":"pucousin","3":"1","4":"1995-03-01","5":"1995","6":"2019-05-09","7":"2010-12-31","8":"0","9":"NA","10":"15.835728953"},{"1":"puncleW","2":"puncleW","3":"1","4":"1997-09-16","5":"1997","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"13.289527721"},{"1":"puncleW","2":"pucousin","3":"1","4":"1995-03-01","5":"1995","6":"2019-05-09","7":"2010-12-31","8":"0","9":"NA","10":"15.835728953"},{"1":"mauntH","2":"mauntH","3":"0","4":"1995-10-10","5":"1995","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"15.225188227"},{"1":"mauntH","2":"macousin","3":"1","4":"1949-06-16","5":"1949","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"61.541409993"},{"1":"maunt","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"2010-12-31","8":"1","9":"12.142368","10":"12.142368241"},{"1":"maunt","2":"mgf","3":"1","4":"1993-11-04","5":"1993","6":"2004-04-23","7":"2010-12-31","8":"1","9":"10.466804","10":"10.466803559"},{"1":"maunt","2":"mgm","3":"1","4":"1953-03-23","5":"1953","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"57.774127310"},{"1":"maunt","2":"maunt","3":"0","4":"1956-10-04","5":"1956","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"54.239561944"},{"1":"maunt","2":"macousin","3":"1","4":"1949-06-16","5":"1949","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"61.541409993"},{"1":"newmgm","2":"newmgm","3":"0","4":"1945-06-17","5":"1945","6":"1970-09-26","7":"1970-09-26","8":"1","9":"25.275838","10":"25.275838467"},{"1":"newmgm","2":"hsmuncle","3":"0","4":"1948-08-08","5":"1948","6":"2015-04-21","7":"1970-09-26","8":"0","9":"NA","10":"22.132785763"},{"1":"hsmuncle","2":"mgf","3":"1","4":"1993-11-04","5":"1993","6":"2004-04-23","7":"2010-12-31","8":"1","9":"10.466804","10":"10.466803559"},{"1":"hsmuncle","2":"newmgm","3":"0","4":"1945-06-17","5":"1945","6":"1970-09-26","7":"2010-12-31","8":"1","9":"25.275838","10":"25.275838467"},{"1":"hsmuncle","2":"hsmuncle","3":"0","4":"1948-08-08","5":"1948","6":"2015-04-21","7":"2010-12-31","8":"0","9":"NA","10":"62.395619439"},{"1":"hsmuncle","2":"hsmucousin","3":"0","4":"1996-05-03","5":"1996","6":"2008-11-09","7":"2010-12-31","8":"1","9":"12.520192","10":"12.520191650"},{"1":"hsmuncleW","2":"hsmuncleW","3":"0","4":"1961-04-17","5":"1961","6":"1972-11-07","7":"1972-11-07","8":"1","9":"11.559206","10":"11.559206023"},{"1":"hsmuncleW","2":"hsmucousin","3":"0","4":"1996-05-03","5":"1996","6":"2008-11-09","7":"1972-11-07","8":"0","9":"NA","10":"-23.485284052"},{"1":"sib","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"sib","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"2010-12-31","8":"1","9":"12.142368","10":"12.142368241"},{"1":"sib","2":"sib","3":"1","4":"1969-11-11","5":"1969","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"41.136208077"},{"1":"sib","2":"pid","3":"1","4":"1958-10-17","5":"1958","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"52.205338809"},{"1":"pid","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"pid","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"2010-12-31","8":"1","9":"12.142368","10":"12.142368241"},{"1":"pid","2":"sib","3":"1","4":"1969-11-11","5":"1969","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"41.136208077"},{"1":"pid","2":"pid","3":"1","4":"1958-10-17","5":"1958","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"52.205338809"},{"1":"mhs","2":"mom","3":"0","4":"1957-09-17","5":"1957","6":"1969-11-08","7":"1991-03-02","8":"1","9":"12.142368","10":"12.142368241"},{"1":"mhs","2":"dad2","3":"1","4":"2000-01-27","5":"2000","6":"<NA>","7":"1991-03-02","8":"0","9":"NA","10":"-8.906228611"},{"1":"mhs","2":"mhs","3":"0","4":"1958-11-21","5":"1958","6":"1991-03-02","7":"1991-03-02","8":"1","9":"32.276523","10":"32.276522930"},{"1":"phs","2":"dad","3":"0","4":"1957-09-16","5":"1957","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"53.289527721"},{"1":"phs","2":"mom2","3":"1","4":"1978-08-17","5":"1978","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"32.372347707"},{"1":"phs","2":"phs","3":"0","4":"1987-06-01","5":"1987","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"23.583846680"},{"1":"pacousin","2":"pauntH","3":"1","4":"1997-11-05","5":"1997","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"13.152635181"},{"1":"pacousin","2":"paunt","3":"0","4":"1982-03-24","5":"1982","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"28.772073922"},{"1":"pacousin","2":"pacousin","3":"0","4":"1984-02-23","5":"1984","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"26.852840520"},{"1":"hspacousin","2":"hspauntH","3":"0","4":"1998-05-13","5":"1998","6":"2000-07-09","7":"2010-12-31","8":"1","9":"2.157426","10":"2.157426420"},{"1":"hspacousin","2":"hspaunt","3":"0","4":"1973-12-09","5":"1973","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"37.059548255"},{"1":"hspacousin","2":"hspacousin","3":"1","4":"1975-11-18","5":"1975","6":"2018-09-18","7":"2010-12-31","8":"0","9":"NA","10":"35.118412047"},{"1":"pucousin","2":"puncle","3":"0","4":"1991-02-13","5":"1991","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"19.879534565"},{"1":"pucousin","2":"puncleW","3":"1","4":"1997-09-16","5":"1997","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"13.289527721"},{"1":"pucousin","2":"pucousin","3":"1","4":"1995-03-01","5":"1995","6":"2019-05-09","7":"2010-12-31","8":"0","9":"NA","10":"15.835728953"},{"1":"macousin","2":"mauntH","3":"0","4":"1995-10-10","5":"1995","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"15.225188227"},{"1":"macousin","2":"maunt","3":"0","4":"1956-10-04","5":"1956","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"54.239561944"},{"1":"macousin","2":"macousin","3":"1","4":"1949-06-16","5":"1949","6":"<NA>","7":"2010-12-31","8":"0","9":"NA","10":"61.541409993"},{"1":"hsmucousin","2":"hsmuncle","3":"0","4":"1948-08-08","5":"1948","6":"2015-04-21","7":"2008-11-09","8":"0","9":"NA","10":"60.254620123"},{"1":"hsmucousin","2":"hsmuncleW","3":"0","4":"1961-04-17","5":"1961","6":"1972-11-07","7":"2008-11-09","8":"1","9":"11.559206","10":"11.559206023"},{"1":"hsmucousin","2":"hsmucousin","3":"0","4":"1996-05-03","5":"1996","6":"2008-11-09","7":"2008-11-09","8":"1","9":"12.520192","10":"12.520191650"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>The function <code><a href="../reference/censor_family_onsets_per_family.html">censor_family_onsets_per_family()</a></code> will
-return a tibble with the following additional columns:</p>
+<p>The function <code><a href="../reference/familywise_censoring.html">familywise_censoring()</a></code> will return a tibble
+with the following additional columns:</p>
 <ul>
 <li>
 <code>status</code>: Assigned case-control status based on the
@@ -394,13 +394,13 @@ integer values. This means we may need to approximate the CIP values
 between the provided values. We offer an XGboost based approach to
 interpolate the CIPs between the provided values.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fam_thrs</span> <span class="op">=</span> <span class="fu"><a href="../reference/prepare_LTFHPlus_input.html">prepare_LTFHPlus_input</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">fam_thrs</span> <span class="op">=</span> <span class="fu"><a href="../reference/prepare_thresholds.html">prepare_thresholds</a></span><span class="op">(</span></span>
 <span>  .tbl <span class="op">=</span> <span class="va">info</span>,</span>
 <span>  CIP <span class="op">=</span> <span class="va">CIP</span>,</span>
 <span>  age_col <span class="op">=</span> <span class="st">"age"</span> ,</span>
-<span>  use_fixed_case_thr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  lower_equal_upper <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  personal_thr <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>  fam_id_col <span class="op">=</span> <span class="st">"fid"</span>,</span>
+<span>  fid_col <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>  personal_id_col <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>  interpolation <span class="op">=</span> <span class="st">"xgboost"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -420,17 +420,18 @@ non-informative threshold
 to max of <code>min_CIP_value</code> and the predicted CIP
 [<code>K_i</code>]). In other words, these individuals will have no
 impact on the estimate.</p>
-<p>The function <code><a href="../reference/prepare_LTFHPlus_input.html">prepare_LTFHPlus_input()</a></code> has several
-options that are worth pointing out. The first is
-<code>use_fixed_case_thr</code>, which is used to determine if the
+<p>The function <code><a href="../reference/prepare_thresholds.html">prepare_thresholds()</a></code> has several options
+that are worth pointing out. The first is
+<code>lower_equal_upper</code>, which is used to determine if the
 <code>upper</code> and <code>lower</code> thresholds should be the same
 for cases or not. This may be useful if the CIP values are considered
 very accurate, as it may lead to more accurate genetic liability
 estimates. The second is <code>personal_thr</code>, which specifies if
-thresholds should be based on <code>K_i</code> or
-<code>K_pop</code>.</p>
-<p>The function <code><a href="../reference/prepare_LTFHPlus_input.html">prepare_LTFHPlus_input()</a></code> will return a
-tibble with the following additional columns:</p>
+thresholds should be based on <code>K_i</code> or <code>K_pop</code>.
+Basing the thresholds on <code>K_i</code> yields personalised thresholds
+that are based on the stratification of the CIPs.</p>
+<p>The function <code><a href="../reference/prepare_thresholds.html">prepare_thresholds()</a></code> will return a tibble
+with the following additional columns:</p>
 <ul>
 <li>
 <code>K_i</code>: The CIP value for the individual. <code>K_i</code>
@@ -463,7 +464,7 @@ graphs to calculate all necessary values for the genetic liability, if
 the thresholds are stored as attributes in the family graphs. We can
 attach the thresholds from <code>fam_thrs</code> to
 <code>family_graphs</code> with the function
-<code><a href="../reference/fam_graph_attach_attribute.html">fam_graph_attach_attribute()</a></code>. The function merges on the
+<code><a href="../reference/familywise_attach_attributes.html">familywise_attach_attributes()</a></code>. The function merges on the
 <code>fid</code> column and attaches any columns in
 <code>fam_attr</code> that are specified in <code>cols_to_attach</code>.
 Since the purpose of the genetic liability we are estimating is
@@ -477,12 +478,12 @@ and
 <code>censor_proband_thrs = TRUE</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># attach family specific thresholds</span></span>
-<span><span class="va">ltfgrs_input</span> <span class="op">=</span> <span class="fu"><a href="../reference/fam_graph_attach_attribute.html">fam_graph_attach_attribute</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">family_graphs</span>,</span>
-<span>                                          fam_attr <span class="op">=</span> <span class="va">fam_thrs</span>,</span>
-<span>                                          fam_graph_col <span class="op">=</span> <span class="st">"fam_graph"</span>,</span>
-<span>                                          attached_fam_graph_col <span class="op">=</span> <span class="st">"masked_fam_graph"</span>,</span>
-<span>                                          cols_to_attach <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span>,</span>
-<span>                                          censor_proband_thrs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">ltfgrs_input</span> <span class="op">=</span> <span class="fu"><a href="../reference/familywise_attach_attributes.html">familywise_attach_attributes</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">family_graphs</span>,</span>
+<span>                                            fam_attr <span class="op">=</span> <span class="va">fam_thrs</span>,</span>
+<span>                                            fam_graph_col <span class="op">=</span> <span class="st">"fam_graph"</span>,</span>
+<span>                                            attached_fam_graph_col <span class="op">=</span> <span class="st">"masked_fam_graph"</span>,</span>
+<span>                                            cols_to_attach <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span>,</span>
+<span>                                            censor_proband_thrs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 31 × 2</span></span></span>
 <span><span class="co">#&gt;   fid   masked_fam_graph</span></span>
@@ -498,9 +499,9 @@ and
 resulting genetic liability is prediction.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ltfgrs_input</span><span class="op">$</span><span class="va">masked_fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH f3d8cee DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH db340a9 DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), lower (v/n), upper (v/n)</span></span>
-<span><span class="co">#&gt; + edges from f3d8cee (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from db340a9 (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -534,7 +535,7 @@ liability estimate.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ltfgrs_pa</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>pid <span class="op">=</span> <span class="va">fid</span><span class="op">)</span>,</span>
 <span>                               h2 <span class="op">=</span> <span class="va">h2</span>, </span>
-<span>                               fam_id <span class="op">=</span> <span class="st">"fid"</span>,</span>
+<span>                               fid <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>                               pid <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>                               family_graphs_col <span class="op">=</span> <span class="st">"masked_fam_graph"</span>,</span>
 <span>                               method <span class="op">=</span> <span class="st">"PA"</span>, <span class="co"># &lt;- METHOD</span></span>
@@ -554,7 +555,7 @@ of <code>var</code> in the output.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ltfgrs_gibbs</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>pid <span class="op">=</span> <span class="va">fid</span><span class="op">)</span>, </span>
 <span>                                  h2 <span class="op">=</span> <span class="va">h2</span>,</span>
-<span>                                  fam_id <span class="op">=</span> <span class="st">"fid"</span>,</span>
+<span>                                  fid <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>                                  pid <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>                                  family_graphs_col <span class="op">=</span> <span class="st">"masked_fam_graph"</span>,</span>
 <span>                                  method <span class="op">=</span> <span class="st">"Gibbs"</span>, <span class="co"># &lt;- METHOD</span></span>
@@ -597,7 +598,7 @@ are all handled by the future suit of packages.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
