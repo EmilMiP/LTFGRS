@@ -45,6 +45,7 @@ test_that("Gibbs sampler works with any cov", {
 ################################################################################
 
 test_that("Gibbs sampler with fixed values works", {
+  set.seed(555)
 
   cov <- matrix(c(1, 0.2, 0.2, 0.5), 2)
   lower <- c(-Inf, 0)
