@@ -6,8 +6,13 @@ Authors@R: c(
     person("Emil Michael", "Pedersen", email = "emp@ph.au.dk", role = c("aut", "cre")),
     person("Jette", "Steinbach", , "jst@econ.au.dk", role = "aut"),
     person("Lucas", "Rasmussen", email = "lar.ncrr@au.dk", role = "ctb"))
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: Implementation of several phenotype-based family genetic risk scores 
+  with unified input data and data preparation functions to help facilitate
+  the required data preparation and management. The implemented family genetic
+  risk scores are LT-FH++ (Pedersen et al. <doi:10.1016/j.ajhg.2022.01.009> (2022)
+  and Pedersen et al. <https://www.nature.com/articles/s41467-023-41210-z> (2023)),
+  PA-FGRS (<doi:10.1016/j.ajhg.2024.09.009> (2024)), and FGRS 
+  (<doi:10.1001/jamapsychiatry.2021.0336> (2021)).
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
