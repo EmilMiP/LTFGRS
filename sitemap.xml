@@ -30,6 +30,7 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/familywise_attach_attributes.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/familywise_censoring.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/fixSexCoding.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_all_combs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_family_graphs.html</loc></url>
@@ -37,6 +38,7 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_relatedness.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction_multi.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/graph_to_trio.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/index.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/kendler.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/kendler_family_calculations.html</loc></url>

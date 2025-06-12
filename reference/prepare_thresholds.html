@@ -49,6 +49,7 @@
 <span>  <span class="va">age_col</span>,</span>
 <span>  CIP_merge_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"birth_year"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
 <span>  CIP_cip_col <span class="op">=</span> <span class="st">"cip"</span>,</span>
+<span>  Kpop <span class="op">=</span> <span class="st">"useMax"</span>,</span>
 <span>  status_col <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>  lower_equal_upper <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  personal_thr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -83,6 +84,10 @@
 
 <dt id="arg-cip-cip-col">CIP_cip_col<a class="anchor" aria-label="anchor" href="#arg-cip-cip-col"></a></dt>
 <dd><p>Name of column with CIP values.</p></dd>
+
+
+<dt id="arg-kpop">Kpop<a class="anchor" aria-label="anchor" href="#arg-kpop"></a></dt>
+<dd><p>Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from <code>.tbl</code> and a column named "K_pop" with population prevalence values. Defaults to "UseMax".</p></dd>
 
 
 <dt id="arg-status-col">status_col<a class="anchor" aria-label="anchor" href="#arg-status-col"></a></dt>

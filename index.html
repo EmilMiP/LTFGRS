@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Implementation of several phenotype-based family genetic risk scores">
-<meta name="description" content="More about what it does (maybe more than one line). Continuation lines should be indented.">
-<meta property="og:description" content="More about what it does (maybe more than one line). Continuation lines should be indented.">
+<meta name="description" content="Implementation of several phenotype-based family genetic risk scores with unified input data and data preparation functions to help facilitate the required data preparation and management. The implemented family genetic risk scores are LT-FH++ (Pedersen et al. &lt;doi:10.1016/j.ajhg.2022.01.009&gt; (2022) and Pedersen et al. &lt;https://www.nature.com/articles/s41467-023-41210-z&gt; (2023)), PA-FGRS (&lt;doi:10.1016/j.ajhg.2024.09.009&gt; (2024)), and FGRS (&lt;doi:10.1001/jamapsychiatry.2021.0336&gt; (2021)).">
+<meta property="og:description" content="Implementation of several phenotype-based family genetic risk scores with unified input data and data preparation functions to help facilitate the required data preparation and management. The implemented family genetic risk scores are LT-FH++ (Pedersen et al. &lt;doi:10.1016/j.ajhg.2022.01.009&gt; (2022) and Pedersen et al. &lt;https://www.nature.com/articles/s41467-023-41210-z&gt; (2023)), PA-FGRS (&lt;doi:10.1016/j.ajhg.2024.09.009&gt; (2024)), and FGRS (&lt;doi:10.1001/jamapsychiatry.2021.0336&gt; (2021)).">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -52,7 +52,30 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><p>To be filled out.</p>
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="ltfgrs">LTFGRS<a class="anchor" aria-label="anchor" href="#ltfgrs"></a>
+</h1></div>
+<p>LTFGRS is an R package that provides a unified interface to perform several phenotype-based family genetic risk scores (FGRS) as well as functions to perform the required data preparation and management steps.</p>
+<p>The implemented methods are <a href="https://doi.org/10.1016/j.ajhg.2022.01.009" class="external-link">LT-FH++</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/39471805/" class="external-link">PA-FGRS</a>, and <a href="https://pubmed.ncbi.nlm.nih.gov/33881469/" class="external-link">Kendler’s FGRS</a>. The primary focus of the package is LT-FH++ and PA-FGRS. They share many similarities in their models, since they are both based on the same underlying liability threshold model with modifications. This package allows users to pick and chose which elements of those methods they want to use. Notable properties of the package are:</p>
+<ul>
+<li>Automatic identification of family members up to n’th degree.</li>
+<li>personalised thresholds for each included family that can account for:
+<ul>
+<li>age of diagnosis</li>
+<li>censoring</li>
+<li>cohort effects</li>
+<li>sex</li>
+<li>family-wise censoring</li>
+</ul>
+</li>
+<li>mixture distribution to handle partially observed cases.</li>
+</ul>
+</div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
+<p>You can install the development version of LTFGRS from GitHub with:</p>
+<p><code>{r, eval=FALSE} remotes::install_github("EmilMiP/LTFGRS")</code></p>
 <!-- badges: start -->
 
 <p>to-do:</p>
@@ -63,7 +86,7 @@
 <li><label><input type="checkbox" checked>Ensure PA-FGRS can be run with unified (graph) input</label></li>
 <li><label><input type="checkbox" checked>Add a description of the functions</label></li>
 <li><label><input type="checkbox">Add (linear) interpolation to input function</label></li>
-<li><label><input type="checkbox">Remove references to LT-FH++ in the code and descriptions</label></li>
+<li><label><input type="checkbox" checked>Remove references to LT-FH++ in the code and descriptions</label></li>
 <li><label><input type="checkbox" checked>Rename prepare_LTFHPlus_input function</label></li>
 <li><label><input type="checkbox">Add tests for critical functions</label></li>
 <li><label><input type="checkbox">Formalise README.md</label></li>
@@ -87,7 +110,10 @@
 <li><label><input type="checkbox" checked>rename censor_family_onsets_per_family. familywise_censoring?</label></li>
 <li><label><input type="checkbox" checked>rename assign_family_specific_thresholds or fam_graph_attach_attributes to something else?</label></li>
 <li><label><input type="checkbox" checked>replace all arguments of “fam_id” with “fid” to standardise all inputs.</label></li>
-</ul></main><aside class="col-md-3"><div class="links">
+</ul>
+</div>
+
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/EmilMiP/LTFGRS/" class="external-link">Browse source code</a></li>
