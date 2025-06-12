@@ -74,6 +74,7 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' @param age_col Name of column with age at the end of follow-up or age at diagnosis for cases.
 #' @param CIP_merge_columns The columns the CIPs are subset by, e.g. CIPs by birth_year, sex.
 #' @param CIP_cip_col Name of column with CIP values.
+#' @param Kpop Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from \code{.tbl} and a column named "K_pop" with population prevalence values. Defaults to "UseMax".
 #' @param status_col Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).
 #' @param lower_equal_upper Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
 #' @param fid_col Column that contains the family ID.
@@ -115,6 +116,7 @@ prepare_thresholds = function(.tbl,
                               age_col,
                               CIP_merge_columns = c("sex", "birth_year", "age"),
                               CIP_cip_col = "cip",
+                              Kpop = "useMax",
                               status_col = "status",
                               lower_equal_upper = FALSE,
                               personal_thr = FALSE,
@@ -181,6 +183,13 @@ prepare_thresholds = function(.tbl,
       warning(paste0("There are ", sum(is.na(select(.tbl, lower, upper))), " NA values in the upper and lower thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
     }
 
+    if (any(.tbl[[age_col]] < 0)) {
+      warning("prepare_thresholds: Some ages are negative. This may be due to the end of follow-up happening before the birth of an individual. Setting their thresholds to be uninformative. Please check the input data.")
+      .tbl = .tbl %>%
+        mutate(lower = ifelse(!!as.symbol(age_col) < 0, -Inf, lower),
+               upper = ifelse(!!as.symbol(age_col) < 0, Inf, upper))
+    }
+
     # returning formatted input -----------------------------------------------
     return(.tbl)
 
@@ -204,27 +213,58 @@ prepare_thresholds = function(.tbl,
       predict(xgb,.) %>%
       pmax(min_CIP_value)
 
-    .tbl = select(CIP, all_of(setdiff(CIP_merge_columns, age_col)), !!as.symbol(CIP_cip_col)) %>%
-      group_by(across(all_of(all_of(setdiff(CIP_merge_columns, age_col))))) %>%
-      summarise(K_pop = max(!!as.symbol(CIP_cip_col))) %>%
-      ungroup() %>%
-      left_join(.tbl, ., by = setdiff(CIP_merge_columns, age_col))
+    if (is.character(Kpop) && Kpop == "useMax") {
+      .tbl = select(CIP, all_of(setdiff(CIP_merge_columns, age_col)), !!as.symbol(CIP_cip_col)) %>%
+        group_by(across(all_of(all_of(setdiff(CIP_merge_columns, age_col))))) %>%
+        summarise(K_pop = max(!!as.symbol(CIP_cip_col))) %>%
+        ungroup() %>%
+        left_join(.tbl, ., by = setdiff(CIP_merge_columns, age_col))
 
 
+      .tbl = .tbl %>%
+        group_by(across(all_of(setdiff(CIP_merge_columns, age_col)))) %>%
+        arrange(!!as.symbol(age_col)) %>%
+        mutate(cip_pred = cummax(cip_pred)) %>%
+        ungroup() %>%
+        mutate(thr = ifelse(rep(personal_thr, n()),
+                            qnorm(cip_pred, lower.tail = FALSE),
+                            qnorm(K_pop, lower.tail = FALSE)),
+               lower = ifelse(!!as.symbol(status_col), thr, -Inf),
+               upper = ifelse(!!as.symbol(status_col),
+                              ifelse(lower_equal_upper, thr, Inf),
+                              thr)) %>%
+        rename(K_i = cip_pred)
 
-    .tbl = .tbl %>%
-      group_by(across(all_of(setdiff(CIP_merge_columns, age_col)))) %>%
-      arrange(!!as.symbol(age_col)) %>%
-      mutate(cip_pred = cummax(cip_pred)) %>%
-      ungroup() %>%
-      mutate(thr = ifelse(rep(personal_thr, n()),
-                          qnorm(cip_pred, lower.tail = FALSE),
-                          qnorm(K_pop, lower.tail = FALSE)),
-             lower = ifelse(!!as.symbol(status_col), thr, -Inf),
-             upper = ifelse(!!as.symbol(status_col),
-                            ifelse(lower_equal_upper, thr, Inf),
-                            thr)) %>%
-      rename(K_i = cip_pred)
+    } else if (any(class(Kpop) %in% c("data.frame", "tibble", "matrix", "data.table", "tbl_df", "tbl"))) {
+
+      if ( !("K_pop" %in% colnames(Kpop)) ) {
+        stop("prepare_thresholds: Kpop must contain a column named 'K_pop' with population prevalence values for columns also present in .tbl.")
+      }
+
+      .tbl = left_join(.tbl, Kpop) %>%
+        group_by(across(all_of(setdiff(CIP_merge_columns, age_col)))) %>%
+        arrange(!!as.symbol(age_col)) %>%
+        mutate(cip_pred = cummax(cip_pred)) %>%
+        ungroup() %>%
+        mutate(thr = ifelse(rep(personal_thr, n()),
+                            qnorm(cip_pred, lower.tail = FALSE),
+                            qnorm(K_pop, lower.tail = FALSE)),
+               lower = ifelse(!!as.symbol(status_col), thr, -Inf),
+               upper = ifelse(!!as.symbol(status_col),
+                              ifelse(lower_equal_upper, thr, Inf),
+                              thr)) %>%
+        rename(K_i = cip_pred)
+
+    } else {
+      stop("prepare_thresholds: Kpop must be either 'useMax' or a tibble with columns matching the desired strata in .tbl and a column named 'K_pop' with population prevalence values.")
+    }
+
+    if (any(.tbl[[age_col]] < 0)) {
+      warning("prepare_thresholds: Some ages are negative. This may be due to the end of follow-up happening before the birth of an individual. Setting their thresholds to be uninformative. Please check the input data.")
+      .tbl = .tbl %>%
+        mutate(lower = ifelse(!!as.symbol(age_col) < 0, -Inf, lower),
+               upper = ifelse(!!as.symbol(age_col) < 0, Inf, upper))
+    }
 
     if (any(is.na(.tbl$lower)) | any(is.na(.tbl$upper))) {
       warning(paste0("There are ", sum(is.na(select(.tbl, lower, upper))), " NA values in the upper and lower thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
@@ -517,8 +557,7 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
   # extracting proband's end of follow up time to use for the entire family
   proband_eof = tbl %>%
     filter(!!proband_id_sym == cur_proband) %>%
-    mutate(proband_eof = pmin(!!end_sym, !!event_sym, na.rm = TRUE)) %>%
-    pull(proband_eof)
+    pull(!!end_sym)
 
   # is only one proband eof identified?
   if (length(proband_eof) == 0) {

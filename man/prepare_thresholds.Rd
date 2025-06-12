@@ -10,6 +10,7 @@ prepare_thresholds(
   age_col,
   CIP_merge_columns = c("sex", "birth_year", "age"),
   CIP_cip_col = "cip",
+  Kpop = "useMax",
   status_col = "status",
   lower_equal_upper = FALSE,
   personal_thr = FALSE,
@@ -31,6 +32,8 @@ prepare_thresholds(
 \item{CIP_merge_columns}{The columns the CIPs are subset by, e.g. CIPs by birth_year, sex.}
 
 \item{CIP_cip_col}{Name of column with CIP values.}
+
+\item{Kpop}{Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from \code{.tbl} and a column named "K_pop" with population prevalence values. Defaults to "UseMax".}
 
 \item{status_col}{Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).}
 

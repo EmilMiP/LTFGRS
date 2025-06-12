@@ -117,12 +117,14 @@ pheno = tibble(
   birth_year = year(fdato),
   # age of onset only after fdato
   adhd = purrr::map2_chr(.x = status, .y = birth_year,
-      ~ if(.x) paste0(sample(1:28, 1), "/", sample(1:12, 1), "/", sample((.y + 1):2023, 1)) else NA),
+      ~ if(.x) paste0(sample(1:28, 1), "/", sample(1:12, 1), "/", sample((.y + 1):2010, 1)) else NA),
   # end of follow up assigned here
-  indiv_eof = dmy("31/12/2010")) %>%
+  indiv_eof = dmy("31/12/2010")) %>% # blanket time stop, meant to simulate end of registers
   mutate(
     # converting to date format
-    adhd = dmy(adhd)) %>%
+    adhd = dmy(adhd),
+    # eof either blanket time stop or event date
+    indiv_eof = pmin(indiv_eof, adhd, na.rm = T)) %>% 
   filter(id != "pid_g") %>% # remove the genetic liability of the proband
   # status is not required here. Only used it to generate the age of diagnosis.
   select(-status) 
@@ -145,6 +147,18 @@ In a real world scenario, we will not have access to all of the information used
 - `family`: The `family` object holds the trio information, i.e. information about the family structure and how each individual is related to each other. In a real world scenario this object may contains millions of unique individuals.
 - `pheno`: The `pheno` object holds phenotypic information on each individual present in the trio information.
 
+### Population graph
+With the `family` object, which holds the trio information, we can construct a population graph. The population graph holds all familial connects identified in the trio information and will form the basis of how families are identified. In real-world applications, the population graph may contain millions of individuals. To illustrate all the required steps, we will recalculate the population graph, but add sex as a node attribute.
+
+```{r}
+graph = prepare_graph(.tbl = family, 
+                      icol = "id",
+                      mcol = "momcol", 
+                      fcol = "dadcol",
+                      node_attributes = select(pheno, id, sex))
+```
+
+
 ### Automatic identification of n-degree relatives
 
 When we want to calculate a family genetic risk score, we need to create a pedigree based on the proband and relations should be relative to the proband. We are interested in identifying all family members up to some degree of relatedness, $n$, without having to manually find all of these family members. Manually identifying family members up to degree $4$ is both time consuming and error prone. We have implemented an automatic detection of family members that utilise a graph based on all individuals in the trio information (ideally population registers) and neighbourhood graphs. In short, we create a pedigree (directed graph) with every individual in the trio data and copy sections around a proband with all individuals that are $n$ steps away from the proband in the graph (This is a neighbourhood graphs of degree n, here called a family graph).
@@ -160,11 +174,9 @@ family_graphs %>% print(n = 4)
 ```
 The function `get_family_graphs()` will return a formatted tibble. The output will have two columns specified with the arguments, `fid` and `fam_graph_col`.  `fid` is the ids of the provided probands, who are also the individuals the neighbourhood (family) graphs are centred on. Note: In the example above, we have only one family graph for a given proband, however, an individual may still appear in several family graphs as a relative. E.g., a parent with two children may appearing in the family graph of both of their children. `fam_graph_col` holds the family graphs and are in the format of igraph. Operations on this level will not be required for the average user. An igraph object is shown here for context:
 
-TODO: add graph_to_trio to LTFGRS and plot a family graph to illustrate the new pedigree.
 ```{r}
 family_graphs$fam_graph[[1]]
 ```
-
 
 ### Censoring of future events on a family basis
 
@@ -215,12 +227,12 @@ paged_table(fam_thrs)
 ```
 Note: Currently, it is possible to experience negative ages at the end of follow up. This is due to the family-wise end of follow up ending before an individual is born, e.g. proband is diagnosed in their youth, then has a child later in life. These individuals will get a non-informative threshold ($-\infty$ to max of `min_CIP_value` and the predicted CIP [`K_i`]). In other words, these individuals will have no impact on the estimate.
 
-The function `prepare_thresholds()` has several options that are worth pointing out. The first is `lower_equal_upper`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`. Basing the thresholds on `K_i` yields personalised thresholds that are based on the stratification of the CIPs. 
+The function `prepare_thresholds()` has several options that are worth pointing out. The first is `lower_equal_upper`, which is used to determine if the `upper` and `lower` thresholds should be the same for cases or not. This may be useful if the CIP values are considered very accurate, as it may lead to more accurate genetic liability estimates. The second is `personal_thr`, which specifies if thresholds should be based on `K_i` or `K_pop`. Basing the thresholds on `K_i` yields personalised thresholds that are based on the stratification of the CIPs. With the argument `Kpop`, it is possible to determine how the `K_pop` values are calculated. The current default option for `Kpop` is `"useMax`, which calculates `K_pop` as the maximum within each strata provided in the CIPs. Alternatively, a tibble can be provided with the `Kpop` argument, which shares columns with `.tbl`, e.g. sex, such that user-specific `K_pop` values can be specified.
 
 The function `prepare_thresholds()` will return a tibble with the following additional columns:
 
 - `K_i`: The CIP value for the individual. `K_i` is predicted if interpolation is used.
-- `K_pop`: The population prevalence. Currently calculated as the maximum CIP value within the CIP stratum an individual belongs to, e.g. for a male born in $2000$, `K_pop` is the maximum CIP value observed among males born in the year $2000$.
+- `K_pop`: The population prevalence. Currently calculated as the maximum CIP value within the CIP stratum an individual belongs to, e.g. for a male born in $2000$, `K_pop` is the maximum CIP value observed among males born in the year $2000$. Alternatively, acquired user-specified values through the `Kpop` argument.
 - `thr`: The liability threshold used to determine case-control status. `thr` is used to determine the upper and lower thresholds of an individual.
 - `lower`: lower threshold of an individual.
 - `upper`: upper threshold of an individual.

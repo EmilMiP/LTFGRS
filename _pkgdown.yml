@@ -20,6 +20,7 @@ reference:
   - familywise_attach_attributes
   - get_family_graphs
   - get_onset_time
+  - graph_to_trio
   - prepare_thresholds
   - prepare_graph
 
@@ -43,21 +44,22 @@ reference:
 - title: "Internal functions and functions used in the estimator functions"
   desc: "The primary functions used in the family history estimators and some helper functions."
   contents:
+  - convert_observed_to_liability_scale
+  - correct_positive_definite
+  - extract_estimation_info_graph
+  - extract_estimation_info_tbl
+  - fixSexCoding
+  - get_all_combs
+  - get_covmat
+  - get_relatedness
+  - graph_based_covariance_construction
+  - graph_based_covariance_construction_multi
   - Gibbs_estimator
+  - kendler_family_calculations
   - PA_algorithm
   - rtmvnorm.gibbs
   - tnorm_mean
-  - tnorm_var
   - tnorm_mixture_conditional
+  - tnorm_var
   - truncated_normal_cdf
-  - get_relatedness
-  - get_all_combs
-  - get_covmat
-  - graph_based_covariance_construction
-  - graph_based_covariance_construction_multi
-  - extract_estimation_info_graph
-  - extract_estimation_info_tbl
-  - correct_positive_definite
-  - kendler_family_calculations
-  - convert_observed_to_liability_scale
 
