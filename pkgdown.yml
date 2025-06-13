@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   LTFGRS_workflow_prediction: LTFGRS_workflow_prediction.html
-last_built: 2025-06-12T11:47Z
+last_built: 2025-06-13T13:15Z
 urls:
   reference: https://emilmip.github.io/LTFGRS/reference
   article: https://emilmip.github.io/LTFGRS/articles
