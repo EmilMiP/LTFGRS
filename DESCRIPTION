@@ -13,11 +13,6 @@ Description: Implementation of several phenotype-based family genetic risk score
   and Pedersen et al. <https://www.nature.com/articles/s41467-023-41210-z> (2023)),
   PA-FGRS (<doi:10.1016/j.ajhg.2024.09.009> (2024)), and FGRS 
   (<doi:10.1001/jamapsychiatry.2021.0336> (2021)).
-License: GPL (>= 3) + file LICENSE
-Encoding: UTF-8
-LazyData: true
-URL: https://emilmip.github.io/LTFGRS/
-BugReports: https://github.com/EmilMiP/LTFGRS/issues
 Imports: 
     batchmeans,
     dplyr,
@@ -40,7 +35,13 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     MASS
-Config/testthat/edition: 3
 LinkingTo: Rcpp
+Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
+Language: en-GB
+License: GPL (>= 3) + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://emilmip.github.io/LTFGRS/
+BugReports: https://github.com/EmilMiP/LTFGRS/issues

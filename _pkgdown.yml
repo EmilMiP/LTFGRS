@@ -1,7 +1,10 @@
 url: https://emilmip.github.io/LTFGRS/
+
 template:
   bootstrap: 5
-
+  light-switch: true
+  theme: arrow-light
+  theme-dark: arrow-dark
 
 reference:
 - title: "Family history estimators"
