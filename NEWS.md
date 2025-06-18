@@ -1,3 +1,3 @@
-# LTFGRS 0.1.0
+# LTFGRS 1.0.0
 
 * Initial CRAN submission.

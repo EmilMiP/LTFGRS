@@ -1,12 +1,12 @@
 Package: LTFGRS
 Type: Package
-Title: Implementation of several phenotype-based family genetic risk scores
-Version: 0.1.0
+Title: Implementation of Several Phenotype-Based Family Genetic Risk Scores
+Version: 1.0.0
 Authors@R: c(
     person("Emil Michael", "Pedersen", email = "emp@ph.au.dk", role = c("aut", "cre")),
     person("Jette", "Steinbach", , email = "jst@econ.au.dk", role = "aut"),
-    person("Lucas", "Rasmussen", email = "lar.ncrr@au.dk", role = "ctb"))
-    person("Morten Dybdahl", "Krebs", email = "morten.dybdahl.krebs@regionh.dk", role = "aut")
+    person("Lucas", "Rasmussen", email = "lar.ncrr@au.dk", role = "ctb"),
+    person("Morten Dybdahl", "Krebs", email = "morten.dybdahl.krebs@regionh.dk", role = "aut"))
 Description: Implementation of several phenotype-based family genetic risk scores 
   with unified input data and data preparation functions to help facilitate
   the required data preparation and management. The implemented family genetic

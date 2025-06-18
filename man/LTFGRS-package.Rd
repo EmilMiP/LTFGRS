@@ -6,7 +6,7 @@
 \alias{LTFGRS-package}
 \title{LTFGRS: Implementation of several phenotype-based family genetic risk scores}
 \description{
-More about what it does (maybe more than one line). Continuation lines should be indented.
+Implementation of several phenotype-based family genetic risk scores with unified input data and data preparation functions to help facilitate the required data preparation and management. The implemented family genetic risk scores are LT-FH++ (Pedersen et al. \doi{10.1016/j.ajhg.2022.01.009} (2022) and Pedersen et al. \url{https://www.nature.com/articles/s41467-023-41210-z} (2023)), PA-FGRS (\doi{10.1016/j.ajhg.2024.09.009} (2024)), and FGRS (\doi{10.1001/jamapsychiatry.2021.0336} (2021)).
 }
 \seealso{
 Useful links:
@@ -22,6 +22,7 @@ Useful links:
 Authors:
 \itemize{
   \item Jette Steinbach \email{jst@econ.au.dk}
+  \item Morten Dybdahl Krebs \email{morten.dybdahl.krebs@regionh.dk}
 }
 
 Other contributors:
