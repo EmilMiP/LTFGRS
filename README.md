@@ -22,6 +22,7 @@ You can install the development version of LTFGRS from GitHub with:
 ```{r eval=FALSE}
 remotes::install_github("EmilMiP/LTFGRS")
 ```
+
 You can install the LTFGRS from CRAN with:
 
 ```{r eval=FALSE}
