@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Emil M.
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2025-06-13</h4>
+            <h4 data-toc-skip class="date">2025-06-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/LTFGRS_workflow_prediction.Rmd" class="external-link"><code>vignettes/LTFGRS_workflow_prediction.Rmd</code></a></small>
       <div class="d-none name"><code>LTFGRS_workflow_prediction.Rmd</code></div>
@@ -344,9 +344,9 @@ not be required for the average user. An igraph object is shown here for
 context:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_graphs</span><span class="op">$</span><span class="va">fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH 1330143 DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH c0ab17b DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), sex (v/n)</span></span>
-<span><span class="co">#&gt; + edges from 1330143 (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from c0ab17b (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -537,9 +537,9 @@ and
 resulting genetic liability is prediction.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ltfgrs_input</span><span class="op">$</span><span class="va">masked_fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH 1330143 DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH c0ab17b DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), sex (v/n), lower (v/n), upper (v/n)</span></span>
-<span><span class="co">#&gt; + edges from 1330143 (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from c0ab17b (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -632,7 +632,7 @@ are all handled by the future suit of packages.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Emil Michael Pedersen, Jette Steinbach.</p>
+  <p>Developed by Emil Michael Pedersen, Jette Steinbach, Morten Dybdahl Krebs.</p>
 </div>
 
 <div class="pkgdown-footer-right">

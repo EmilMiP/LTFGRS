@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Implementation of several phenotype-based family genetic risk scores • LTFGRS</title>
+<title>Implementation of Several Phenotype-Based Family Genetic Risk Scores • LTFGRS</title>
 <script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Implementation of several phenotype-based family genetic risk scores">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Implementation of Several Phenotype-Based Family Genetic Risk Scores">
 <meta name="description" content="Implementation of several phenotype-based family genetic risk scores with unified input data and data preparation functions to help facilitate the required data preparation and management. The implemented family genetic risk scores are LT-FH++ (Pedersen et al. &lt;doi:10.1016/j.ajhg.2022.01.009&gt; (2022) and Pedersen et al. &lt;https://www.nature.com/articles/s41467-023-41210-z&gt; (2023)), PA-FGRS (&lt;doi:10.1016/j.ajhg.2024.09.009&gt; (2024)), and FGRS (&lt;doi:10.1001/jamapsychiatry.2021.0336&gt; (2021)).">
 <meta property="og:description" content="Implementation of several phenotype-based family genetic risk scores with unified input data and data preparation functions to help facilitate the required data preparation and management. The implemented family genetic risk scores are LT-FH++ (Pedersen et al. &lt;doi:10.1016/j.ajhg.2022.01.009&gt; (2022) and Pedersen et al. &lt;https://www.nature.com/articles/s41467-023-41210-z&gt; (2023)), PA-FGRS (&lt;doi:10.1016/j.ajhg.2024.09.009&gt; (2024)), and FGRS (&lt;doi:10.1001/jamapsychiatry.2021.0336&gt; (2021)).">
 </head>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +84,8 @@
 </h1>
 <p>You can install the development version of LTFGRS from GitHub with:</p>
 <p><code>{r eval=FALSE} remotes::install_github("EmilMiP/LTFGRS")</code></p>
+<p>You can install the LTFGRS from CRAN with:</p>
+<p><code>{r eval=FALSE} install.packages("LTFGRS")</code></p>
 <!-- badges: start -->
 
 </div>
@@ -122,6 +124,7 @@
 <ul class="list-unstyled">
 <li>Emil Michael Pedersen <br><small class="roles"> Author, maintainer </small>   </li>
 <li>Jette Steinbach <br><small class="roles"> Author </small>   </li>
+<li>Morten Dybdahl Krebs <br><small class="roles"> Author </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -138,7 +141,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Emil Michael Pedersen, Jette Steinbach.</p>
+  <p>Developed by Emil Michael Pedersen, Jette Steinbach, Morten Dybdahl Krebs.</p>
 </div>
 
 <div class="pkgdown-footer-right">
