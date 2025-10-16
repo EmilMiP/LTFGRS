@@ -145,7 +145,7 @@ graph_to_trio = function(graph, id = "id", dadid = "dadid", momid = "momid", sex
     if (is.integer(trio[id])) { # when coded as integers
       # assuming 0 is used to indicate missing/unknown values
       missingIndxm = which(trio[[momid]] == 0 & trio[[dadid]] != 0)
-      max_id = max(trio[, c(id, momid, dadid)], na.rm = T)
+      max_id = max(trio[, c(id, momid, dadid)], na.rm = TRUE)
       sex_coding = is.character(trio[[sex]])
 
       if (length(missingIndxm) > 0) {
@@ -160,7 +160,7 @@ graph_to_trio = function(graph, id = "id", dadid = "dadid", momid = "momid", sex
       }
       missingIndxf = which(trio[[momid]] != 0 & trio[[dadid]] == 0)
       # now with added mothers
-      max_id = max(trio[, c(id, momid, dadid)], na.rm = T)
+      max_id = max(trio[, c(id, momid, dadid)], na.rm = TRUE)
       if (length(missingIndxf) > 0) {
         to_add_f = max_id + 1:length(missingIndxf)
         trio[[dadid]][missingIndxf] <- to_add_f

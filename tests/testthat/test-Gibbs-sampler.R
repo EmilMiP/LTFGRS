@@ -6,6 +6,7 @@ skip_if_not_installed("tmvtnorm")
 ################################################################################
 
 test_that("Gibbs sampler works", {
+  set.seed(555)
 
   cov <- matrix(c(1, 0.2, 0.2, 0.5), 2)
   lower <- c(-Inf, 0)
@@ -25,6 +26,7 @@ test_that("Gibbs sampler works", {
 ################################################################################
 
 test_that("Gibbs sampler works with any cov", {
+  set.seed(555)
 
   cov <- matrix(c(1, 0.2, 0.2, 0.5), 2) * 100
   lower <- c(-Inf, 10)

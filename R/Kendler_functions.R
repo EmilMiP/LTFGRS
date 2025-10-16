@@ -55,7 +55,7 @@ kendler_family_calculations = function(tbl,
 
   S <- sum(k_temp * z * w)
   S <- S/sum(k_temp > 0)
-  vZ = var(z, na.rm = T)
+  vZ = var(z, na.rm = TRUE)
   tibble(
     !!as.symbol(pid) := tbl[[pid]][[1]],
     S = S,

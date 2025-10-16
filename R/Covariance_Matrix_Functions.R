@@ -298,7 +298,7 @@ construct_covmat_single <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","
     n_fam <- n_fam[n_fam > 0]
 
     # Constructing a vector holding all family members
-    # (including g and o if add_ind = T).
+    # (including g and o if add_ind = TRUE).
     if (any(names(n_fam) %in% c("g","o"))) {
       n_fam <- n_fam[-which(names(n_fam) %in% c("g","o"))]
     }
@@ -583,7 +583,7 @@ construct_covmat_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","p
     n_fam <- n_fam[n_fam > 0]
 
     # Constructing a vector holding all family members
-    # (including g and o if add_ind = T).
+    # (including g and o if add_ind = TRUE).
     if (any(names(n_fam) %in% c("g","o"))) {
       n_fam <- n_fam[-which(names(n_fam) %in% c("g","o"))]
     }
@@ -618,7 +618,7 @@ construct_covmat_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","p
     # Checking that all family members are represented by valid strings
     if (validate_relatives(fam_vec)) {invisible()}
 
-    # If add_ind = T, the genetic component and the full
+    # If add_ind = TRUE, the genetic component and the full
     # liability are added to the family members
     if (any(fam_vec %in% c("g","o"))) {
       fam_vec <- fam_vec[-which(fam_vec %in% c("g","o"))]
@@ -642,10 +642,10 @@ construct_covmat_multi <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","p
       for (mem in fam_vec) {
 
         if (p1 == p2) {
-          covmat[which(rownames(covmat) == paste0(mem, "_", phen_names[p1])), (p2 - 1)*length(fam_vec) + 1:length(fam_vec)] <- sapply(fam_vec, get_relatedness, s1 = mem, h2 = h2_vec[p1], from_covmat = T)
+          covmat[which(rownames(covmat) == paste0(mem, "_", phen_names[p1])), (p2 - 1)*length(fam_vec) + 1:length(fam_vec)] <- sapply(fam_vec, get_relatedness, s1 = mem, h2 = h2_vec[p1], from_covmat = TRUE)
         }else{
 
-          covmat[which(rownames(covmat) == paste0(mem, "_", phen_names[p1])), (p2 - 1)*length(fam_vec) + 1:length(fam_vec)] <- sapply(fam_vec, get_relatedness, s1 = mem, h2 = genetic_corrmat[p1,p2] * sqrt(prod(h2_vec[c(p1,p2)])), from_covmat = T)
+          covmat[which(rownames(covmat) == paste0(mem, "_", phen_names[p1])), (p2 - 1)*length(fam_vec) + 1:length(fam_vec)] <- sapply(fam_vec, get_relatedness, s1 = mem, h2 = genetic_corrmat[p1,p2] * sqrt(prod(h2_vec[c(p1,p2)])), from_covmat = TRUE)
         }
       }
 

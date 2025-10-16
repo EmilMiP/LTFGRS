@@ -669,7 +669,7 @@ familywise_attach_attributes = function(family_graphs,
                                         fid = "fid",
                                         pid = "pid",
                                         cols_to_attach = c("lower", "upper"),
-                                        censor_proband_thrs = T) {
+                                        censor_proband_thrs = TRUE) {
   fam_attr %>%
     tidyr::nest(attrs = -fid) %>%
     left_join(family_graphs, ., by = fid) %>%

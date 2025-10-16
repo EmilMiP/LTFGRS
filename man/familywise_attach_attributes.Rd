@@ -12,7 +12,7 @@ familywise_attach_attributes(
   fid = "fid",
   pid = "pid",
   cols_to_attach = c("lower", "upper"),
-  censor_proband_thrs = T
+  censor_proband_thrs = TRUE
 )
 }
 \arguments{
