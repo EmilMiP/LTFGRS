@@ -9,7 +9,7 @@ utils::globalVariables("K_pop")
 #' @param role role of the individual(s)
 #' @param useMixture logical variable. If TRUE, the function will return for K_i and K_pop columns for mixture estimates of liability.
 #'
-#' @returns validated tibble
+#' @returns validated tibble with only relevant columns
 #'
 #' @importFrom dplyr pull select
 #' @noRd
@@ -81,11 +81,115 @@ validating_tbl_input = function(.tbl, pid, fid, role, useMixture) {
   return(.tbl)
 }
 
+#' Title Internal function used to validate the .tbl input for multiple phenotypes
+#'
+#' @param .tbl tibble with threshold and role information
+#' @param pid personal identified
+#' @param fid family identifier
+#' @param role role of the individual(s)
+#' @param useMixture logical variable. If TRUE, the function will return for K_i and K_pop columns for mixture estimates of liability.
+#' @param phen_names character vector with phenotype names to check for
+#'
+#' @returns validated tibble with only relevant columns
+#' @importFrom dplyr pull select mutate row_number
+#' @noRd
+validating_tbl_input_multi = function(.tbl, pid, fid, role, useMixture, phen_names) {
+  # Turning .tbl into a tibble
+  # if it is not of class tbl
+  if (!tibble::is_tibble(.tbl)) .tbl <- tibble::as_tibble(.tbl)
+
+  # role (as string) must be supplied
+  if (is.null(role)) stop("role must be specified.")
+  # Turning role into string
+  role <- as.character(role)
+
+
+  # Checking that .tbl has three columns named pid, fid and role
+  if (!(pid %in% colnames(.tbl))) stop(paste0("The column ", pid," does not exist in the tibble .tbl..."))
+  if (!(fid %in% colnames(.tbl))) stop(paste0("The column ", fid," does not exist in the tibble .tbl..."))
+  if (!(role %in% colnames(.tbl))) stop(paste0("The column ", role," does not exist in the tibble .tbl..."))
+
+
+  # checking whether all lower and upper columns follow the naming convention
+  cols_to_check = paste0(c("lower_", "upper_"), rep(phen_names, each = 2))
+  if (any(!cols_to_check %in% colnames(.tbl))) {
+    stop(paste0("The column(s) ", paste0(setdiff(cols_to_check, colnames(.tbl)), collapse = ", "), " are missing from .tbl...\n"))
+  }
+
+  # if use mixture is true, we will also check for columns K_i and K_pop
+  if (useMixture) {
+    cols_to_check_mixture = paste0(c("K_i_", "K_pop_"), rep(phen_names, each = 2))
+    if (any(!cols_to_check_mixture %in% colnames(.tbl))) {
+      stop(paste0("The column(s) ", paste0(setdiff(cols_to_check_mixture, colnames(.tbl)), collapse = ", "), " are missing from .tbl...\n"))
+    }
+  }
+
+  # If the tibble consists of more than the required columns,
+  # we select only the relevant ones.
+  if (useMixture) {
+    .tbl <- select(.tbl,
+                   !!as.symbol(fid),
+                   !!as.symbol(pid),
+                   !!as.symbol(role),
+                   tidyselect::starts_with("lower"),
+                   tidyselect::starts_with("upper"),
+                   tidyselect::starts_with("K_i"),
+                   tidyselect::starts_with("K_pop"))
+  } else {
+
+    .tbl <- select(.tbl,
+                   !!as.symbol(fid),
+                   !!as.symbol(pid),
+                   !!as.symbol(role),
+                   tidyselect::starts_with("lower"),
+                   tidyselect::starts_with("upper"))
+  }
+
+
+
+  # We check whether all lower thresholds are
+  # smaller than or equal to the upper thresholds
+  for (pheno in phen_names) {
+
+
+    if (any(pull(.tbl, !!as.symbol(paste0("lower_", pheno))) > pull(.tbl, !!as.symbol(paste0("upper_", pheno))))) {
+      warning("Some lower thresholds are larger than the corresponding upper thresholds! \n
+The lower and upper thresholds will be swapped...")
+
+      swapping_indx <- which(pull(.tbl, !!as.symbol(paste0("lower_", pheno))) > pull(.tbl, !!as.symbol(paste0("upper_", pheno))))
+
+      .tbl <- mutate(.tbl, !!as.symbol(paste0("lower_", pheno)) := ifelse(row_number() %in% swapping_indx,
+                                                                          !!as.symbol(paste0("lower_", pheno)) + !!as.symbol(paste0("upper_", pheno)),
+                                                                          !!as.symbol(paste0("lower_", pheno)))) %>%
+        mutate(., !!as.symbol(paste0("upper_", pheno)) := ifelse(
+          row_number() %in% swapping_indx,
+          !!as.symbol(paste0("lower_", pheno)) - !!as.symbol(paste0("upper_", pheno)),
+          !!as.symbol(paste0("upper_", pheno)))) %>%
+        mutate(., !!as.symbol(paste0("lower_", pheno)) := ifelse(
+          row_number() %in% swapping_indx,
+          !!as.symbol(paste0("lower_", pheno)) - !!as.symbol(paste0("upper_", pheno)),
+          !!as.symbol(paste0("lower_", pheno))))
+    }
+  }
+
+  if (useMixture) {
+    for (phen in phen_names) {
+      cur_K_i = paste0("K_i_", phen)
+      cur_K_pop = paste0("K_pop_", phen)
+      if (any(pull(.tbl, !!as.symbol(cur_K_i)) > pull(.tbl, !!as.symbol(cur_K_pop)))) {
+        stop("Some K_i values are larger than the corresponding K_pop values! \n")
+      }
+    }
+  }
+
+  # Returning the validated tibble
+  return(.tbl)
+}
 
 #' Title Internal function used to validate the family graph input
 #'
-#' @param family_graphs tibble with proband ID and list column with family graphs
-#' @param pid column name of proband ID
+#' @param family_graphs tibble with family ID and list column with family graphs
+#' @param fid column name of family ID, typically proband ID in family graphs
 #' @param family_graphs_col column name of the family graphs
 #'
 #' @returns Nothing. The function is used for validation purposes.
@@ -94,11 +198,11 @@ validating_tbl_input = function(.tbl, pid, fid, role, useMixture) {
 #' @importFrom dplyr pull
 #' @noRd
 
-validating_graph_input = function(family_graphs, pid, family_graphs_col, useMixture) {
+validating_graph_input = function(family_graphs, fid, family_graphs_col, useMixture) {
 
   #check if family_graphs is present, and if the pid column is present.
-  if ( !(pid %in% colnames(family_graphs)) ) {
-    stop(paste0("The column ", pid," does not exist in the tibble family_graphs."))
+  if ( !(fid %in% colnames(family_graphs)) ) {
+    stop(paste0("The column '", fid,"' does not exist in the tibble family_graphs."))
   }
   # checking if the family graph column present.
   if ( !(family_graphs_col %in% colnames(family_graphs)) ) {
@@ -122,6 +226,45 @@ validating_graph_input = function(family_graphs, pid, family_graphs_col, useMixt
 }
 
 
+#' Title Internal function used to validate the family graph input for multiple phenotypes
+#'
+#' @param family_graphs tibble with proband ID and list column with family graphs
+#' @param fid column name of family ID, typically proband ID in family graphs
+#' @param family_graphs_col column name of the family graphs
+#' @param phen_names character vector with phenotype names to check for
+#' @param useMixture logical variable. If TRUE, the function will check for K_i and K_pop attributes for mixture estimates of liability for each phenotype in phen_names.
+#'
+#' @returns Nothing. The function is used for validation purposes.
+#' @importFrom igraph vertex_attr
+#' @importFrom dplyr pull
+#' @noRd
+validating_graph_input_multi = function(family_graphs, fid, family_graphs_col, phen_names, useMixture) {
+
+  #check if family_graphs is present, and if the fid column is present.
+  if ( !(fid %in% colnames(family_graphs)) ) {
+    stop(paste0("The column ", fid," does not exist in the tibble family_graphs."))
+  }
+  # checking if the family graph column present.
+  if ( !(family_graphs_col %in% colnames(family_graphs)) ) {
+    stop(paste0("The column ", family_graphs_col," does not exist in the tibble family_graphs."))
+  }
+
+  # extract attributes from graph
+  graph_attrs = vertex_attr((family_graphs %>% pull(!!as.symbol(family_graphs_col)))[[1]])
+
+  required_attrs = c(paste0("lower_", phen_names), paste0("upper_", phen_names))
+  if (useMixture) {
+    required_attrs = c(required_attrs,
+                       paste0("K_i_", phen_names),
+                       paste0("K_pop_", phen_names))
+  }
+  # checking whether all required attributes are present in the graph
+  if ( !(all(required_attrs %in% names(graph_attrs))) ) {
+    stop(paste0("Not all required attributes are present in family_graph. Missing attributes: ",
+                paste0(setdiff(required_attrs, names(graph_attrs)), collapse = ", "), "."))
+  }
+
+}
 
 #' Checking that proportions are valid
 #'
@@ -154,7 +297,7 @@ validate_proportion <- function(prop, from_covmat = FALSE){
 
     stop(paste0(deparse(substitute(prop)), " must be specified!"))
 
-  }else if(!is.numeric(prop) && !is.integer(prop)){
+  }else if(any(!is.numeric(prop)) && any(!is.integer(prop))){
 
     stop(paste0(deparse(substitute(prop)), " must be numeric!"))
 

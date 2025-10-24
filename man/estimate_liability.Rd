@@ -19,7 +19,8 @@ estimate_liability(
   useMixture = FALSE,
   genetic_corrmat = NULL,
   full_corrmat = NULL,
-  phen_names = NULL
+  phen_names = NULL,
+  target_phenotype = NULL
 )
 }
 \arguments{
@@ -110,6 +111,8 @@ be symmetric. Defaults to \code{NULL}.}
 names. These names will be used to create the row and column names for the
 covariance matrix. If it is not specified, the names will default to
 phenotype1, phenotype2, etc. Defaults to NULL.}
+
+\item{target_phenotype}{With method = PA, which phenotype should be returned?}
 }
 \value{
 If \code{family} and \code{threshs} are two matrices, lists or

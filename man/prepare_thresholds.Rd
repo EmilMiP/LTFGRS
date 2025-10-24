@@ -11,11 +11,14 @@ prepare_thresholds(
   CIP_merge_columns = c("sex", "birth_year", "age"),
   CIP_cip_col = "cip",
   Kpop = "useMax",
+  K_i_col = "K_i",
+  K_pop_col = "K_pop",
   status_col = "status",
+  thr_col = "thr",
+  lower_col = "lower",
+  upper_col = "upper",
   lower_equal_upper = FALSE,
   personal_thr = FALSE,
-  fid_col = "fid",
-  personal_id_col = "pid",
   interpolation = NULL,
   bst.params = list(max_depth = 10, base_score = 0, nthread = 4, min_child_weight = 10),
   min_CIP_value = 1e-05,
@@ -35,15 +38,21 @@ prepare_thresholds(
 
 \item{Kpop}{Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from \code{.tbl} and a column named "K_pop" with population prevalence values. Defaults to "UseMax".}
 
+\item{K_i_col}{Name of column to create for individual cumulative incidence proportion. Defaults to "K_i".}
+
+\item{K_pop_col}{Name of column to create for population prevalence within an individuals CIP strata. Defaults to "K_pop".}
+
 \item{status_col}{Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).}
+
+\item{thr_col}{Name of column to create for threshold. Defaults to "thr".}
+
+\item{lower_col}{Name of column to create for lower threshold. Defaults to "lower".}
+
+\item{upper_col}{Name of column to create for upper threshold. Defaults to "upper".}
 
 \item{lower_equal_upper}{Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.}
 
 \item{personal_thr}{Should thresholds be based on stratified CIPs or population prevalence?}
-
-\item{fid_col}{Column that contains the family ID.}
-
-\item{personal_id_col}{Column that contains the personal ID.}
 
 \item{interpolation}{Type of interpolation, defaults to NULL.}
 

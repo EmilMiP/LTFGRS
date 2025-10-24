@@ -16,7 +16,10 @@ estimate_liability_multi(
   role = "role",
   family_graphs_col = "fam_graph",
   out = c(1),
-  tol = 0.01
+  tol = 0.01,
+  method = "PA",
+  useMixture = FALSE,
+  target_phenotype = NULL
 )
 }
 \arguments{
@@ -95,6 +98,14 @@ Defaults to \code{c(1)}.}
 \item{tol}{A number that is used as the convergence criterion for the Gibbs sampler.
 Equals the standard error of the mean. That is, a tolerance of 0.2 means that the
 standard error of the mean is below 0.2. Defaults to 0.01.}
+
+\item{method}{Estimation method used to estimate the (genetic) liability. Defaults to "PA".
+Current implementation of PA only supports estimates of genetic liability. For full or both
+genetic and full liability estimates use "Gibbs".}
+
+\item{useMixture}{Logical indicating whether the mixture model should be used to calculate the genetic liability.}
+
+\item{target_phenotype}{With method = PA, which phenotype should be returned?}
 }
 \value{
 If \code{family} and \code{threshs} are two matrices, lists or data frames

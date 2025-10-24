@@ -793,6 +793,7 @@ construct_covmat <- function(fam_vec = c("m","f","s1","mgm","mgf","pgm","pgf"), 
 #' @param cur_proband_id id of proband
 #' @param cur_family_graph local graph of current proband
 #' @param h2 liability scale heritability
+#' @param useMixture whether to return K_i and K_pop columns.
 #' @param add_ind whether to add genetic liability of the proband or not. Defaults to true.
 #'
 #' @return list with two elements. The first element is temp_tbl, which contains the id of
@@ -826,6 +827,7 @@ graph_based_covariance_construction = function(pid,
                                                cur_proband_id,
                                                cur_family_graph,
                                                h2,
+                                               useMixture,
                                                add_ind = TRUE) {
   # constructing tibble with ids and thresholds
   temp_tbl = as_tibble(vertex_attr(cur_family_graph)) %>%
@@ -879,13 +881,14 @@ graph_based_covariance_construction = function(pid,
 #' Function that constructs the genetic covariance matrix given a graph around a proband
 #' and extracts the threshold information from the graph.
 #'
-#' @param fid Name of column with the family ID
+#' @param fid Name of column with the family ID (typically the proband ID)
 #' @param pid Name of column of personal ID
 #' @param cur_proband_id id of proband
 #' @param cur_family_graph local graph of current proband
 #' @param h2_vec vector of liability scale heritabilities
 #' @param genetic_corrmat matrix with genetic correlations between considered phenotypes. Must have same order as h2_vec.
 #' @param phen_names Names of the phenotypes, as given in cur_family_graph.
+#' @param useMixture whether to return K_i and K_pop columns.
 #' @param add_ind whether to add genetic liability of the proband or not. Defaults to true.
 #'
 #' @return list with three elements. The first element is temp_tbl, which contains the id of
@@ -899,7 +902,7 @@ graph_based_covariance_construction = function(pid,
 #'
 #' @examples
 #' fam <- data.frame(
-#' fam = c(1, 1, 1,1),
+#' fam = c(1, 1, 1, 1),
 #' id = c("pid", "mom", "dad", "pgf"),
 #' dadcol = c("dad", 0, "pgf", 0),
 #' momcol = c("mom", 0, 0, 0))
@@ -937,6 +940,7 @@ graph_based_covariance_construction_multi = function(fid,
                                                      h2_vec,
                                                      genetic_corrmat,
                                                      phen_names,
+                                                     useMixture,
                                                      add_ind = TRUE) {
   # only calculate number of traits once
   ntrait = length(phen_names)
@@ -1011,6 +1015,38 @@ graph_based_covariance_construction_multi = function(fid,
   # new ordering
   temp_tbl = temp_tbl[match(withinPhenotypeOrder, pull(temp_tbl, !!as.symbol(pid))),]
   cov  = cov[newOrder,newOrder]
+
+  # pivoting temp_tbl into a longer format:
+  # pivoting longer to have one row per individual-trait combination
+  if (useMixture) {
+    temp_tbl <- temp_tbl %>%
+      select(!!as.symbol(fid), !!as.symbol(pid),
+             starts_with("lower_"), starts_with("upper_"),
+             starts_with("K_i_"), starts_with("K_pop_")) %>%
+      tidyr::pivot_longer(
+        cols = -c(fid, pid),
+        names_to = c(".value", "trait"),
+        names_pattern = "(lower|upper|K_i|K_pop)_(.*)"
+      ) %>%
+      mutate(!!as.symbol(pid) := paste0(!!as.symbol(pid), "_", trait)) %>%
+      select(-trait)
+
+  } else {
+    temp_tbl <- temp_tbl %>%
+      select(!!as.symbol(fid), !!as.symbol(pid),
+             starts_with("lower_"), starts_with("upper_")) %>%
+      tidyr::pivot_longer(
+        cols = -c(fid, pid),
+        names_to = c(".value", "trait"),
+        names_pattern = "(lower|upper)_(.*)"
+      ) %>%
+      mutate(!!as.symbol(pid) := paste0(!!as.symbol(pid), "_", trait)) %>%
+      select(-trait)
+  }
+
+  # ordering temp_tbl to match covmat
+  ord_idx = match(colnames(cov), pull(temp_tbl, !!as.symbol(pid)))
+  temp_tbl = temp_tbl[ord_idx,]
 
   return(list(temp_tbl = temp_tbl, cov = cov, newOrder = newOrder))
 }

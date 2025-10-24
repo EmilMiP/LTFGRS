@@ -9,6 +9,7 @@ graph_based_covariance_construction(
   cur_proband_id,
   cur_family_graph,
   h2,
+  useMixture,
   add_ind = TRUE
 )
 }
@@ -20,6 +21,8 @@ graph_based_covariance_construction(
 \item{cur_family_graph}{local graph of current proband}
 
 \item{h2}{liability scale heritability}
+
+\item{useMixture}{whether to return K_i and K_pop columns.}
 
 \item{add_ind}{whether to add genetic liability of the proband or not. Defaults to true.}
 }

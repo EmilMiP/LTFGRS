@@ -50,7 +50,9 @@ reference:
   - convert_observed_to_liability_scale
   - correct_positive_definite
   - extract_estimation_info_graph
+  - extract_estimation_info_graph_multi
   - extract_estimation_info_tbl
+  - extract_estimation_info_tbl_multi
   - fixSexCoding
   - get_all_combs
   - get_covmat

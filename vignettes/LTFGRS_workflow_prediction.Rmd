@@ -215,8 +215,6 @@ fam_thrs = prepare_thresholds(
   age_col = "age" ,
   lower_equal_upper = FALSE,
   personal_thr = TRUE, 
-  fid_col = "fid",
-  personal_id_col = "pid",
   interpolation = "xgboost"
 )
 ```
@@ -242,7 +240,7 @@ If the mixture model is not used to calculate the genetic liability, only `lower
 
 ### Assign thresholds to family graphs
 
-The function `estimate_liability()` can use the family graphs to calculate all necessary values for the genetic liability, if the thresholds are stored as attributes in the family graphs. We can attach the thresholds from `fam_thrs` to `family_graphs` with the function `familywise_attach_attributes()`. The function merges on the `fid` column and attaches any columns in `fam_attr` that are specified in `cols_to_attach`. Since the purpose of the genetic liability we are estimating is prediction, we do not wish to use the information from the proband. We mask the proband's information by setting the `upper` and `lower` values to $\infty$ and $-\infty$ (non-informative values) with the argument `censor_proband_thrs = TRUE`.
+The function `estimate_liability()` can use the family graphs to calculate all necessary values for the genetic liability, if the thresholds are stored as attributes in the family graphs. We can attach the thresholds from `fam_thrs` to `family_graphs` with the function `familywise_attach_attributes()`. The function merges on the `fid` column and attaches any columns in `fam_attr` that are specified in `cols_to_attach`. Since the purpose of the genetic liability we are estimating is prediction, we do not wish to use the information from the proband. We mask the proband's information by setting the `upper` and `lower` values to $\infty$ and $-\infty$ (non-informative values) and all other values to be `NA` with the argument `proband_cols_to_censor = c("lower", "upper")`. If `K_i` or `K_pop` are in `proband_cols_to_censor`, they will be set to NA, which are uninformative in the PA algorithm and will not be problematic. 
 
 ```{r}
 # attach family specific thresholds
@@ -251,10 +249,10 @@ ltfgrs_input = familywise_attach_attributes(family_graphs = family_graphs,
                                             fam_graph_col = "fam_graph",
                                             attached_fam_graph_col = "masked_fam_graph",
                                             cols_to_attach = c("lower", "upper"),
-                                            censor_proband_thrs = TRUE)
+                                            proband_cols_to_censor = c("lower", "upper"))
 ltfgrs_input %>% print(n = 4)
 ```
-The format is similar to the one used in `get_family_graphs()`. It is worth noting that the arguement `censor_proband_thrs` is only required if the purpose of the resulting genetic liability is prediction. 
+The format is similar to the one used in `get_family_graphs()`. It is worth noting that the argument `proband_cols_to_censor` is only required if the purpose of the resulting genetic liability is prediction. 
 
 
 ```{r}

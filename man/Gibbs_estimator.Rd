@@ -4,7 +4,7 @@
 \alias{Gibbs_estimator}
 \title{Wrapper around the Gibbs Sampler that returns formatted liability estimates for the proband}
 \usage{
-Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000)
+Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000, phen_names = NULL)
 }
 \arguments{
 \item{cov}{Covariance (kinship matrix times heritability with corrected diagonal) matrix}
@@ -16,6 +16,8 @@ Gibbs_estimator(cov, tbl, out, tol = 0.01, burn_in = 1000)
 \item{tol}{Convergence criteria, tolerance}
 
 \item{burn_in}{Number of burn-in iterations}
+
+\item{phen_names}{Names of the phenotypes being analyzed}
 }
 \value{
 Formatted liability estimate(s) and standard error(s) of the mean for the proband.

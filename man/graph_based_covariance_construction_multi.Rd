@@ -12,11 +12,12 @@ graph_based_covariance_construction_multi(
   h2_vec,
   genetic_corrmat,
   phen_names,
+  useMixture,
   add_ind = TRUE
 )
 }
 \arguments{
-\item{fid}{Name of column with the family ID}
+\item{fid}{Name of column with the family ID (typically the proband ID)}
 
 \item{pid}{Name of column of personal ID}
 
@@ -29,6 +30,8 @@ graph_based_covariance_construction_multi(
 \item{genetic_corrmat}{matrix with genetic correlations between considered phenotypes. Must have same order as h2_vec.}
 
 \item{phen_names}{Names of the phenotypes, as given in cur_family_graph.}
+
+\item{useMixture}{whether to return K_i and K_pop columns.}
 
 \item{add_ind}{whether to add genetic liability of the proband or not. Defaults to true.}
 }
@@ -44,7 +47,7 @@ and extracts the threshold information from the graph.
 }
 \examples{
 fam <- data.frame(
-fam = c(1, 1, 1,1),
+fam = c(1, 1, 1, 1),
 id = c("pid", "mom", "dad", "pgf"),
 dadcol = c("dad", 0, "pgf", 0),
 momcol = c("mom", 0, 0, 0))

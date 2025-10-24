@@ -76,9 +76,12 @@ convert_format = function(family, threshs, personal_id_col = "pid", role_col = N
 #' @param CIP_cip_col Name of column with CIP values.
 #' @param Kpop Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from \code{.tbl} and a column named "K_pop" with population prevalence values. Defaults to "UseMax".
 #' @param status_col Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).
+#' @param thr_col Name of column to create for threshold. Defaults to "thr".
+#' @param lower_col Name of column to create for lower threshold. Defaults to "lower".
+#' @param upper_col Name of column to create for upper threshold. Defaults to "upper".
+#' @param K_i_col Name of column to create for individual cumulative incidence proportion. Defaults to "K_i".
+#' @param K_pop_col Name of column to create for population prevalence within an individuals CIP strata. Defaults to "K_pop".
 #' @param lower_equal_upper Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
-#' @param fid_col Column that contains the family ID.
-#' @param personal_id_col Column that contains the personal ID.
 #' @param personal_thr Should thresholds be based on stratified CIPs or population prevalence?
 #' @param interpolation Type of interpolation, defaults to NULL.
 #' @param bst.params List of parameters to pass on to xgboost. See xgboost documentation for details.
@@ -117,11 +120,14 @@ prepare_thresholds = function(.tbl,
                               CIP_merge_columns = c("sex", "birth_year", "age"),
                               CIP_cip_col = "cip",
                               Kpop = "useMax",
+                              K_i_col = "K_i",
+                              K_pop_col = "K_pop",
                               status_col = "status",
+                              thr_col = "thr",
+                              lower_col = "lower",
+                              upper_col = "upper",
                               lower_equal_upper = FALSE,
                               personal_thr = FALSE,
-                              fid_col = "fid",
-                              personal_id_col = "pid",
                               interpolation = NULL,
                               bst.params = list(
                                 max_depth = 10,
@@ -172,22 +178,22 @@ prepare_thresholds = function(.tbl,
     # Merging CIPs and assigning thresholds -----------------------------------
     .tbl = .tbl %>%
       dplyr::left_join(CIP, by = CIP_merge_columns) %>%
-      dplyr::mutate(thr = qnorm(!!as.symbol(CIP_cip_col), lower.tail = FALSE),
-                    lower = ifelse(!!as.symbol(status_col) == 1, thr, -Inf),
-                    upper = ifelse(!!as.symbol(status_col) == 1,
-                                   ifelse(lower_equal_upper, thr, Inf),
-                                   thr))
+      dplyr::mutate(!!as.symbol(thr_col) := qnorm(!!as.symbol(CIP_cip_col), lower.tail = FALSE),
+                    !!as.symbol(lower_col) := ifelse(!!as.symbol(status_col) == 1, !!as.symbol(thr_col), -Inf),
+                    !!as.symbol(upper_col) := ifelse(!!as.symbol(status_col) == 1,
+                                   ifelse(lower_equal_upper, !!as.symbol(thr_col), Inf),
+                                   !!as.symbol(thr_col)))
 
 
-    if (any(is.na(.tbl$lower)) | any(is.na(.tbl$upper))) {
-      warning(paste0("There are ", sum(is.na(select(.tbl, lower, upper))), " NA values in the upper and lower thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
+    if (any(is.na(.tbl[[lower_col]])) | any(is.na(.tbl[[upper_col]]))) {
+      warning(paste0("There are ", sum(is.na(select(.tbl, !!as.symbol(lower_col), !!as.symbol(upper_col)))), " NA values in the thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
     }
 
     if (any(.tbl[[age_col]] < 0)) {
       warning("prepare_thresholds: Some ages are negative. This may be due to the end of follow-up happening before the birth of an individual. Setting their thresholds to be uninformative. Please check the input data.")
       .tbl = .tbl %>%
-        mutate(lower = ifelse(!!as.symbol(age_col) < 0, -Inf, lower),
-               upper = ifelse(!!as.symbol(age_col) < 0, Inf, upper))
+        mutate(!!as.symbol(lower_col) := ifelse(!!as.symbol(age_col) < 0, -Inf, !!as.symbol(lower_col)),
+               !!as.symbol(upper_col) := ifelse(!!as.symbol(age_col) < 0,  Inf, !!as.symbol(upper_col)))
     }
 
     # returning formatted input -----------------------------------------------
@@ -216,7 +222,7 @@ prepare_thresholds = function(.tbl,
     if (is.character(Kpop) && Kpop == "useMax") {
       .tbl = select(CIP, all_of(setdiff(CIP_merge_columns, age_col)), !!as.symbol(CIP_cip_col)) %>%
         group_by(across(all_of(all_of(setdiff(CIP_merge_columns, age_col))))) %>%
-        summarise(K_pop = max(!!as.symbol(CIP_cip_col))) %>%
+        summarise(!!as.symbol(K_pop_col) := max(!!as.symbol(CIP_cip_col))) %>%
         ungroup() %>%
         left_join(.tbl, ., by = setdiff(CIP_merge_columns, age_col))
 
@@ -226,19 +232,19 @@ prepare_thresholds = function(.tbl,
         arrange(!!as.symbol(age_col)) %>%
         mutate(cip_pred = cummax(cip_pred)) %>%
         ungroup() %>%
-        mutate(thr = ifelse(rep(personal_thr, n()),
+        mutate(!!as.symbol(thr_col) := ifelse(rep(personal_thr, n()),
                             qnorm(cip_pred, lower.tail = FALSE),
-                            qnorm(K_pop, lower.tail = FALSE)),
-               lower = ifelse(!!as.symbol(status_col), thr, -Inf),
-               upper = ifelse(!!as.symbol(status_col),
-                              ifelse(lower_equal_upper, thr, Inf),
-                              thr)) %>%
-        rename(K_i = cip_pred)
+                            qnorm(!!as.symbol(K_pop_col), lower.tail = FALSE)),
+               !!as.symbol(lower_col) := ifelse(!!as.symbol(status_col), !!as.symbol(thr_col), -Inf),
+               !!as.symbol(upper_col) := ifelse(!!as.symbol(status_col),
+                              ifelse(lower_equal_upper, !!as.symbol(thr_col), Inf),
+                              !!as.symbol(thr_col))) %>%
+        rename(!!as.symbol(K_i_col) := cip_pred)
 
     } else if (any(class(Kpop) %in% c("data.frame", "tibble", "matrix", "data.table", "tbl_df", "tbl"))) {
 
-      if ( !("K_pop" %in% colnames(Kpop)) ) {
-        stop("prepare_thresholds: Kpop must contain a column named 'K_pop' with population prevalence values for columns also present in .tbl.")
+      if ( !(K_pop_col %in% colnames(Kpop)) ) {
+        stop("prepare_thresholds: The object Kpop must contain a column named '", K_pop_col, "' with population prevalence values for columns also present in .tbl.")
       }
 
       .tbl = left_join(.tbl, Kpop) %>%
@@ -246,28 +252,28 @@ prepare_thresholds = function(.tbl,
         arrange(!!as.symbol(age_col)) %>%
         mutate(cip_pred = cummax(cip_pred)) %>%
         ungroup() %>%
-        mutate(thr = ifelse(rep(personal_thr, n()),
+        mutate(!!as.symbol(thr_col) := ifelse(rep(personal_thr, n()),
                             qnorm(cip_pred, lower.tail = FALSE),
-                            qnorm(K_pop, lower.tail = FALSE)),
-               lower = ifelse(!!as.symbol(status_col), thr, -Inf),
-               upper = ifelse(!!as.symbol(status_col),
-                              ifelse(lower_equal_upper, thr, Inf),
-                              thr)) %>%
-        rename(K_i = cip_pred)
+                            qnorm(!!as.symbol(K_pop_col), lower.tail = FALSE)),
+               !!as.symbol(lower_col) := ifelse(!!as.symbol(status_col), !!as.symbol(thr_col), -Inf),
+               !!as.symbol(upper_col) := ifelse(!!as.symbol(status_col),
+                              ifelse(lower_equal_upper, !!as.symbol(thr_col), Inf),
+                              !!as.symbol(thr_col))) %>%
+        rename(!!as.symbol(K_i_col) := cip_pred)
 
     } else {
-      stop("prepare_thresholds: Kpop must be either 'useMax' or a tibble with columns matching the desired strata in .tbl and a column named 'K_pop' with population prevalence values.")
+      stop("prepare_thresholds: Kpop must be either 'useMax' or a tibble with columns matching the desired strata in .tbl and a column named '", K_pop_col, "' with population prevalence values.")
     }
 
     if (any(.tbl[[age_col]] < 0)) {
       warning("prepare_thresholds: Some ages are negative. This may be due to the end of follow-up happening before the birth of an individual. Setting their thresholds to be uninformative. Please check the input data.")
       .tbl = .tbl %>%
-        mutate(lower = ifelse(!!as.symbol(age_col) < 0, -Inf, lower),
-               upper = ifelse(!!as.symbol(age_col) < 0, Inf, upper))
+        mutate(!!as.symbol(lower_col) := ifelse(!!as.symbol(age_col) < 0, -Inf, !!as.symbol(lower_col)),
+               !!as.symbol(upper_col) := ifelse(!!as.symbol(age_col) < 0,  Inf, !!as.symbol(upper_col)))
     }
 
-    if (any(is.na(.tbl$lower)) | any(is.na(.tbl$upper))) {
-      warning(paste0("There are ", sum(is.na(select(.tbl, lower, upper))), " NA values in the upper and lower thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
+    if (any(is.na(.tbl[[lower_col]])) | any(is.na(.tbl[[upper_col]]))) {
+      warning(paste0("There are ", sum(is.na(select(.tbl, !!as.symbol(lower_col), !!as.symbol(upper_col)))), " NA values in the thresholds. \n Do the age and age of onset values match the ages given in the CIPs?"))
     }
 
     return(.tbl)
@@ -277,6 +283,133 @@ prepare_thresholds = function(.tbl,
   }
 }
 
+
+#' Prepare thresholds for multiple phenotypes
+#'
+#' This function is a wrapper around \code{prepare_thresholds} to prepare thresholds for multiple phenotypes at once.
+#'
+#' @param .tbl Tibble with family and personal id columns, as well as CIP_merge_columns and status for each phenotype.
+#' @param CIP_list List of tibbles with population representative cumulative incidence proportions. Each tibble must contain columns from \code{CIP_merge_columns} and \code{cIP_cip_col}.
+#' @param phen_names Vector of phenotype names. Used to identify status columns and to name output columns.
+#' @param CIP_merge_columns The columns the CIPs are subset by, e.g. CIPs by birth_year, sex. and age_col.
+#' @param age_col Name of column with age at the end of follow-up or age at diagnosis for cases.
+#' @param age_eof_base Base name of age at end of follow-up column. The actual column name is constructed by appending the phenotype name. Defaults to "age_eof".
+#' @param status_col_base Base name of status column. The actual column name is constructed by appending the phenotype name. Defaults to "status".
+#' @param lower_base Base name of lower threshold column. The actual column name is constructed by appending the phenotype name. Defaults to "lower".
+#' @param upper_base Base name of upper threshold column. The actual column name is constructed by appending the phenotype name. Defaults to "upper".
+#' @param thr_col Base name of threshold column. The actual column name is constructed by appending the phenotype name. Defaults to "thr".
+#' @param K_i_col Base name of individual cumulative incidence proportion column. The actual column name is constructed by appending the phenotype name. Defaults to "K_i".
+#' @param K_pop_col Base name of population prevalence column. The actual column name is constructed by appending the phenotype name. Defaults to "K_pop".
+#' @param Kpop_list List of population prevalence tibbles or "useMax" for each phenotype. If a tibble is provided, it must contain columns from \code{.tbl} and a column named "K_pop" with population prevalence values. Defaults to "UseMax".
+#' @param personal_thr Should thresholds be based on stratified CIPs or population prevalence?
+#' @param lower_equal_upper Should the upper and lower threshold be the same for cases? Can be used if CIPs are detailed, e.g. stratified by birth year and sex.
+#' @param interpolation Type of interpolation, defaults to "xgboost".
+#' @param bst.params List of parameters to pass on to xgboost. See xgboost documentation for details.
+#' @param min_CIP_value Minimum cip value to allow. Too low values may lead to numerical instabilities.
+#' @param xgboost_itr Number of iterations to run xgboost for.
+#'
+#' @importFrom dplyr %>% left_join select all_of
+#' @importFrom stringr str_subset
+#'
+#' @return Tibble with (personlised) thresholds for each family member (lower & upper), the calculated cumulative incidence proportion for each individual (K_i), and population prevalence within an individuals CIP strata (K_pop; max value in stratum) for each phenotype. The threshold and other potentially relevant information can be added to the family graphs with \code{familywise_attach_attributes}.
+#'
+#' @examples
+#' # TODO: create simple example
+#'
+#' @export
+prepare_thresholds_multi = function(
+    .tbl,
+    CIP_list,
+    phen_names,
+    CIP_merge_columns = c("sex", "birth_year", "age"),
+    CIP_cip_col = "cip",
+    age_col = "age",
+    age_eof_base = "age_eof",
+    status_col_base = "status",
+    lower_base = "lower",
+    upper_base = "upper",
+    thr_col = "thr",
+    K_i_col = "K_i",
+    K_pop_col = "K_pop",
+    Kpop_list = "useMax",
+    personal_thr = TRUE,
+    lower_equal_upper = FALSE,
+    interpolation = "xgboost",
+    bst.params = list(
+      max_depth = 10,
+      base_score = 0,
+      nthread = 4,
+      min_child_weight = 10
+    ),
+    min_CIP_value = 1e-5,
+    xgboost_itr = 30) {
+
+
+  res = lapply(seq_along(phen_names), function(i) {
+    cur_status_col = paste0(status_col_base, "_", phen_names[i])
+    cur_lower_col  = paste0(lower_base, "_", phen_names[i])
+    cur_upper_col  = paste0(upper_base, "_", phen_names[i])
+    cur_thr_col    = paste0(thr_col, "_", phen_names[i])
+    cur_K_i_col    = paste0(K_i_col, "_", phen_names[i])
+    cur_K_pop_col  = paste0(K_pop_col, "_", phen_names[i])
+    cur_age_eof_col= paste0(age_eof_base, "_", phen_names[i])
+
+    # extract the correct Kpop entry, or set useMax
+    if (Kpop_list == "useMax") {
+      Kpop = "useMax"
+    } else {
+      Kpop = Kpop_list[[i]]
+    }
+
+    # Calculate thresholds for current phenotype
+    tmp_res = prepare_thresholds(.tbl = .tbl %>% rename(!!as.symbol(age_col) := !!as.symbol(cur_age_eof_col)),
+                                 CIP = CIP_list[[i]],
+                                 age_col = age_col,
+                                 CIP_merge_columns = CIP_merge_columns,
+                                 CIP_cip_col = CIP_cip_col,
+                                 Kpop = Kpop,
+                                 status_col = cur_status_col,
+                                 lower_col  = cur_lower_col,
+                                 upper_col  = cur_upper_col,
+                                 thr_col    = cur_thr_col,
+                                 K_i_col    = cur_K_i_col,
+                                 K_pop_col  = cur_K_pop_col,
+                                 lower_equal_upper = lower_equal_upper,
+                                 personal_thr = personal_thr,
+                                 interpolation = "xgboost",
+                                 bst.params = bst.params,
+                                 min_CIP_value = min_CIP_value,
+                                 xgboost_itr = xgboost_itr) %>%
+      rename(!!as.symbol(cur_age_eof_col) := !!as.symbol(age_col))
+
+    # identify all columns with current phenotype name
+    cur_phen_cols = str_subset(colnames(tmp_res), phen_names[i])
+    # identify all columns with other phenotype names
+    other_phen_cols = lapply(phen_names[-i], function(x) {
+      str_subset(colnames(tmp_res), x)
+    }) %>% unlist()
+
+    # make sure we keep the required columns, lower, upper, thr, K_i, K_pop
+    none_required_cur_phen_cols = setdiff(
+      c(cur_phen_cols, other_phen_cols),
+      c(cur_age_eof_col, cur_lower_col, cur_upper_col, cur_thr_col, cur_K_i_col, cur_K_pop_col))
+
+    # remove all unnecessary columns
+    tmp_res %>%
+      select(-all_of(none_required_cur_phen_cols))
+
+  })
+
+
+  # find all columns, independent of outcomes, to merge on:
+  to_merge_on = lapply(seq_along(phen_names), function(i) {
+    str_subset(colnames(res[[i]]), phen_names[i], negate = T)
+  }) %>% purrr::reduce(base::intersect)
+
+  # merge all threshold results into one tibble and return it:
+  purrr::reduce(res, left_join, by = to_merge_on)
+
+}
 
 
 #' Construct graph from register information
@@ -590,30 +723,31 @@ censor_family_onsets = function(tbl, proband_id_col, cur_proband, start, end, ev
 #'
 #' @param cur_fam_graph An igraph object (neighbourhood graph around a proband) with family members up to degree n.
 #' @param cur_proband Current proband id (center of the neighbourhood graph).
-#' @param fid Column name of family id.
+#' @param pid Column name of personal id (within a family).
 #' @param attr_tbl Tibble with family id and attributes for each family member.
 #' @param attr_names Names of attributes to be assigned to each node (family member) in the graph.
-#' @param censor_proband_thrs Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
+#' @param proband_cols_to_censor Which columns should be made uninformative for the proband? Defaults to NA. Used to exclude proband's information for prediction with, e.g. c("lower", "upper").
 #'
 #' @returns igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
 #'
 #' @export
-attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
+
+attach_attributes = function(cur_fam_graph, cur_proband, pid, attr_tbl, attr_names, proband_cols_to_censor = NA) {
   # get node names
   graph_vertex_names = igraph::vertex_attr(cur_fam_graph)$name
 
   # which nodes are present in thresholds?
-  to_keep_indx = which(graph_vertex_names %in% attr_tbl[[fid]])
+  to_keep_indx = which(graph_vertex_names %in% attr_tbl[[pid]])
   # get names of present nodes
   to_keep = graph_vertex_names[to_keep_indx]
 
   # order attributes after graph
-  attr_tbl_matched = attr_tbl %>% slice(match(to_keep, !!as.symbol(fid)))
+  attr_tbl_matched = attr_tbl %>% slice(match(to_keep, !!as.symbol(pid)))
 
   # any attr_names columns not in attr_tbl?
   if (any(!(attr_names %in% colnames(attr_tbl_matched)))) {
     warning(paste0("attach_attributes: Not all attributes are present in attr_tbl!\n",
-                    " Missing attributes: ", paste(setdiff(attr_names, colnames(attr_tbl_matched)), collapse = ", ")))
+                   " Missing attributes: ", paste(setdiff(attr_names, colnames(attr_tbl_matched)), collapse = ", ")))
   }
 
   # only include columns of attr_tbl that are in attr_names
@@ -622,8 +756,14 @@ attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_nam
   }
 
   # censor proband thresholds if requested
-  if (censor_proband_thrs) {
-    for (attr in str_subset(attr_names, "lower|upper")) {
+  if (is.character(proband_cols_to_censor) & any(!is.na(proband_cols_to_censor))) {
+    # are any cols to censor not present?
+    if (any(!(proband_cols_to_censor %in% colnames(attr_tbl)))) {
+      warning(paste0("attach_attributes: Not all proband_cols_to_censor are present in attr_tbl!\n",
+                     " Missing columns: ", paste(setdiff(proband_cols_to_censor, colnames(attr_tbl)), collapse = ", ")))
+    }
+
+    for (attr in proband_cols_to_censor) {
       cur_fam_graph = igraph::set_vertex_attr(
         graph = cur_fam_graph,
         index = cur_proband,
@@ -640,6 +780,48 @@ attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_nam
   return(cur_fam_graph)
 }
 
+# attach_attributes = function(cur_fam_graph, cur_proband, pid, attr_tbl, attr_names, censor_proband_thrs = TRUE) {
+#   # get node names
+#   graph_vertex_names = igraph::vertex_attr(cur_fam_graph)$name
+#
+#   # which nodes are present in thresholds?
+#   to_keep_indx = which(graph_vertex_names %in% attr_tbl[[pid]])
+#   # get names of present nodes
+#   to_keep = graph_vertex_names[to_keep_indx]
+#
+#   # order attributes after graph
+#   attr_tbl_matched = attr_tbl %>% slice(match(to_keep, !!as.symbol(pid)))
+#
+#   # any attr_names columns not in attr_tbl?
+#   if (any(!(attr_names %in% colnames(attr_tbl_matched)))) {
+#     warning(paste0("attach_attributes: Not all attributes are present in attr_tbl!\n",
+#                     " Missing attributes: ", paste(setdiff(attr_names, colnames(attr_tbl_matched)), collapse = ", ")))
+#   }
+#
+#   # only include columns of attr_tbl that are in attr_names
+#   for (attr in attr_names) {
+#     cur_fam_graph <- igraph::set_vertex_attr(graph = cur_fam_graph, name = attr, value = attr_tbl_matched[[attr]])
+#   }
+#
+#   # censor proband thresholds if requested
+#   if (censor_proband_thrs) {
+#     for (attr in str_subset(attr_names, "lower|upper")) {
+#       cur_fam_graph = igraph::set_vertex_attr(
+#         graph = cur_fam_graph,
+#         index = cur_proband,
+#         name = attr,
+#         value = case_when(
+#           str_detect(attr, "lower") ~ -Inf,
+#           str_detect(attr, "upper") ~ Inf,
+#           TRUE ~ NA
+#         )
+#       )
+#     }
+#   }
+#
+#   return(cur_fam_graph)
+# }
+
 
 
 #' Wrapper to attach attributes to family graphs
@@ -654,7 +836,7 @@ attach_attributes = function(cur_fam_graph, cur_proband, fid, attr_tbl, attr_nam
 #' @param fid column name of family id. Typically contains the name of the proband that a family graph is centred on. defaults to "fid".
 #' @param pid personal identifier for each individual in a family. Allows for multiple instances of the same individual across families. Defaults to "pid".
 #' @param cols_to_attach columns to attach to the family graphs from fam_attr, typically lower and upper thresholds. Mixture input also requires K_i and K_pop.
-#' @param censor_proband_thrs Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
+#' @param proband_cols_to_censor Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.
 #'
 #' @returns tibble with family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().
 #'
@@ -669,7 +851,7 @@ familywise_attach_attributes = function(family_graphs,
                                         fid = "fid",
                                         pid = "pid",
                                         cols_to_attach = c("lower", "upper"),
-                                        censor_proband_thrs = TRUE) {
+                                        proband_cols_to_censor = NA) {
   fam_attr %>%
     tidyr::nest(attrs = -fid) %>%
     left_join(family_graphs, ., by = fid) %>%
@@ -679,8 +861,8 @@ familywise_attach_attributes = function(family_graphs,
         ~ attach_attributes(
           cur_fam_graph = ..2,
           attr_tbl = ..3, cur_proband = ..1,
-          fid = pid, attr_names = cols_to_attach,
-          censor_proband_thrs = censor_proband_thrs))) %>%
+          pid = pid, attr_names = cols_to_attach,
+          proband_cols_to_censor  = proband_cols_to_censor))) %>%
     select(-attrs, -!!as.symbol(fam_graph_col))
 }
 
@@ -794,4 +976,90 @@ familywise_censoring = function(
                                 aod_col = aod_col,
                                 age_eof_col = age_eof_col))) %>%
     tidyr::unnest(cols = c(data))
+}
+
+
+
+#' Familywise Censoring for Multiple Outcomes
+#'
+#' This function applies familywise censoring across multiple outcomes in a dataset.
+#' If a target outcome is specified, all outcomes are censored based on the end of follow-up time of the target outcome,
+#' then familywise censoring is performed for each outcome individually.
+#'
+#' @param family_graphs A tibble containing family graphs for each family.
+#' @param tbl A tibble containing individual-level data with multiple outcomes.
+#' @param start The column name representing the start of follow-up time.
+#' @param end_base The base name for the end of follow-up time columns (e.g., "end" for columns like "end_outcome1", "end_outcome2").
+#' @param target_outcome An optional string specifying the target outcome for censoring. If provided, all outcomes will be censored based on this outcome's end of follow-up time.
+#' @param phen_names A vector of phenotype names corresponding to the different outcomes.
+#' @param status_col_base The base name for the status columns (default is "status").
+#' @param aod_col_base The base name for the age of diagnosis columns (default is "aod").
+#' @param age_eof_col_base The base name for the age at end of follow-up columns (default is "age_eof").
+#' @param fam_graph_col The column name in `family_graphs` that contains the family graph (default is "fam_graph").
+#' @param fid The column name representing family ID (default is "fid").
+#' @param pid The column name representing individual ID (default is "pid").
+#' @param simplify A logical indicating whether to simplify the output by removing columns not specific to an outcome (default is TRUE).
+#' @param merge_by The column name(s) to merge results by (default is `pid`).
+#'
+#' @return A tibble containing the familywise censored results for all outcomes.
+#'
+#'
+#' @examples
+#' # TODO: Add examples
+#'
+#' @export
+#'
+familywise_censoring_multi = function(family_graphs,
+                                      tbl,
+                                      start,
+                                      end_base,
+                                      phen_names,
+                                      target_outcome = NULL,
+                                      status_col_base = "status",
+                                      aod_col_base = "aod",
+                                      age_eof_col_base = "age_eof",
+                                      fam_graph_col = "fam_graph",
+                                      fid = "fid",
+                                      pid = "pid",
+                                      simplify = TRUE, # simplifies output by removing all columns not specific to an outcome.
+                                      merge_by = pid) {
+  if (!is.null(target_outcome)) {
+    # applying censoring based on target outcome to all other outcomes:
+    tbl = tbl %>%
+      mutate(
+        across(starts_with(end_base), ~ pmin(.x, get(paste0(end_base, "_", target_outcome)), na.rm = TRUE)),
+      )
+  }
+
+  # with all outcomes censored at the target outcome end of follow up, we will
+  # perform familywise_censoring on each outcome:
+  res = lapply(phen_names, function(phen_name) {
+
+    tmp_res = familywise_censoring(
+      family_graphs = family_graphs,
+      fam_graph_col = fam_graph_col,
+      fid = fid,
+      pid = pid,
+      tbl = tbl,
+      start = start,
+      end = paste0(end_base,"_", phen_name),
+      event = phen_name,
+      status_col = paste0(status_col_base, "_", phen_name),
+      aod_col = paste0(aod_col_base, "_", phen_name),
+      age_eof_col = paste0(age_eof_col_base, "_", phen_name),
+      merge_by = merge_by)
+    if (simplify) {
+      tmp_res %>% select(-all_of(phen_names), -all_of(paste0(end_base, "_", phen_names)))
+    } else {
+      tmp_res
+    }
+  })
+
+  # find all columns, independent of outcomes, to merge on:
+  to_merge_on = lapply(seq_along(phen_names), function(i) {
+    str_subset(colnames(res[[i]]), phen_names[i], negate = T)
+  }) %>% purrr::reduce(base::intersect)
+
+  # merge all familywise censored results into one tibble and return it:
+  purrr::reduce(res, left_join, by = to_merge_on)
 }

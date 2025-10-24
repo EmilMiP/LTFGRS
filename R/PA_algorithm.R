@@ -19,7 +19,9 @@ utils::globalVariables("K_pop")
 
 
 PA_algorithm = function(mu, covmat, target_id, lower, upper, K_i = NA, K_pop = NA) {
+  # which index is target individual?
   target_indx = which(target_id == rownames(covmat))
+
   if (length(target_indx) == 0) {
     stop("PA_algorithm: Target ID not found in covariance matrix")
   }
@@ -56,45 +58,3 @@ PA_algorithm = function(mu, covmat, target_id, lower, upper, K_i = NA, K_pop = N
 
 
 
-# PA_updates = function(mu, covmat, target_id, lower, upper, mixture_prob) {
-#
-#   if (!any(target_id == rownames(covmat))) {
-#     stop("Target ID not found in covariance matrix")
-#   }
-#   # ensures order is the same across input
-#   target_indx = which(target_id == rownames(covmat))
-#   ord <- order(-mixture_prob[-target_indx], -covmat[-target_indx, target_indx], -rowSums(covmat[-target_indx, , drop = F])) # will probably leave this as-is.
-#
-#   # keeping order as-is, except target entry is move to first entry
-#   ordr = c(target_indx, 1:nrow(covmat)[-target_indx])
-#   covmat = covmat[ordr, ordr]
-#   mu = mu[ordr]
-#   lower = lower[ordr]
-#   upper = upper[ordr]
-#   mixture_prob = mixture_prob[ordr]
-#
-#   print(mu)
-#   print(covmat)
-#   print(lower)
-#   print(upper)
-#   print(mixture_prob)
-#   cat("----- starting PA algorithm ----- \n")
-#   for (i in length(mu):2) { # length(m) - 1 iterations, since we will return last entry
-#     cat("----- Conditioning on entry: ", i, " ----- \n")
-#     # we will always take the last entry
-#     # mean and variance of last entry individual is calculated given information on them:
-#     update = tnorm_mixture_conditional(mu = mu[i],
-#                                        var = covmat[i, i],
-#                                        lower = lower[i],
-#                                        upper = upper[i],
-#                                        Kp = mixture_prob[i] * (1 - pnorm(upper[i])))
-#
-#     # updating mean and variances of all other individuals conditional on last entry values
-#     mu = mu[-i] + covmat[-i, i] %*% solve(covmat[i, i]) * (update$mean - mu[i])
-#     covmat = covmat[-i, -i] - covmat[-i, i] %*% (solve(covmat[i, i]) - solve(covmat[i, i]) %*% update$var %*% solve(covmat[i, i])) %*% covmat[i, -i]
-#     # note: one dimention is "lost" after each iteration, meaning final result is one-dimentional
-#     print(mu)
-#     print(covmat)
-#   }
-#   return(c(postM = as.vector(mu), postVar = as.vector(covmat)))
-# }

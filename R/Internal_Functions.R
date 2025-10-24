@@ -265,6 +265,90 @@ extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_in
   return(list(tbl = temp_tbl, cov = cov))
 }
 
+#' Title Internal Function used to extact input needed from multi-trait tibble input for liability estimation
+#'
+#' @param .tbl .tbl input from estimate_liability
+#' @param cur_fid current family ID being worked on
+#' @param h2 vector of heritability value from estimate_liability
+#' @param fid name of family ID column
+#' @param pid name of personal ID column
+#' @param role name of role column
+#' @param phen_names vector of phenotype names as given to estimate_liability
+#' @param genetic_corrmat genetic correlation matrix as given to estimate_liability
+#' @param full_corrmat full correlation matrix as given to estimate_liability
+#' @param add_ind Whether the genetic liability be added. Default is TRUE.
+#'
+#' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through construct_covmat()
+#'
+#' @export
+extract_estimation_info_tbl_multi = function(.tbl, cur_fid, h2, fid, pid, role, phen_names, genetic_corrmat, full_corrmat, add_ind = TRUE) {
+  # extract all with current family ID.
+  temp_tbl = filter(.tbl, !!as.symbol(fid) == cur_fid)
+
+  # Extract the personal numbers and roles for all family members
+  pids  <- pull(temp_tbl, !!as.symbol(pid))
+  roles <- pull(temp_tbl, !!as.symbol(role))
+
+  # Constructing the covariance matrix.
+  cov_obj <- construct_covmat(fam_vec = roles, n_fam = NULL, add_ind = add_ind, h2 = h2,
+                              genetic_corrmat = genetic_corrmat,
+                              full_corrmat = full_corrmat)
+
+  # check for whether covariance matrix is positive definite
+  # correct if needed.
+  cov_PD = correct_positive_definite_simplified(covmat = cov_obj)
+  cov = cov_PD$covmat
+
+  # adding missing roles (of either g or o)
+  if (add_ind) {
+    temp_tbl = add_missing_roles_for_proband(temp_tbl = temp_tbl,
+                                             role = role,
+                                             cur_roles = roles,
+                                             cur_fid = cur_fid,
+                                             pid = pid,
+                                             fid = fid,
+                                             phen_names = phen_names)
+
+  }
+
+  # Now that we have extracted all the relevant information, we
+  # only need to order the observations before we can run
+  # Gibbs sampler, as g and o need to be the first two observations.
+
+  # pivoting longer to have one row per individual-trait combination
+  if (useMixture) {
+    temp_tbl <- temp_tbl %>%
+      select(!!as.symbol(fid), !!as.symbol(pid), !!as.symbol(role),
+             starts_with("lower_"), starts_with("upper_"),
+             starts_with("K_i_"), starts_with("K_pop_")) %>%
+      tidyr::pivot_longer(
+        cols = -c(fid, pid, role),
+        names_to = c(".value", "trait"),
+        names_pattern = "(lower|upper|K_i|K_pop)_(.*)"
+      ) %>%
+      mutate(matchID = paste0(!!as.symbol(role), "_", trait)) %>%
+      select(-trait)
+
+  } else {
+    temp_tbl <- temp_tbl %>%
+      select(!!as.symbol(fid), !!as.symbol(pid), !!as.symbol(role),
+             starts_with("lower_"), starts_with("upper_")) %>%
+      tidyr::pivot_longer(
+        cols = -c(fid, pid, role),
+        names_to = c(".value", "trait"),
+        names_pattern = "(lower|upper)_(.*)"
+      ) %>%
+      mutate(matchID = paste0(!!as.symbol(role), "_", trait)) %>%
+      select(-trait)
+  }
+
+  # ordering temp_tbl to match covmat
+  ord_idx = match(colnames(cov), pull(temp_tbl, matchID))
+  temp_tbl = temp_tbl[ord_idx, ] %>%
+    select(-matchID)
+
+  return(list(tbl = temp_tbl, cov = cov))
+}
 
 #' Title Internal Function used to extact input needed from graph input for liability estimation
 #'
@@ -292,4 +376,43 @@ extract_estimation_info_graph = function(cur_fam_graph, cur_fid, h2, pid, add_in
   cov_PD = correct_positive_definite_simplified(covmat = cov_obj$covmat)
 
   return(list(tbl = cov_obj$temp_tbl, cov = cov_PD$covmat))
+}
+
+
+#' Title Internal Function used to extact input needed from multi-trait graph input for liability estimation
+#'
+#' @param cur_fam_graph neightbourhood graph of degree n around proband
+#' @param fid Name of column of family ID
+#' @param pid Name of column of personal ID
+#' @param cur_fid proband ID
+#' @param h2_vec vector of heritability values from estimate_liability
+#' @param genetic_corrmat genetic correlation matrix as given to estimate_liability
+#' @param phen_names vector of phenotype names as given to estimate_liability
+#' @param useMixture whether mixture model is used
+#' @param add_ind Whether the genetic liability be added. Default is TRUE.
+#'
+#' @returns list with three elements: tbl (tibble with all relevant information),
+#' cov (covariance matrix) estimated through graph_based_covariance_construction_multi(),
+#' and newOrder (order of individuals in covariance matrix)
+#' @export
+extract_estimation_info_graph_multi = function(cur_fam_graph, fid, pid, cur_fid,  h2_vec, genetic_corrmat, phen_names, useMixture, add_ind = TRUE) {
+  # extract current (local) family graph and
+  # construct covariance and extract threshold information from graph.
+  cov_obj = graph_based_covariance_construction_multi(
+    fid = fid,
+    pid = pid,
+    cur_proband_id = cur_fid,
+    cur_family_graph = cur_fam_graph,
+    h2_vec = h2_vec,
+    genetic_corrmat = genetic_corrmat,
+    phen_names = phen_names,
+    useMixture = useMixture,
+    add_ind = add_ind)
+  # cov and temp_tbl are ordered during construction
+
+  # check whether covariance matrix is positive definite
+  # correct if needed.
+  cov_PD = correct_positive_definite_simplified(covmat = cov_obj$cov)
+
+  return(list(tbl = cov_obj$temp_tbl, cov = cov_PD$covmat, newOrder = cov_obj$newOrder) )
 }

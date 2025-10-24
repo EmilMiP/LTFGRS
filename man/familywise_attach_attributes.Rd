@@ -12,7 +12,7 @@ familywise_attach_attributes(
   fid = "fid",
   pid = "pid",
   cols_to_attach = c("lower", "upper"),
-  censor_proband_thrs = TRUE
+  proband_cols_to_censor = NA
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ familywise_attach_attributes(
 
 \item{cols_to_attach}{columns to attach to the family graphs from fam_attr, typically lower and upper thresholds. Mixture input also requires K_i and K_pop.}
 
-\item{censor_proband_thrs}{Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.}
+\item{proband_cols_to_censor}{Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.}
 }
 \value{
 tibble with family ids and an updated family graph with attached attributes. If lower and upper thresholds are specified, the input is ready for estimate_liability().

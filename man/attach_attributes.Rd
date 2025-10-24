@@ -7,10 +7,10 @@
 attach_attributes(
   cur_fam_graph,
   cur_proband,
-  fid,
+  pid,
   attr_tbl,
   attr_names,
-  censor_proband_thrs = TRUE
+  proband_cols_to_censor = NA
 )
 }
 \arguments{
@@ -18,13 +18,13 @@ attach_attributes(
 
 \item{cur_proband}{Current proband id (center of the neighbourhood graph).}
 
-\item{fid}{Column name of family id.}
+\item{pid}{Column name of personal id (within a family).}
 
 \item{attr_tbl}{Tibble with family id and attributes for each family member.}
 
 \item{attr_names}{Names of attributes to be assigned to each node (family member) in the graph.}
 
-\item{censor_proband_thrs}{Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.}
+\item{proband_cols_to_censor}{Which columns should be made uninformative for the proband? Defaults to NA. Used to exclude proband's information for prediction with, e.g. c("lower", "upper").}
 }
 \value{
 igraph object (neighbourhood graph around a proband) with updated attributes for each node in the graph.
