@@ -9,7 +9,7 @@ This function wraps around attach_attributes to ease the process of attaching at
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@ This function wraps around attach_attributes to ease the process of attaching at
 <span>  fid <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>  pid <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>  cols_to_attach <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span>,</span>
-<span>  censor_proband_thrs <span class="op">=</span> <span class="cn">T</span></span>
+<span>  proband_cols_to_censor <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,7 +96,7 @@ This function wraps around attach_attributes to ease the process of attaching at
 <dd><p>columns to attach to the family graphs from fam_attr, typically lower and upper thresholds. Mixture input also requires K_i and K_pop.</p></dd>
 
 
-<dt id="arg-censor-proband-thrs">censor_proband_thrs<a class="anchor" aria-label="anchor" href="#arg-censor-proband-thrs"></a></dt>
+<dt id="arg-proband-cols-to-censor">proband_cols_to_censor<a class="anchor" aria-label="anchor" href="#arg-proband-cols-to-censor"></a></dt>
 <dd><p>Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.</p></dd>
 
 </dl></div>
@@ -119,7 +119,7 @@ This function wraps around attach_attributes to ease the process of attaching at
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

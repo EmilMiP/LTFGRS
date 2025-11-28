@@ -9,7 +9,7 @@ and extracts the threshold information from the graph."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,6 +60,7 @@ and extracts the threshold information from the graph.</p>
 <span>  <span class="va">h2_vec</span>,</span>
 <span>  <span class="va">genetic_corrmat</span>,</span>
 <span>  <span class="va">phen_names</span>,</span>
+<span>  useMixture <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  add_ind <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -69,7 +70,7 @@ and extracts the threshold information from the graph.</p>
 
 
 <dl><dt id="arg-fid">fid<a class="anchor" aria-label="anchor" href="#arg-fid"></a></dt>
-<dd><p>Name of column with the family ID</p></dd>
+<dd><p>Name of column with the family ID (typically the proband ID)</p></dd>
 
 
 <dt id="arg-pid">pid<a class="anchor" aria-label="anchor" href="#arg-pid"></a></dt>
@@ -96,6 +97,10 @@ and extracts the threshold information from the graph.</p>
 <dd><p>Names of the phenotypes, as given in cur_family_graph.</p></dd>
 
 
+<dt id="arg-usemixture">useMixture<a class="anchor" aria-label="anchor" href="#arg-usemixture"></a></dt>
+<dd><p>whether to return K_i and K_pop columns.</p></dd>
+
+
 <dt id="arg-add-ind">add_ind<a class="anchor" aria-label="anchor" href="#arg-add-ind"></a></dt>
 <dd><p>whether to add genetic liability of the proband or not. Defaults to true.</p></dd>
 
@@ -111,7 +116,7 @@ which is the order of ids from pid and phen_names pasted together, such that ord
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">fam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>fam <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>fam <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pid"</span>, <span class="st">"mom"</span>, <span class="st">"dad"</span>, <span class="st">"pgf"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>dadcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dad"</span>, <span class="fl">0</span>, <span class="st">"pgf"</span>, <span class="fl">0</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>momcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mom"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -141,14 +146,19 @@ which is the order of ids from pid and phen_names pasted together, such that ord
 <span class="r-in"><span>                                          genetic_corrmat <span class="op">=</span> <span class="va">genetic_corrmat</span>,</span></span>
 <span class="r-in"><span>                                          phen_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $temp_tbl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fam   id    lower_1 lower_2 upper_1 upper_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> pid   pid_g  -<span style="color: #BB0000;">Inf</span>    -<span style="color: #BB0000;">Inf</span>     <span style="color: #BB0000;">Inf</span>     <span style="color: #BB0000;">Inf</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pid   pid    -<span style="color: #BB0000;">Inf</span>    -<span style="color: #BB0000;">Inf</span>       0.8     0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pid   mom    -<span style="color: #BB0000;">Inf</span>       0.3     0.8     0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> pid   dad       0.8  -<span style="color: #BB0000;">Inf</span>       0.8     0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> pid   pgf       0.7     0.2     0.7     0.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    fam   id       lower upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> pid   pid_g_1 -<span style="color: #BB0000;">Inf</span>   <span style="color: #BB0000;">Inf</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> pid   pid_1   -<span style="color: #BB0000;">Inf</span>     0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> pid   mom_1   -<span style="color: #BB0000;">Inf</span>     0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> pid   dad_1      0.8   0.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> pid   pgf_1      0.7   0.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> pid   pid_g_2 -<span style="color: #BB0000;">Inf</span>   <span style="color: #BB0000;">Inf</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> pid   pid_2   -<span style="color: #BB0000;">Inf</span>     0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> pid   mom_2      0.3   0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> pid   dad_2   -<span style="color: #BB0000;">Inf</span>     0.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pid   pgf_2      0.2   0.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cov</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         pid_g_1 pid_1 mom_1 dad_1 pgf_1 pid_g_2 pid_2 mom_2 dad_2 pgf_2</span>
@@ -179,7 +189,7 @@ which is the order of ids from pid and phen_names pasted together, such that ord
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

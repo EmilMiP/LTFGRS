@@ -1,0 +1,175 @@
+# LTFGRS
+
+LTFGRS is an R package that provides a unified interface to perform
+several phenotype-based family genetic risk scores (FGRS) as well as
+functions to perform the required data preparation and management steps.
+
+The implemented methods are
+[LT-FH++](https://doi.org/10.1016/j.ajhg.2022.01.009),
+[PA-FGRS](https://pubmed.ncbi.nlm.nih.gov/39471805/), and [Kendler’s
+FGRS](https://pubmed.ncbi.nlm.nih.gov/33881469/). The primary focus of
+the package is LT-FH++ and PA-FGRS. They share many similarities in
+their models, since they are both based on the same underlying liability
+threshold model with modifications. This package allows users to pick
+and chose which elements of those methods they want to use. Notable
+properties of the package are:
+
+- Automatic identification of family members up to n’th degree.
+- personalised thresholds for each included family that can account for:
+  - age of diagnosis
+  - censoring
+  - cohort effects
+  - sex
+  - family-wise censoring
+- mixture distribution to handle partially observed controls.
+
+# Installation
+
+You can install the development version of LTFGRS from GitHub with:
+
+    remotes::install_github("EmilMiP/LTFGRS")
+
+You can install the LTFGRS from CRAN with:
+
+    install.packages("LTFGRS")
+
+# Documentation and Tutorials
+
+Documentation and tutorials for the package can be found in the [pkgdown
+site](https://emilmip.github.io/LTFGRS/).
+
+# Package index
+
+## Family history estimators
+
+Family history estimators available in the LTFGRS package.
+
+- [`estimate_liability()`](https://emilmip.github.io/LTFGRS/reference/estimate_liability.md)
+  : Estimating the genetic or full liability for a variable number of
+  phenotypes
+- [`estimate_gen_liability_ltfh()`](https://emilmip.github.io/LTFGRS/reference/estimate_gen_liability_ltfh.md)
+  : Estimate genetic liability similar to LT-FH
+- [`kendler()`](https://emilmip.github.io/LTFGRS/reference/kendler.md) :
+  Title Kendler's FGRS
+
+## Data preparation functions
+
+Functions used to prepare data for the family history estimators.
+
+- [`attach_attributes()`](https://emilmip.github.io/LTFGRS/reference/attach_attributes.md)
+  : Attach attributes to a family graphs
+- [`censor_family_onsets()`](https://emilmip.github.io/LTFGRS/reference/censor_family_onsets.md)
+  : Censor onset times in a family based on a proband's end of
+  follow-up.
+- [`familywise_censoring()`](https://emilmip.github.io/LTFGRS/reference/familywise_censoring.md)
+  : Censor Family Onsets for Multiple Families
+- [`familywise_censoring_multi()`](https://emilmip.github.io/LTFGRS/reference/familywise_censoring_multi.md)
+  : Familywise Censoring for Multiple Outcomes
+- [`familywise_attach_attributes()`](https://emilmip.github.io/LTFGRS/reference/familywise_attach_attributes.md)
+  : Wrapper to attach attributes to family graphs
+- [`get_family_graphs()`](https://emilmip.github.io/LTFGRS/reference/get_family_graphs.md)
+  : Automatically identify family members of degree n
+- [`get_onset_time()`](https://emilmip.github.io/LTFGRS/reference/get_onset_time.md)
+  : Calculate age of diagnosis, age at end of follow up, and status
+- [`graph_to_trio()`](https://emilmip.github.io/LTFGRS/reference/graph_to_trio.md)
+  : Convert from igraph to trio information
+- [`prepare_thresholds()`](https://emilmip.github.io/LTFGRS/reference/prepare_thresholds.md)
+  : Calculate (personalised) thresholds based on CIPs.
+- [`prepare_thresholds_multi()`](https://emilmip.github.io/LTFGRS/reference/prepare_thresholds_multi.md)
+  : Prepare thresholds for multiple phenotypes
+- [`prepare_graph()`](https://emilmip.github.io/LTFGRS/reference/prepare_graph.md)
+  : Construct graph from register information
+
+## Simulation functions
+
+Functions used to simulate data for the liability threshold model family
+history estimators.
+
+- [`construct_covmat()`](https://emilmip.github.io/LTFGRS/reference/construct_covmat.md)
+  : Constructing a covariance matrix for a variable number of phenotypes
+- [`construct_covmat_multi()`](https://emilmip.github.io/LTFGRS/reference/construct_covmat_multi.md)
+  : Constructing a covariance matrix for multiple phenotypes
+- [`construct_covmat_single()`](https://emilmip.github.io/LTFGRS/reference/construct_covmat_single.md)
+  : Constructing a covariance matrix for a single phenotype
+- [`convert_age_to_cir()`](https://emilmip.github.io/LTFGRS/reference/convert_age_to_cir.md)
+  : Convert age to cumulative incidence rate
+- [`convert_age_to_thresh()`](https://emilmip.github.io/LTFGRS/reference/convert_age_to_thresh.md)
+  : Convert age to threshold
+- [`convert_cir_to_age()`](https://emilmip.github.io/LTFGRS/reference/convert_cir_to_age.md)
+  : Convert cumulative incidence rate to age
+- [`convert_liability_to_aoo()`](https://emilmip.github.io/LTFGRS/reference/convert_liability_to_aoo.md)
+  : Convert liability to age of onset
+- [`estimate_liability_single()`](https://emilmip.github.io/LTFGRS/reference/estimate_liability_single.md)
+  : Estimating the genetic or full liability
+- [`estimate_liability_multi()`](https://emilmip.github.io/LTFGRS/reference/estimate_liability_multi.md)
+  : Estimating the genetic or full liability for multiple phenotypes
+- [`simulate_under_LTM()`](https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM.md)
+  : Simulate under the liability threshold model.
+- [`simulate_under_LTM_multi()`](https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM_multi.md)
+  : Simulate under the liability threshold model (multiple phenotypes).
+- [`simulate_under_LTM_single()`](https://emilmip.github.io/LTFGRS/reference/simulate_under_LTM_single.md)
+  : Simulate under the liability threshold model (single phenotype).
+- [`convert_format()`](https://emilmip.github.io/LTFGRS/reference/convert_format.md)
+  : Attempts to convert the list entry input format to a long format
+
+## Internal functions and functions used in the estimator functions
+
+The primary functions used in the family history estimators and some
+helper functions.
+
+- [`convert_observed_to_liability_scale()`](https://emilmip.github.io/LTFGRS/reference/convert_observed_to_liability_scale.md)
+  : Convert the heritability on the observed scale to that on the
+  liability scale
+- [`correct_positive_definite()`](https://emilmip.github.io/LTFGRS/reference/correct_positive_definite.md)
+  : Positive definite matrices
+- [`extract_estimation_info_graph()`](https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_graph.md)
+  : Title Internal Function used to extact input needed from graph input
+  for liability estimation
+- [`extract_estimation_info_graph_multi()`](https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_graph_multi.md)
+  : Title Internal Function used to extact input needed from multi-trait
+  graph input for liability estimation
+- [`extract_estimation_info_tbl()`](https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl.md)
+  : Title Internal Function used to extact input needed for liability
+  estimation
+- [`extract_estimation_info_tbl_multi()`](https://emilmip.github.io/LTFGRS/reference/extract_estimation_info_tbl_multi.md)
+  : Title Internal Function used to extact input needed from multi-trait
+  tibble input for liability estimation
+- [`fixSexCoding()`](https://emilmip.github.io/LTFGRS/reference/fixSexCoding.md)
+  : Fixing sex coding in trio info
+- [`get_all_combs()`](https://emilmip.github.io/LTFGRS/reference/get_all_combs.md)
+  : construct all combinations of input vector
+- [`get_covmat()`](https://emilmip.github.io/LTFGRS/reference/get_covmat.md)
+  : Construct kinship matrix from graph
+- [`get_relatedness()`](https://emilmip.github.io/LTFGRS/reference/get_relatedness.md)
+  : Relatedness between a pair of family members
+- [`graph_based_covariance_construction()`](https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction.md)
+  : Constructing covariance matrix from local family graph
+- [`graph_based_covariance_construction_multi()`](https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction_multi.md)
+  : Constructing covariance matrix from local family graph for multi
+  trait analysis
+- [`Gibbs_estimator()`](https://emilmip.github.io/LTFGRS/reference/Gibbs_estimator.md)
+  : Wrapper around the Gibbs Sampler that returns formatted liability
+  estimates for the proband
+- [`kendler_family_calculations()`](https://emilmip.github.io/LTFGRS/reference/kendler_family_calculations.md)
+  : Title Helper function for Kendler's FGRS
+- [`PA_algorithm()`](https://emilmip.github.io/LTFGRS/reference/PA_algorithm.md)
+  : Title Pearson-Aitken algorithm to calculate mean values in truncated
+  multivariate normal distributions
+- [`rtmvnorm.gibbs()`](https://emilmip.github.io/LTFGRS/reference/rtmvnorm.gibbs.md)
+  : Gibbs Sampler for the truncated multivariate normal distribution
+- [`tnorm_mean()`](https://emilmip.github.io/LTFGRS/reference/tnorm_mean.md)
+  : Title: Calculate the mean of the truncated normal distribution
+- [`tnorm_mixture_conditional()`](https://emilmip.github.io/LTFGRS/reference/tnorm_mixture_conditional.md)
+  : Title: Calculates mean and variance of mixture of two truncated
+  normal distributions
+- [`tnorm_var()`](https://emilmip.github.io/LTFGRS/reference/tnorm_var.md)
+  : Title: Calculate the variance of the truncated normal distribution
+- [`truncated_normal_cdf()`](https://emilmip.github.io/LTFGRS/reference/truncated_normal_cdf.md)
+  : CDF for truncated normal distribution.
+
+# Articles
+
+### All vignettes
+
+- [LTFGRS Workflow: Prepare Genetic Liability for
+  Prediction](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_prediction.md):

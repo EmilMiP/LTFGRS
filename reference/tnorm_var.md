@@ -1,0 +1,38 @@
+# Title: Calculate the variance of the truncated normal distribution
+
+Title: Calculate the variance of the truncated normal distribution
+
+## Usage
+
+``` r
+tnorm_var(mu = 0, sigma = 1, lower = -Inf, upper = Inf)
+```
+
+## Arguments
+
+- mu:
+
+  mean value of normal distribution
+
+- sigma:
+
+  standard deviation of normal distribution
+
+- lower:
+
+  lower threshold
+
+- upper:
+
+  upper threshold
+
+## Value
+
+mean value of the truncated normal distribution
+
+## Examples
+
+``` r
+tnorm_var()
+#> [1] 1
+```

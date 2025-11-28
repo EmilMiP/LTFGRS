@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,11 +56,14 @@
 <span>  CIP_merge_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"birth_year"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
 <span>  CIP_cip_col <span class="op">=</span> <span class="st">"cip"</span>,</span>
 <span>  Kpop <span class="op">=</span> <span class="st">"useMax"</span>,</span>
+<span>  K_i_col <span class="op">=</span> <span class="st">"K_i"</span>,</span>
+<span>  K_pop_col <span class="op">=</span> <span class="st">"K_pop"</span>,</span>
 <span>  status_col <span class="op">=</span> <span class="st">"status"</span>,</span>
+<span>  thr_col <span class="op">=</span> <span class="st">"thr"</span>,</span>
+<span>  lower_col <span class="op">=</span> <span class="st">"lower"</span>,</span>
+<span>  upper_col <span class="op">=</span> <span class="st">"upper"</span>,</span>
 <span>  lower_equal_upper <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  personal_thr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  fid_col <span class="op">=</span> <span class="st">"fid"</span>,</span>
-<span>  personal_id_col <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>  interpolation <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bst.params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>max_depth <span class="op">=</span> <span class="fl">10</span>, base_score <span class="op">=</span> <span class="fl">0</span>, nthread <span class="op">=</span> <span class="fl">4</span>, min_child_weight <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  min_CIP_value <span class="op">=</span> <span class="fl">1e-05</span>,</span>
@@ -96,8 +99,28 @@
 <dd><p>Takes either "useMax" to use the maximum value in the CIP strata as population prevalence, or a tibble with population prevalence values based on other information. If a tibble is provided, it must contain columns from <code>.tbl</code> and a column named "K_pop" with population prevalence values. Defaults to "UseMax".</p></dd>
 
 
+<dt id="arg-k-i-col">K_i_col<a class="anchor" aria-label="anchor" href="#arg-k-i-col"></a></dt>
+<dd><p>Name of column to create for individual cumulative incidence proportion. Defaults to "K_i".</p></dd>
+
+
+<dt id="arg-k-pop-col">K_pop_col<a class="anchor" aria-label="anchor" href="#arg-k-pop-col"></a></dt>
+<dd><p>Name of column to create for population prevalence within an individuals CIP strata. Defaults to "K_pop".</p></dd>
+
+
 <dt id="arg-status-col">status_col<a class="anchor" aria-label="anchor" href="#arg-status-col"></a></dt>
 <dd><p>Column that contains the status of each family member. Coded as 0 or FALSE (control) and 1 or TRUE (case).</p></dd>
+
+
+<dt id="arg-thr-col">thr_col<a class="anchor" aria-label="anchor" href="#arg-thr-col"></a></dt>
+<dd><p>Name of column to create for threshold. Defaults to "thr".</p></dd>
+
+
+<dt id="arg-lower-col">lower_col<a class="anchor" aria-label="anchor" href="#arg-lower-col"></a></dt>
+<dd><p>Name of column to create for lower threshold. Defaults to "lower".</p></dd>
+
+
+<dt id="arg-upper-col">upper_col<a class="anchor" aria-label="anchor" href="#arg-upper-col"></a></dt>
+<dd><p>Name of column to create for upper threshold. Defaults to "upper".</p></dd>
 
 
 <dt id="arg-lower-equal-upper">lower_equal_upper<a class="anchor" aria-label="anchor" href="#arg-lower-equal-upper"></a></dt>
@@ -106,14 +129,6 @@
 
 <dt id="arg-personal-thr">personal_thr<a class="anchor" aria-label="anchor" href="#arg-personal-thr"></a></dt>
 <dd><p>Should thresholds be based on stratified CIPs or population prevalence?</p></dd>
-
-
-<dt id="arg-fid-col">fid_col<a class="anchor" aria-label="anchor" href="#arg-fid-col"></a></dt>
-<dd><p>Column that contains the family ID.</p></dd>
-
-
-<dt id="arg-personal-id-col">personal_id_col<a class="anchor" aria-label="anchor" href="#arg-personal-id-col"></a></dt>
-<dd><p>Column that contains the personal ID.</p></dd>
 
 
 <dt id="arg-interpolation">interpolation<a class="anchor" aria-label="anchor" href="#arg-interpolation"></a></dt>
@@ -173,7 +188,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

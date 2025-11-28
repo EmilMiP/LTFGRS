@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Emil M.
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2025-06-24</h4>
+            <h4 data-toc-skip class="date">2025-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/LTFGRS_workflow_prediction.Rmd" class="external-link"><code>vignettes/LTFGRS_workflow_prediction.Rmd</code></a></small>
       <div class="d-none name"><code>LTFGRS_workflow_prediction.Rmd</code></div>
@@ -216,7 +216,7 @@ kinship matrix as covariance matrix.</p>
 <span>  status <span class="op">=</span> <span class="va">liabs</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="va">K</span>, lower.tail <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>,</span>
 <span>  <span class="co"># no consideration for generation etc in sex, fdato or birth_year:</span></span>
 <span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  fdato <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">dmy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">28</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1940</span><span class="op">:</span><span class="fl">2000</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  fdato <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">dmy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">28</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1940</span><span class="op">:</span><span class="fl">2000</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">liabs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  birth_year <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">fdato</span><span class="op">)</span>,</span>
 <span>  <span class="co"># age of onset only after fdato</span></span>
 <span>  adhd <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2_chr</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">status</span>, .y <span class="op">=</span> <span class="va">birth_year</span>,</span>
@@ -227,7 +227,7 @@ kinship matrix as covariance matrix.</p>
 <span>    <span class="co"># converting to date format</span></span>
 <span>    adhd <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">dmy</a></span><span class="op">(</span><span class="va">adhd</span><span class="op">)</span>,</span>
 <span>    <span class="co"># eof either blanket time stop or event date</span></span>
-<span>    indiv_eof <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">indiv_eof</span>, <span class="va">adhd</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    indiv_eof <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">indiv_eof</span>, <span class="va">adhd</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">!=</span> <span class="st">"pid_g"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># remove the genetic liability of the proband</span></span>
 <span>  <span class="co"># status is not required here. Only used it to generate the age of diagnosis.</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">status</span><span class="op">)</span> </span>
@@ -344,9 +344,9 @@ not be required for the average user. An igraph object is shown here for
 context:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_graphs</span><span class="op">$</span><span class="va">fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH 4a393c2 DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH 0620bf4 DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), sex (v/n)</span></span>
-<span><span class="co">#&gt; + edges from 4a393c2 (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from 0620bf4 (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -425,8 +425,6 @@ interpolate the CIPs between the provided values.</p>
 <span>  age_col <span class="op">=</span> <span class="st">"age"</span> ,</span>
 <span>  lower_equal_upper <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  personal_thr <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>  fid_col <span class="op">=</span> <span class="st">"fid"</span>,</span>
-<span>  personal_id_col <span class="op">=</span> <span class="st">"pid"</span>,</span>
 <span>  interpolation <span class="op">=</span> <span class="st">"xgboost"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in prepare_thresholds(.tbl = info, CIP = CIP, age_col = "age",</span></span>
@@ -512,8 +510,11 @@ mask the proband’s information by setting the <code>upper</code> and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∞</mi><annotation encoding="application/x-tex">\infty</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">-\infty</annotation></semantics></math>
-(non-informative values) with the argument
-<code>censor_proband_thrs = TRUE</code>.</p>
+(non-informative values) and all other values to be <code>NA</code> with
+the argument <code>proband_cols_to_censor = c("lower", "upper")</code>.
+If <code>K_i</code> or <code>K_pop</code> are in
+<code>proband_cols_to_censor</code>, they will be set to NA, which are
+uninformative in the PA algorithm and will not be problematic.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># attach family specific thresholds</span></span>
 <span><span class="va">ltfgrs_input</span> <span class="op">=</span> <span class="fu"><a href="../reference/familywise_attach_attributes.html">familywise_attach_attributes</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">family_graphs</span>,</span>
@@ -521,7 +522,7 @@ and
 <span>                                            fam_graph_col <span class="op">=</span> <span class="st">"fam_graph"</span>,</span>
 <span>                                            attached_fam_graph_col <span class="op">=</span> <span class="st">"masked_fam_graph"</span>,</span>
 <span>                                            cols_to_attach <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span>,</span>
-<span>                                            censor_proband_thrs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                                            proband_cols_to_censor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lower"</span>, <span class="st">"upper"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 31 × 2</span></span></span>
 <span><span class="co">#&gt;   fid   masked_fam_graph</span></span>
@@ -532,14 +533,14 @@ and
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> mom2  <span style="color: #949494;">&lt;igraph&gt;</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 27 more rows</span></span></span></code></pre></div>
 <p>The format is similar to the one used in
-<code><a href="../reference/get_family_graphs.html">get_family_graphs()</a></code>. It is worth noting that the arguement
-<code>censor_proband_thrs</code> is only required if the purpose of the
-resulting genetic liability is prediction.</p>
+<code><a href="../reference/get_family_graphs.html">get_family_graphs()</a></code>. It is worth noting that the argument
+<code>proband_cols_to_censor</code> is only required if the purpose of
+the resulting genetic liability is prediction.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ltfgrs_input</span><span class="op">$</span><span class="va">masked_fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH 4a393c2 DN-- 8 17 -- </span></span>
+<span><span class="co">#&gt; IGRAPH 0620bf4 DN-- 8 17 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), sex (v/n), lower (v/n), upper (v/n)</span></span>
-<span><span class="co">#&gt; + edges from 4a393c2 (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from 0620bf4 (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] dad   -&gt;paunt  dad   -&gt;puncle dad   -&gt;sib    dad   -&gt;pid    dad   -&gt;phs   </span></span>
 <span><span class="co">#&gt;  [6] pgf   -&gt;dad    pgf   -&gt;paunt  pgf   -&gt;puncle pgm   -&gt;dad    pgm   -&gt;paunt </span></span>
 <span><span class="co">#&gt; [11] pgm   -&gt;puncle paunt -&gt;dad    paunt -&gt;puncle puncle-&gt;dad    puncle-&gt;paunt </span></span>
@@ -571,7 +572,7 @@ distribution of controls. This accounts for the possibility that some
 controls are undiagnosed cases and accounts for it in the genetic
 liability estimate.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ltfgrs_pa</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>pid <span class="op">=</span> <span class="va">fid</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">ltfgrs_pa</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span>,</span>
 <span>                               h2 <span class="op">=</span> <span class="va">h2</span>, </span>
 <span>                               fid <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>                               pid <span class="op">=</span> <span class="st">"pid"</span>,</span>
@@ -591,7 +592,7 @@ estimate is the expected mean value and variance of the last iteration,
 which is the proband’s genetic liability. This is highlighted by the use
 of <code>var</code> in the output.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ltfgrs_gibbs</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>pid <span class="op">=</span> <span class="va">fid</span><span class="op">)</span>, </span>
+<code class="sourceCode R"><span><span class="va">ltfgrs_gibbs</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">ltfgrs_input</span>, </span>
 <span>                                  h2 <span class="op">=</span> <span class="va">h2</span>,</span>
 <span>                                  fid <span class="op">=</span> <span class="st">"fid"</span>,</span>
 <span>                                  pid <span class="op">=</span> <span class="st">"pid"</span>,</span>
@@ -636,7 +637,7 @@ are all handled by the future suit of packages.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

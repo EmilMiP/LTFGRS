@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">LTFGRS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,10 +52,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">attach_attributes</span><span class="op">(</span></span>
 <span>  <span class="va">cur_fam_graph</span>,</span>
 <span>  <span class="va">cur_proband</span>,</span>
-<span>  <span class="va">fid</span>,</span>
+<span>  <span class="va">pid</span>,</span>
 <span>  <span class="va">attr_tbl</span>,</span>
 <span>  <span class="va">attr_names</span>,</span>
-<span>  censor_proband_thrs <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  proband_cols_to_censor <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -71,8 +71,8 @@
 <dd><p>Current proband id (center of the neighbourhood graph).</p></dd>
 
 
-<dt id="arg-fid">fid<a class="anchor" aria-label="anchor" href="#arg-fid"></a></dt>
-<dd><p>Column name of family id.</p></dd>
+<dt id="arg-pid">pid<a class="anchor" aria-label="anchor" href="#arg-pid"></a></dt>
+<dd><p>Column name of personal id (within a family).</p></dd>
 
 
 <dt id="arg-attr-tbl">attr_tbl<a class="anchor" aria-label="anchor" href="#arg-attr-tbl"></a></dt>
@@ -83,8 +83,8 @@
 <dd><p>Names of attributes to be assigned to each node (family member) in the graph.</p></dd>
 
 
-<dt id="arg-censor-proband-thrs">censor_proband_thrs<a class="anchor" aria-label="anchor" href="#arg-censor-proband-thrs"></a></dt>
-<dd><p>Should proband's upper and lower thresholds be made uninformative? Defaults to TRUE. Used to exclude proband's information for prediction.</p></dd>
+<dt id="arg-proband-cols-to-censor">proband_cols_to_censor<a class="anchor" aria-label="anchor" href="#arg-proband-cols-to-censor"></a></dt>
+<dd><p>Which columns should be made uninformative for the proband? Defaults to NA. Used to exclude proband's information for prediction with, e.g. c("lower", "upper").</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -101,7 +101,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
