@@ -36,6 +36,8 @@ prepare_thresholds_multi(
 
 \item{CIP_merge_columns}{The columns the CIPs are subset by, e.g. CIPs by birth_year, sex. and age_col.}
 
+\item{CIP_cip_col}{Name of column with CIP values.}
+
 \item{age_col}{Name of column with age at the end of follow-up or age at diagnosis for cases.}
 
 \item{age_eof_base}{Base name of age at end of follow-up column. The actual column name is constructed by appending the phenotype name. Defaults to "age_eof".}

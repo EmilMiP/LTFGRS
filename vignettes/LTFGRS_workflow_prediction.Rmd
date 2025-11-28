@@ -270,7 +270,7 @@ The first is `method`, which specifies the method used to estimate the genetic l
 The second argument is `useMixture`, which specifies whether to use the mixture model or not. The mixture model is currently only supported with `method = "PA"`. The mixture model considers the genetic liability of controls as a mixture of the truncated normal for cases and controls, rather than just the distribution of controls. This accounts for the possibility that some controls are undiagnosed cases and accounts for it in the genetic liability estimate.
 
 ```{r}
-ltfgrs_pa = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid),
+ltfgrs_pa = estimate_liability(family_graphs = ltfgrs_input,
                                h2 = h2, 
                                fid = "fid",
                                pid = "pid",
@@ -282,7 +282,7 @@ paged_table(ltfgrs_pa)
 When using `method = "PA"`, an iterative conditioning is performed, which means the resulting estimate and uncertainty of the estimate is the expected mean value and variance of the last iteration, which is the proband's genetic liability. This is highlighted by the use of `var` in the output.
 
 ```{r}
-ltfgrs_gibbs = estimate_liability(family_graphs = ltfgrs_input %>% rename(pid = fid), 
+ltfgrs_gibbs = estimate_liability(family_graphs = ltfgrs_input, 
                                   h2 = h2,
                                   fid = "fid",
                                   pid = "pid",

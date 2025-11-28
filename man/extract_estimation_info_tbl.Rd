@@ -4,7 +4,16 @@
 \alias{extract_estimation_info_tbl}
 \title{Title Internal Function used to extact input needed for liability estimation}
 \usage{
-extract_estimation_info_tbl(.tbl, cur_fid, h2, fid, pid, role, add_ind = TRUE)
+extract_estimation_info_tbl(
+  .tbl,
+  cur_fid,
+  h2,
+  fid,
+  pid,
+  role,
+  useMixture,
+  add_ind = TRUE
+)
 }
 \arguments{
 \item{.tbl}{.tbl input from estimate_liability}
@@ -18,6 +27,8 @@ extract_estimation_info_tbl(.tbl, cur_fid, h2, fid, pid, role, add_ind = TRUE)
 \item{pid}{name of personal ID column}
 
 \item{role}{name of role column}
+
+\item{useMixture}{whether mixture model input is returned}
 
 \item{add_ind}{Whether the genetic liability be added. Default is TRUE.}
 }

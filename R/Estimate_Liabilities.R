@@ -223,6 +223,7 @@ estimate_liability_single <- function(.tbl = NULL,
         cur_fam_graph = family_graphs[[family_graphs_col]][[i]],
         cur_fid = cur_fid,
         h2 = h2,
+        useMixture = useMixture,
         pid = pid)
 
       temp_tbl = ph$tbl
@@ -237,6 +238,7 @@ estimate_liability_single <- function(.tbl = NULL,
         fid = fid,
         cur_fid = cur_fid,
         role = role,
+        useMixture = useMixture,
         h2 = h2)
       temp_tbl = ph$tbl
       cov = ph$cov
@@ -392,7 +394,7 @@ estimate_liability_single <- function(.tbl = NULL,
 #' estimate_liability_multi(.tbl = sims$thresholds, h2_vec = rep(.5,3),
 #' genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
 #' pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
-#' phen_names = paste0("phenotype", 1:3), tol = 0.01)
+#' phen_names = paste0("phenotype", 1:3), target_phenotype = "phenotype1")
 #'
 #'
 #' @seealso \code{\link[future.apply]{future_apply}}, \code{\link{estimate_liability_single}},
@@ -528,6 +530,7 @@ estimate_liability_multi <- function(.tbl = NULL,
         cur_fid = cur_fid,
         role = role,
         h2 = h2_vec,
+        useMixture = useMixture,
         genetic_corrmat = genetic_corrmat,
         full_corrmat = full_corrmat,
         phen_names = phen_names
@@ -842,7 +845,7 @@ estimate_liability_multi <- function(.tbl = NULL,
 #' estimate_liability(.tbl = sims$thresholds, h2 = rep(.5,3),
 #' genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
 #' pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
-#' phen_names = paste0("phenotype", 1:3), tol = 0.01)
+#' phen_names = paste0("phenotype", 1:3), target_phenotype = "phenotype1")
 #'
 #' @seealso \code{\link[future.apply]{future_apply}}, \code{\link{estimate_liability_single}},
 #' \code{\link{estimate_liability_multi}}

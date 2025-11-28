@@ -1,6 +1,9 @@
 utils::globalVariables("role")
 utils::globalVariables("fid")
 utils::globalVariables("indiv_ID")
+utils::globalVariables("trait")
+utils::globalVariables("matchID")
+
 
 
 #' Constructing age of onset (aoo)
@@ -158,6 +161,7 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 #' @param cur_fid current family ID being worked on
 #' @param pid name of column with personal IDs
 #' @param fid name of column with family IDs
+#' @param useMixture whether mixture model input is returned
 #' @param phen_names vector of phenotype names as given in .tbl of estimate_liability. Defaults to NULL (which is single trait).
 #'
 #' @return The provided temp_tbl object is returned, but with the missing "g" and/or "o" roles added, where -Inf and Inf values
@@ -167,7 +171,7 @@ construct_thresholds <- function(fam_mem, .tbl, pop_prev, phen_name = NULL){
 #' @importFrom dplyr filter pull tibble %>% bind_rows
 #' @noRd
 
-add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fid, pid, fid, phen_names = NULL) {
+add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fid, pid, fid, useMixture, phen_names = NULL) {
   # role types to check for, centered on proband
   to_check_for = c("g", "o")
 
@@ -185,30 +189,63 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fid, pid
   id_suffixes = paste0("_",to_be_added) %>% stringr::str_replace_all(., "_o", "")
 
   if ( is.null(phen_names) ) { # single trait
-    # construct tibble with desired roles
-    tibble(
-      !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
-      !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
-      !!as.symbol(role)   := to_be_added,
-      lower = rep(-Inf, length(to_be_added)),
-      upper = rep( Inf, length(to_be_added))
-    ) %>%
-      bind_rows(., temp_tbl)
+    if (useMixture) {
+      # construct tibble with desired roles
+      tibble(
+        !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
+        !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
+        !!as.symbol(role)   := to_be_added,
+        lower = rep(-Inf, length(to_be_added)),
+        upper = rep( Inf, length(to_be_added)),
+        K_i   = rep(NA, length(to_be_added)),
+        K_pop = rep(NA, length(to_be_added))
+      ) %>%
+        bind_rows(., temp_tbl)
+
+    } else {
+      # construct tibble with desired roles
+      tibble(
+        !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
+        !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
+        !!as.symbol(role)   := to_be_added,
+        lower = rep(-Inf, length(to_be_added)),
+        upper = rep( Inf, length(to_be_added))
+      ) %>%
+        bind_rows(., temp_tbl)
+    }
 
   } else { # multi trait
     # constructs id rows, then adds lower and upper thresholds from phen_names provided
-    tibble(
-      !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
-      !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
-      !!as.symbol(role)   := to_be_added
-    ) %>%
-      bind_cols(
-        tibble(!!!c(stats::setNames(rep(-Inf, length(phen_names)), paste0("lower_", phen_names)),
-                    stats::setNames(rep( Inf, length(phen_names)), paste0("upper_", phen_names))))) %>%
-      bind_rows(
-        .,
-        temp_tbl
-      )
+    if (useMixture) {
+      tibble(
+        !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
+        !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
+        !!as.symbol(role)   := to_be_added
+      ) %>%
+        bind_cols(
+          tibble(!!!c(stats::setNames(rep(-Inf, length(phen_names)), paste0("lower_", phen_names)),
+                      stats::setNames(rep( Inf, length(phen_names)), paste0("upper_", phen_names)),
+                      stats::setNames(rep(NA, length(phen_names)), paste0("K_i_", phen_names)),
+                      stats::setNames(rep(NA, length(phen_names)), paste0("K_pop_", phen_names))))) %>%
+        bind_rows(
+          .,
+          temp_tbl
+        )
+    } else {
+      tibble(
+        !!as.symbol(fid) := pull(temp_tbl, !!as.symbol(fid))[1],
+        !!as.symbol(pid)    := paste0(i_pid, id_suffixes),
+        !!as.symbol(role)   := to_be_added
+      ) %>%
+        bind_cols(
+          tibble(!!!c(stats::setNames(rep(-Inf, length(phen_names)), paste0("lower_", phen_names)),
+                      stats::setNames(rep( Inf, length(phen_names)), paste0("upper_", phen_names))))) %>%
+        bind_rows(
+          .,
+          temp_tbl
+        )
+    }
+
   }
 }
 
@@ -223,12 +260,13 @@ add_missing_roles_for_proband = function(temp_tbl, role, cur_roles, cur_fid, pid
 #' @param fid name of family ID column
 #' @param pid name of personal ID column
 #' @param role name of role column
+#' @param useMixture whether mixture model input is returned
 #' @param add_ind Whether the genetic liability be added. Default is TRUE.
 #'
 #' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through construct_covmat()
 #'
 #' @export
-extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_ind = TRUE) {
+extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, useMixture, add_ind = TRUE) {
   # extract all with current family ID.
   temp_tbl = filter(.tbl, !!as.symbol(fid) == cur_fid)
 
@@ -248,6 +286,7 @@ extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_in
   if (add_ind) {
     temp_tbl = add_missing_roles_for_proband(temp_tbl = temp_tbl,
                                              role = role,
+                                             useMixture = useMixture,
                                              cur_roles = roles,
                                              cur_fid = cur_fid,
                                              pid = pid,
@@ -273,6 +312,7 @@ extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_in
 #' @param fid name of family ID column
 #' @param pid name of personal ID column
 #' @param role name of role column
+#' @param useMixture whether mixture model input is returned
 #' @param phen_names vector of phenotype names as given to estimate_liability
 #' @param genetic_corrmat genetic correlation matrix as given to estimate_liability
 #' @param full_corrmat full correlation matrix as given to estimate_liability
@@ -281,7 +321,7 @@ extract_estimation_info_tbl = function(.tbl, cur_fid, h2, fid, pid, role, add_in
 #' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through construct_covmat()
 #'
 #' @export
-extract_estimation_info_tbl_multi = function(.tbl, cur_fid, h2, fid, pid, role, phen_names, genetic_corrmat, full_corrmat, add_ind = TRUE) {
+extract_estimation_info_tbl_multi = function(.tbl, cur_fid, h2, fid, pid, role, useMixture, phen_names, genetic_corrmat, full_corrmat, add_ind = TRUE) {
   # extract all with current family ID.
   temp_tbl = filter(.tbl, !!as.symbol(fid) == cur_fid)
 
@@ -303,6 +343,7 @@ extract_estimation_info_tbl_multi = function(.tbl, cur_fid, h2, fid, pid, role, 
   if (add_ind) {
     temp_tbl = add_missing_roles_for_proband(temp_tbl = temp_tbl,
                                              role = role,
+                                             useMixture = useMixture,
                                              cur_roles = roles,
                                              cur_fid = cur_fid,
                                              pid = pid,
@@ -356,18 +397,20 @@ extract_estimation_info_tbl_multi = function(.tbl, cur_fid, h2, fid, pid, role, 
 #' @param cur_fid proband ID
 #' @param h2 heritability value from estimate_liability
 #' @param pid Name of column of personal ID
+#' @param useMixture whether mixture input is returned
 #' @param add_ind Whether the genetic liability be added. Default is TRUE.
 #'
 #' @returns list with two elements: tbl (tibble with all relevant information) and cov (covariance matrix) estimated through graph_based_covariance_construction()
 #'
 #' @export
 #'
-extract_estimation_info_graph = function(cur_fam_graph, cur_fid, h2, pid, add_ind = TRUE) {
+extract_estimation_info_graph = function(cur_fam_graph, cur_fid, h2, pid, useMixture, add_ind = TRUE) {
   # extract current (local) family graph and
   # construct covariance and extract threshold information from graph.
   cov_obj = graph_based_covariance_construction(pid = pid,
                                                 cur_proband_id = cur_fid,
                                                 cur_family_graph = cur_fam_graph,
+                                                useMixture = useMixture,
                                                 h2 = h2, add_ind = add_ind)
   # cov and temp_tbl are ordered during construction
 

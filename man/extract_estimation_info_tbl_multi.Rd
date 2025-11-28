@@ -11,6 +11,7 @@ extract_estimation_info_tbl_multi(
   fid,
   pid,
   role,
+  useMixture,
   phen_names,
   genetic_corrmat,
   full_corrmat,
@@ -29,6 +30,8 @@ extract_estimation_info_tbl_multi(
 \item{pid}{name of personal ID column}
 
 \item{role}{name of role column}
+
+\item{useMixture}{whether mixture model input is returned}
 
 \item{phen_names}{vector of phenotype names as given to estimate_liability}
 

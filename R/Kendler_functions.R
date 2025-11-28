@@ -144,10 +144,10 @@ kendler = function(.tbl = NULL,
   } else if ( !is.null(family_graphs) ) { #### Graph input ####
 
     # validating graph input (nothing is returned)
-    return_catch <- validating_graph_input(family_graphs = family_graphs, pid = pid, family_graphs_col = family_graphs_col)
+    return_catch <- validating_graph_input(family_graphs = family_graphs, fid = fid, family_graphs_col = family_graphs_col)
 
     # Extracting the (unique) family identifiers
-    fam_list <- unique(pull(family_graphs, !!as.symbol(pid)))
+    fam_list <- unique(pull(family_graphs, !!as.symbol(fid)))
 
 
   } else ( stop("no valid input used.") )
@@ -164,6 +164,7 @@ kendler = function(.tbl = NULL,
         cur_fid = cur_fid,
         h2 = 1,
         pid = pid,
+        useMixture = FALSE,
         add_ind = FALSE)
 
     } else { # role based covariance construction
@@ -174,6 +175,7 @@ kendler = function(.tbl = NULL,
         fid = fid,
         cur_fid = cur_fid,
         role = role,
+        useMixture = FALSE,
         h2 = 1,
         add_ind = FALSE)
     }

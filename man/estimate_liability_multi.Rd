@@ -153,7 +153,7 @@ n_sim = 1, pop_prev = rep(.1,3))
 estimate_liability_multi(.tbl = sims$thresholds, h2_vec = rep(.5,3),
 genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat,
 pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
-phen_names = paste0("phenotype", 1:3), tol = 0.01)
+phen_names = paste0("phenotype", 1:3), target_phenotype = "phenotype1")
 
 
 }

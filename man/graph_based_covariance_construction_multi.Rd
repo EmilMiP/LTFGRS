@@ -12,7 +12,7 @@ graph_based_covariance_construction_multi(
   h2_vec,
   genetic_corrmat,
   phen_names,
-  useMixture,
+  useMixture = FALSE,
   add_ind = TRUE
 )
 }

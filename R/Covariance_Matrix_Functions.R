@@ -1,4 +1,6 @@
 utils::globalVariables("h2")
+utils::globalVariables("trait")
+
 #' Relatedness between a pair of family members
 #'
 #' \code{get_relatedness} returns the relatedness times the
@@ -827,7 +829,7 @@ graph_based_covariance_construction = function(pid,
                                                cur_proband_id,
                                                cur_family_graph,
                                                h2,
-                                               useMixture,
+                                               useMixture = FALSE,
                                                add_ind = TRUE) {
   # constructing tibble with ids and thresholds
   temp_tbl = as_tibble(vertex_attr(cur_family_graph)) %>%
@@ -837,14 +839,29 @@ graph_based_covariance_construction = function(pid,
   # add genetic liability if required
   if (add_ind) {
     # note: K_i and K_pop will be NA, if they exist in temp_tbl
-    temp_tbl = temp_tbl %>%
-      bind_rows(
-        tibble(
-          !!as.symbol(pid) := paste0(cur_proband_id,"_g"),
-          lower = -Inf,
-          upper = Inf),
-        .
-      )
+    if (useMixture) {
+      temp_tbl = temp_tbl %>%
+        bind_rows(
+          tibble(
+            !!as.symbol(pid) := paste0(cur_proband_id,"_g"),
+            lower = -Inf,
+            upper = Inf,
+            K_i = NA,
+            K_pop = NA),
+          .
+        )
+
+    } else {
+      temp_tbl = temp_tbl %>%
+        bind_rows(
+          tibble(
+            !!as.symbol(pid) := paste0(cur_proband_id,"_g"),
+            lower = -Inf,
+            upper = Inf),
+          .
+        )
+
+    }
   }
 
 
@@ -870,6 +887,7 @@ graph_based_covariance_construction = function(pid,
   # new ordering
   temp_tbl = temp_tbl[match(newOrder, pull(temp_tbl, !!as.symbol(pid))),]
   cov  = cov[newOrder,newOrder]
+
   return(list(temp_tbl = temp_tbl, covmat = cov))
 }
 
@@ -940,7 +958,7 @@ graph_based_covariance_construction_multi = function(fid,
                                                      h2_vec,
                                                      genetic_corrmat,
                                                      phen_names,
-                                                     useMixture,
+                                                     useMixture = FALSE,
                                                      add_ind = TRUE) {
   # only calculate number of traits once
   ntrait = length(phen_names)

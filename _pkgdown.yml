@@ -20,11 +20,13 @@ reference:
   - attach_attributes
   - censor_family_onsets
   - familywise_censoring
+  - familywise_censoring_multi
   - familywise_attach_attributes
   - get_family_graphs
   - get_onset_time
   - graph_to_trio
   - prepare_thresholds
+  - prepare_thresholds_multi
   - prepare_graph
 
 - title: "Simulation functions"

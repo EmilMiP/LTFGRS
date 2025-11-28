@@ -236,9 +236,10 @@ prepare_thresholds = function(.tbl,
                             qnorm(cip_pred, lower.tail = FALSE),
                             qnorm(!!as.symbol(K_pop_col), lower.tail = FALSE)),
                !!as.symbol(lower_col) := ifelse(!!as.symbol(status_col), !!as.symbol(thr_col), -Inf),
-               !!as.symbol(upper_col) := ifelse(!!as.symbol(status_col),
-                              ifelse(lower_equal_upper, !!as.symbol(thr_col), Inf),
-                              !!as.symbol(thr_col))) %>%
+               !!as.symbol(upper_col) := case_when(
+                 !!as.symbol(status_col) & lower_equal_upper  ~ !!as.symbol(thr_col),
+                 !!as.symbol(status_col) & !lower_equal_upper ~ Inf,
+                 TRUE ~ !!as.symbol(thr_col) )) %>%
         rename(!!as.symbol(K_i_col) := cip_pred)
 
     } else if (any(class(Kpop) %in% c("data.frame", "tibble", "matrix", "data.table", "tbl_df", "tbl"))) {
@@ -292,6 +293,7 @@ prepare_thresholds = function(.tbl,
 #' @param CIP_list List of tibbles with population representative cumulative incidence proportions. Each tibble must contain columns from \code{CIP_merge_columns} and \code{cIP_cip_col}.
 #' @param phen_names Vector of phenotype names. Used to identify status columns and to name output columns.
 #' @param CIP_merge_columns The columns the CIPs are subset by, e.g. CIPs by birth_year, sex. and age_col.
+#' @param CIP_cip_col Name of column with CIP values.
 #' @param age_col Name of column with age at the end of follow-up or age at diagnosis for cases.
 #' @param age_eof_base Base name of age at end of follow-up column. The actual column name is constructed by appending the phenotype name. Defaults to "age_eof".
 #' @param status_col_base Base name of status column. The actual column name is constructed by appending the phenotype name. Defaults to "status".
@@ -376,7 +378,7 @@ prepare_thresholds_multi = function(
                                  K_pop_col  = cur_K_pop_col,
                                  lower_equal_upper = lower_equal_upper,
                                  personal_thr = personal_thr,
-                                 interpolation = "xgboost",
+                                 interpolation = interpolation,
                                  bst.params = bst.params,
                                  min_CIP_value = min_CIP_value,
                                  xgboost_itr = xgboost_itr) %>%

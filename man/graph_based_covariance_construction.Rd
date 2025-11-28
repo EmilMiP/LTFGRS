@@ -9,7 +9,7 @@ graph_based_covariance_construction(
   cur_proband_id,
   cur_family_graph,
   h2,
-  useMixture,
+  useMixture = FALSE,
   add_ind = TRUE
 )
 }
