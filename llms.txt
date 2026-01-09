@@ -38,6 +38,31 @@ You can install the LTFGRS from CRAN with:
 Documentation and tutorials for the package can be found in the [pkgdown
 site](https://emilmip.github.io/LTFGRS/).
 
+# Citation
+
+If you use LTFGRS to estimate genetic liabilities, please cite at least
+one of the following papers depending on which method you used:
+
+[Pedersen et al, Accounting for age of onset and family history improved
+power in genome-wide association studies. AJHG,
+2022.](https://doi.org/10.1016/j.ajhg.2022.01.009)
+
+[Krebs et al., Genetic liability estimated from large-scale family data
+improves genetic prediction, risk score profiling, and gene mapping for
+major depression. AJHG,
+2024](https://doi.org/10.1016/j.ajhg.2024.09.009)
+
+[Kendler et al., Family Genetic Risk Scores and the Genetic Architecture
+of Major Affective and Psychotic Disorders in a Swedish National Sample.
+JAMA Psychiatry,
+2021.](https://doi.org/10.1001/jamapsychiatry.2021.0336)
+
+If automatic identification of family members is used, please cite:
+
+[Pedersen et al., Automatic detection of n-degree family members.
+Frontiers in Genetics,
+2025.](https://doi.org/10.3389/fgene.2025.1708315)
+
 # Package index
 
 ## Family history estimators
@@ -49,8 +74,25 @@ Family history estimators available in the LTFGRS package.
   phenotypes
 - [`estimate_gen_liability_ltfh()`](https://emilmip.github.io/LTFGRS/reference/estimate_gen_liability_ltfh.md)
   : Estimate genetic liability similar to LT-FH
-- [`kendler()`](https://emilmip.github.io/LTFGRS/reference/kendler.md) :
-  Title Kendler's FGRS
+- [`kendler_simplified()`](https://emilmip.github.io/LTFGRS/reference/kendler_simplified.md)
+  : (Simplified) Kendler's FGRS
+
+## Labelling functions
+
+functions used to identify and label family members in graphs.
+
+- [`get_generations()`](https://emilmip.github.io/LTFGRS/reference/get_generations.md)
+  : Compute Generational Distances and Kinship Coefficients from a
+  Family Graph
+- [`get_relations()`](https://emilmip.github.io/LTFGRS/reference/get_relations.md)
+  : Compute and Label Pairwise Relationships Across Multiple Family
+  Graphs
+- [`label_relatives()`](https://emilmip.github.io/LTFGRS/reference/label_relatives.md)
+  : Label Pairwise Relationships Based on Generational Distance and
+  Kinship Coefficient
+- [`Relation_per_proband_plot()`](https://emilmip.github.io/LTFGRS/reference/Relation_per_proband_plot.md)
+  : Plot the (Average) Number of Relatives per Proband by Relationship
+  Type
 
 ## Data preparation functions
 
@@ -171,5 +213,17 @@ helper functions.
 
 ### All vignettes
 
+- [Reflections on the use of population representative
+  CIPs](https://emilmip.github.io/LTFGRS/articles/CIP_importance.md):
+- [From trio information to full
+  families](https://emilmip.github.io/LTFGRS/articles/FromTrioToFamilies.md):
+- [Identifying, labelling, and plotting family relations from
+  graphs](https://emilmip.github.io/LTFGRS/articles/identify_and_plot_relatives.md):
+- [iGraph data
+  management](https://emilmip.github.io/LTFGRS/articles/igraph_data_management.md):
+- [Kendler
+  workflow](https://emilmip.github.io/LTFGRS/articles/Kendler_workflow.md):
+- [LTFGRS Workflow: Prepare Genetic Liability for
+  GWAS](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_GWAS.md):
 - [LTFGRS Workflow: Prepare Genetic Liability for
   Prediction](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_prediction.md):

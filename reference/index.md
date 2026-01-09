@@ -9,8 +9,25 @@ Family history estimators available in the LTFGRS package.
   phenotypes
 - [`estimate_gen_liability_ltfh()`](https://emilmip.github.io/LTFGRS/reference/estimate_gen_liability_ltfh.md)
   : Estimate genetic liability similar to LT-FH
-- [`kendler()`](https://emilmip.github.io/LTFGRS/reference/kendler.md) :
-  Title Kendler's FGRS
+- [`kendler_simplified()`](https://emilmip.github.io/LTFGRS/reference/kendler_simplified.md)
+  : (Simplified) Kendler's FGRS
+
+## Labelling functions
+
+functions used to identify and label family members in graphs.
+
+- [`get_generations()`](https://emilmip.github.io/LTFGRS/reference/get_generations.md)
+  : Compute Generational Distances and Kinship Coefficients from a
+  Family Graph
+- [`get_relations()`](https://emilmip.github.io/LTFGRS/reference/get_relations.md)
+  : Compute and Label Pairwise Relationships Across Multiple Family
+  Graphs
+- [`label_relatives()`](https://emilmip.github.io/LTFGRS/reference/label_relatives.md)
+  : Label Pairwise Relationships Based on Generational Distance and
+  Kinship Coefficient
+- [`Relation_per_proband_plot()`](https://emilmip.github.io/LTFGRS/reference/Relation_per_proband_plot.md)
+  : Plot the (Average) Number of Relatives per Proband by Relationship
+  Type
 
 ## Data preparation functions
 

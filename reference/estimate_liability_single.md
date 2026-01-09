@@ -29,15 +29,37 @@ estimate_liability_single(
   A matrix, list or data frame that can be converted into a tibble. Must
   have at least five columns that hold the family identifier, the
   personal identifier, the role and the lower and upper thresholds. Note
-  that the role must be one of the following abbreviations - `g`
-  (Genetic component of full liability) - `o` (Full liability) - `m`
-  (Mother) - `f` (Father) - `c[0-9]*.[0-9]*` (Children) - `mgm`
-  (Maternal grandmother) - `mgf` (Maternal grandfather) - `pgm`
-  (Paternal grandmother) - `pgf` (Paternal grandfather) - `s[0-9]*`
-  (Full siblings) - `mhs[0-9]*` (Half-siblings - maternal side) -
-  `phs[0-9]*` (Half-siblings - paternal side) - `mau[0-9]*`
-  (Aunts/Uncles - maternal side) - `pau[0-9]*` (Aunts/Uncles - paternal
-  side). Defaults to `NULL`.
+  that the role must be one of the following abbreviations
+
+  - `g` (Genetic component of full liability)
+
+  - `o` (Full liability)
+
+  - `m` (Mother)
+
+  - `f` (Father)
+
+  - `c[0-9]*.[0-9]*` (Children)
+
+  - `mgm` (Maternal grandmother)
+
+  - `mgf` (Maternal grandfather)
+
+  - `pgm` (Paternal grandmother)
+
+  - `pgf` (Paternal grandfather)
+
+  - `s[0-9]*` (Full siblings)
+
+  - `mhs[0-9]*` (Half-siblings - maternal side)
+
+  - `phs[0-9]*` (Half-siblings - paternal side)
+
+  - `mau[0-9]*` (Aunts/Uncles - maternal side)
+
+  - `pau[0-9]*` (Aunts/Uncles - paternal side).
+
+  Defaults to `NULL`.
 
 - family_graphs:
 
@@ -70,14 +92,37 @@ estimate_liability_single(
 
   A string holding the name of the column in `.tbl` that holds the role.
   Each role must be chosen from the following list of abbreviations -
-  `g` (Genetic component of full liability) - `o` (Full liability) - `m`
-  (Mother) - `f` (Father) - `c[0-9]*.[0-9]*` (Children) - `mgm`
-  (Maternal grandmother) - `mgf` (Maternal grandfather) - `pgm`
-  (Paternal grandmother) - `pgf` (Paternal grandfather) - `s[0-9]*`
-  (Full siblings) - `mhs[0-9]*` (Half-siblings - maternal side) -
-  `phs[0-9]*` (Half-siblings - paternal side) - `mau[0-9]*`
-  (Aunts/Uncles - maternal side) - `pau[0-9]*` (Aunts/Uncles - paternal
-  side). Defaults to "role".
+  `g` (Genetic component of full liability)
+
+  - `g` (Genetic component of full liability)
+
+  - `o` (Full liability)
+
+  - `m` (Mother)
+
+  - `f` (Father)
+
+  - `c[0-9]*.[0-9]*` (Children)
+
+  - `mgm` (Maternal grandmother)
+
+  - `mgf` (Maternal grandfather)
+
+  - `pgm` (Paternal grandmother)
+
+  - `pgf` (Paternal grandfather)
+
+  - `s[0-9]*` (Full siblings)
+
+  - `mhs[0-9]*` (Half-siblings - maternal side)
+
+  - `phs[0-9]*` (Half-siblings - paternal side)
+
+  - `mau[0-9]*` (Aunts/Uncles - maternal side)
+
+  - `pau[0-9]*` (Aunts/Uncles - paternal side).
+
+  Defaults to "role".
 
 - out:
 
@@ -155,16 +200,16 @@ tol = 0.01)
 #> # A tibble: 10 × 4
 #>    fid    indiv_ID     est   var
 #>    <chr>  <chr>      <dbl> <dbl>
-#>  1 fid_1  fid_1    -0.0309 0.481
-#>  2 fid_2  fid_2    -0.0169 0.490
-#>  3 fid_3  fid_3    -0.0320 0.482
-#>  4 fid_4  fid_4    -0.0138 0.491
-#>  5 fid_5  fid_5     1.28   0.246
-#>  6 fid_6  fid_6     0.476  0.423
-#>  7 fid_7  fid_7     0.414  0.420
-#>  8 fid_8  fid_8    -0.0131 0.491
-#>  9 fid_9  fid_9     0.830  0.417
-#> 10 fid_10 fid_10   -0.0369 0.478
+#>  1 fid_1  fid_1    -0.0169 0.490
+#>  2 fid_2  fid_2    -0.0320 0.482
+#>  3 fid_3  fid_3     0.397  0.426
+#>  4 fid_4  fid_4    -0.0358 0.479
+#>  5 fid_5  fid_5    -0.0409 0.479
+#>  6 fid_6  fid_6    -0.0323 0.483
+#>  7 fid_7  fid_7    -0.0131 0.491
+#>  8 fid_8  fid_8    -0.0266 0.484
+#>  9 fid_9  fid_9     1.57   0.246
+#> 10 fid_10 fid_10    1.13   0.232
 #
 sims <- simulate_under_LTM(fam_vec = c(), n_fam = NULL, add_ind = TRUE,
 h2 = 0.5, n_sim=10, pop_prev = .05)
@@ -177,14 +222,14 @@ out = c("genetic"), tol = 0.01)
 #> # A tibble: 10 × 4
 #>    fid    indiv_ID       est   var
 #>    <chr>  <chr>        <dbl> <dbl>
-#>  1 fid_1  fid_1    -0.00459  0.494
-#>  2 fid_2  fid_2    -0.000385 0.499
-#>  3 fid_3  fid_3    -0.00413  0.494
-#>  4 fid_4  fid_4    -0.00214  0.497
-#>  5 fid_5  fid_5    -0.000385 0.499
-#>  6 fid_6  fid_6    -0.000242 0.500
-#>  7 fid_7  fid_7    -0.00122  0.498
-#>  8 fid_8  fid_8    -0.000612 0.499
-#>  9 fid_9  fid_9    -0.00109  0.498
-#> 10 fid_10 fid_10   -0.00511  0.493
+#>  1 fid_1  fid_1    -0.000385 0.499
+#>  2 fid_2  fid_2    -0.00413  0.494
+#>  3 fid_3  fid_3    -0.00214  0.497
+#>  4 fid_4  fid_4    -0.000385 0.499
+#>  5 fid_5  fid_5    -0.000242 0.500
+#>  6 fid_6  fid_6    -0.00122  0.498
+#>  7 fid_7  fid_7    -0.000612 0.499
+#>  8 fid_8  fid_8    -0.00109  0.498
+#>  9 fid_9  fid_9    -0.00511  0.493
+#> 10 fid_10 fid_10   -0.000771 0.499
 ```

@@ -14,14 +14,35 @@ get_relatedness(s1, s2, h2 = 0.5, from_covmat = FALSE)
 - s1, s2:
 
   Strings representing the two family members. The strings must be
-  chosen from the following list of strings: - `g` (Genetic component of
-  full liability) - `o` (Full liability) - `m` (Mother) - `f` (Father) -
-  `c[0-9]*.[0-9]*` (Children) - `mgm` (Maternal grandmother) - `mgf`
-  (Maternal grandfather) - `pgm` (Paternal grandmother) - `pgf`
-  (Paternal grandfather) - `s[0-9]*` (Full siblings) - `mhs[0-9]*`
-  (Half-siblings - maternal side) - `phs[0-9]*` (Half-siblings -
-  paternal side) - `mau[0-9]*` (Aunts/Uncles - maternal side) -
-  `pau[0-9]*` (Aunts/Uncles - paternal side).
+  chosen from the following list of strings:
+
+  - `g` (Genetic component of full liability)
+
+  - `o` (Full liability)
+
+  - `m` (Mother)
+
+  - `f` (Father)
+
+  - `c[0-9]*.[0-9]*` (Children)
+
+  - `mgm` (Maternal grandmother)
+
+  - `mgf` (Maternal grandfather)
+
+  - `pgm` (Paternal grandmother)
+
+  - `pgf` (Paternal grandfather)
+
+  - `s[0-9]*` (Full siblings)
+
+  - `mhs[0-9]*` (Half-siblings - maternal side)
+
+  - `phs[0-9]*` (Half-siblings - paternal side)
+
+  - `mau[0-9]*` (Aunts/Uncles - maternal side)
+
+  - `pau[0-9]*` (Aunts/Uncles - paternal side).
 
 - h2:
 

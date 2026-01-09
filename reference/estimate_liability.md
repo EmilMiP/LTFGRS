@@ -37,14 +37,37 @@ estimate_liability(
   have at least five columns that hold the family identifier, the
   personal identifier, the role and the lower and upper thresholds for
   all phenotypes of interest. Note that the role must be one of the
-  following abbreviations - `g` (Genetic component of full liability) -
-  `o` (Full liability) - `m` (Mother) - `f` (Father) - `c[0-9]*.[0-9]*`
-  (Children) - `mgm` (Maternal grandmother) - `mgf` (Maternal
-  grandfather) - `pgm` (Paternal grandmother) - `pgf` (Paternal
-  grandfather) - `s[0-9]*` (Full siblings) - `mhs[0-9]*`
-  (Half-siblings - maternal side) - `phs[0-9]*` (Half-siblings -
-  paternal side) - `mau[0-9]*` (Aunts/Uncles - maternal side) -
-  `pau[0-9]*` (Aunts/Uncles - paternal side). Defaults to `NULL`.
+  following abbreviations
+
+  - `g` (Genetic component of full liability)
+
+  - `o` (Full liability)
+
+  - `m` (Mother)
+
+  - `f` (Father)
+
+  - `c[0-9]*.[0-9]*` (Children)
+
+  - `mgm` (Maternal grandmother)
+
+  - `mgf` (Maternal grandfather)
+
+  - `pgm` (Paternal grandmother)
+
+  - `pgf` (Paternal grandfather)
+
+  - `s[0-9]*` (Full siblings)
+
+  - `mhs[0-9]*` (Half-siblings - maternal side)
+
+  - `phs[0-9]*` (Half-siblings - paternal side)
+
+  - `mau[0-9]*` (Aunts/Uncles - maternal side)
+
+  - `pau[0-9]*` (Aunts/Uncles - paternal side).
+
+  Defaults to `NULL`.
 
 - family_graphs:
 
@@ -71,15 +94,37 @@ estimate_liability(
 - role:
 
   A string holding the name of the column in `.tbl` that holds the
-  role.Each role must be chosen from the following list of
-  abbreviations - `g` (Genetic component of full liability) - `o` (Full
-  liability) - `m` (Mother) - `f` (Father) - `c[0-9]*.[0-9]*`
-  (Children) - `mgm` (Maternal grandmother) - `mgf` (Maternal
-  grandfather) - `pgm` (Paternal grandmother) - `pgf` (Paternal
-  grandfather) - `s[0-9]*` (Full siblings) - `mhs[0-9]*`
-  (Half-siblings - maternal side) - `phs[0-9]*` (Half-siblings -
-  paternal side) - `mau[0-9]*` (Aunts/Uncles - maternal side) -
-  `pau[0-9]*` (Aunts/Uncles - paternal side). Defaults to "role".
+  role.Each role must be chosen from the following list of abbreviations
+
+  - `g` (Genetic component of full liability)
+
+  - `o` (Full liability)
+
+  - `m` (Mother)
+
+  - `f` (Father)
+
+  - `c[0-9]*.[0-9]*` (Children)
+
+  - `mgm` (Maternal grandmother)
+
+  - `mgf` (Maternal grandfather)
+
+  - `pgm` (Paternal grandmother)
+
+  - `pgf` (Paternal grandfather)
+
+  - `s[0-9]*` (Full siblings)
+
+  - `mhs[0-9]*` (Half-siblings - maternal side)
+
+  - `phs[0-9]*` (Half-siblings - paternal side)
+
+  - `mau[0-9]*` (Aunts/Uncles - maternal side)
+
+  - `pau[0-9]*` (Aunts/Uncles - paternal side).
+
+  Defaults to "role".
 
 - family_graphs_col:
 
@@ -213,5 +258,5 @@ phen_names = paste0("phenotype", 1:3), target_phenotype = "phenotype1")
 #> # A tibble: 1 × 4
 #>   fid   indiv_ID   est   var
 #>   <chr> <chr>    <dbl> <dbl>
-#> 1 fid_1 fid_1_1  0.137 0.467
+#> 1 fid_1 fid_1_1  0.264 0.430
 ```

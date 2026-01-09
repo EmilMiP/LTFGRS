@@ -13,11 +13,12 @@ includes the CIP.***
 This vignette is intended to give users of the package an overview of
 how to use the different functions of the package and how they are
 intended to work together. The liability-based predictors can be used
-for prediction or as a refined outcome in a GWAS. This vignette focuses
-on preparing for prediction, as this purpose requires the user to
-consider additional steps, such as censoring of future events and
-masking the outcome of the target individual. The vignette will cover
-the following steps:
+for prediction. If you want a refined outcome to be used in GWAS, please
+see the vignette titled “LTFGRS Workflow: Prepare Genetic Liability for
+GWAS”. This vignette focuses on preparing for prediction, as this
+purpose requires the user to consider additional steps, such as
+censoring of future events and masking the outcome of the target
+individual. The vignette will cover the following steps:
 
 - Simulate mock trio, phenotype, and CIP data
 - Convert mock trio and phenotype data into a format suitable for
@@ -257,9 +258,9 @@ for the average user. An igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 0620bf4 DN-- 8 17 -- 
+#> IGRAPH 3cd97e8 DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n)
-#> + edges from 0620bf4 (vertex names):
+#> + edges from 3cd97e8 (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 
@@ -333,6 +334,9 @@ fam_thrs = prepare_thresholds(
   personal_thr = TRUE, 
   interpolation = "xgboost"
 )
+#> Warning in throw_err_or_depr_msg("Parameter(s) have been removed from this
+#> function: ", : Parameter(s) have been removed from this function: params. This
+#> warning will become an error in a future version.
 #> Warning in prepare_thresholds(.tbl = info, CIP = CIP, age_col = "age",
 #> lower_equal_upper = FALSE, : prepare_thresholds: Some ages are negative. This
 #> may be due to the end of follow-up happening before the birth of an individual.
@@ -434,9 +438,9 @@ prediction.
 
 ``` r
 ltfgrs_input$masked_fam_graph[[1]]
-#> IGRAPH 0620bf4 DN-- 8 17 -- 
+#> IGRAPH 3cd97e8 DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n), lower (v/n), upper (v/n)
-#> + edges from 0620bf4 (vertex names):
+#> + edges from 3cd97e8 (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 
@@ -459,7 +463,7 @@ The first is `method`, which specifies the method used to estimate the
 genetic liability. Currently, two methods are supported. The first is a
 Gibbs sampler that samples from a truncated multivariate normal
 distribution, `method = "Gibbs"`. The second is an iterative
-pearson-aitken approach, `method = "PA"`. Generally speaking, the
+Pearson-Aitken approach, `method = "PA"`. Generally speaking, the
 Pearson-Aitken approach is faster.
 
 The second argument is `useMixture`, which specifies whether to use the

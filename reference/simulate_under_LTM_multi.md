@@ -132,16 +132,16 @@ simulate_under_LTM_multi()
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype1 o_phenotype1 m_phenotype1 f_phenotype1 s1_phenotype1
 #>    <chr>         <dbl>        <dbl>        <dbl>        <dbl>         <dbl>
-#>  1 fid_1       -0.753        -0.132       -1.09        -0.404        -0.270
-#>  2 fid_2       -0.101         1.10        -0.767       -0.493        -1.14 
-#>  3 fid_3       -0.224        -0.891       -0.132       -1.38         -0.474
-#>  4 fid_4       -0.0705        0.741        0.210       -0.378         0.641
-#>  5 fid_5        0.738         0.133       -0.897        1.42          0.761
-#>  6 fid_6        0.316         1.69         0.551        0.305         0.884
-#>  7 fid_7       -0.245        -1.29        -1.64        -1.95          1.38 
-#>  8 fid_8       -0.321        -1.17         0.462       -0.611         1.99 
-#>  9 fid_9        0.687         0.892        0.365       -0.399         1.69 
-#> 10 fid_10      -0.696        -0.283        0.270       -1.24         -0.910
+#>  1 fid_1       -0.421        -0.270       0.0523      -1.14          0.556 
+#>  2 fid_2       -0.751        -1.29        0.274       -1.26         -1.12  
+#>  3 fid_3       -0.748        -0.545      -0.693        0.540         1.10  
+#>  4 fid_4       -0.216         0.455      -1.57        -0.0379        1.17  
+#>  5 fid_5        1.21          1.16        0.920        1.20         -0.117 
+#>  6 fid_6        0.189         0.686      -0.940        0.0242       -0.133 
+#>  7 fid_7       -0.505         1.30        0.808        1.05          1.44  
+#>  8 fid_8        0.0510        1.78       -0.209       -0.791        -0.714 
+#>  9 fid_9       -0.0823        1.28       -0.408       -0.299         0.730 
+#> 10 fid_10      -0.726        -0.933       0.395       -0.106         0.0750
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: mgm_phenotype1 <dbl>, mgf_phenotype1 <dbl>,
 #> #   pgm_phenotype1 <dbl>, pgf_phenotype1 <dbl>, o_phenotype1_status <lgl>,
@@ -156,16 +156,16 @@ simulate_under_LTM_multi()
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype2 o_phenotype2 m_phenotype2 f_phenotype2 s1_phenotype2
 #>    <chr>         <dbl>        <dbl>        <dbl>        <dbl>         <dbl>
-#>  1 fid_1        -0.229       -0.542      -0.266        2.28           0.714
-#>  2 fid_2         0.327       -0.980      -0.829       -0.223          0.960
-#>  3 fid_3         0.208        0.756       0.729       -0.376         -0.903
-#>  4 fid_4         0.245        0.590       1.34        -0.538          0.334
-#>  5 fid_5         0.766        1.07       -0.0648       0.988         -0.205
-#>  6 fid_6         0.793        1.47       -0.964       -0.557         -0.409
-#>  7 fid_7        -0.201       -0.486       0.192        1.28           1.16 
-#>  8 fid_8         0.631        0.920       0.134       -0.0381         1.23 
-#>  9 fid_9        -0.367       -0.522       1.10         1.73           0.481
-#> 10 fid_10        1.21         0.744       0.900        0.299          1.33 
+#>  1 fid_1         1.68        1.31         0.142         1.29          0.650
+#>  2 fid_2        -0.233       0.734       -1.79         -0.167        -0.585
+#>  3 fid_3        -0.257      -0.952        0.694         0.967        -0.529
+#>  4 fid_4        -0.540      -0.141       -0.984        -0.587        -2.05 
+#>  5 fid_5         0.517      -0.0906      -0.0594        0.915        -0.324
+#>  6 fid_6        -0.674      -0.704        0.169        -0.571         0.354
+#>  7 fid_7         1.40        1.66        -0.171         1.82          1.25 
+#>  8 fid_8         0.100       0.954        0.722        -0.141         1.64 
+#>  9 fid_9         1.43        1.01         0.0514        0.682         2.90 
+#> 10 fid_10        0.692       1.26         0.614         2.29          2.43 
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: mgm_phenotype2 <dbl>, mgf_phenotype2 <dbl>,
 #> #   pgm_phenotype2 <dbl>, pgf_phenotype2 <dbl>, o_phenotype2_status <lgl>,
@@ -180,16 +180,16 @@ simulate_under_LTM_multi()
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype3 o_phenotype3 m_phenotype3 f_phenotype3 s1_phenotype3
 #>    <chr>         <dbl>        <dbl>        <dbl>        <dbl>         <dbl>
-#>  1 fid_1       -0.830        -1.66        1.40          1.33         0.971 
-#>  2 fid_2       -0.212         0.102       0.0530       -0.330        0.0383
-#>  3 fid_3       -0.0909       -0.571      -0.155         0.461        0.476 
-#>  4 fid_4       -0.102         1.30       -1.62          0.817       -0.333 
-#>  5 fid_5        0.371        -1.33        1.01         -0.848       -0.658 
-#>  6 fid_6        0.413         1.28       -1.53          1.68        -0.715 
-#>  7 fid_7        0.998         0.270       0.848         0.725        1.85  
-#>  8 fid_8       -0.370        -0.859      -0.703         0.307        1.47  
-#>  9 fid_9        0.136         0.334       1.50         -0.395        0.841 
-#> 10 fid_10      -0.199        -0.630       0.192        -1.20        -1.20  
+#>  1 fid_1        1.46         1.50         0.178        1.63          0.878 
+#>  2 fid_2       -0.161       -0.0200       0.246        0.150        -0.0925
+#>  3 fid_3        0.577        0.729        0.0663       0.705         1.28  
+#>  4 fid_4        0.0959      -0.237       -0.922       -0.749        -0.622 
+#>  5 fid_5       -0.960       -1.04        -2.45        -0.694        -0.813 
+#>  6 fid_6        0.702       -0.388        0.661        0.0769        0.854 
+#>  7 fid_7        0.633        1.61         0.131       -0.305        -0.230 
+#>  8 fid_8        0.628        1.68         0.505       -0.874         0.514 
+#>  9 fid_9        0.0466       0.601        0.0929       1.26         -1.49  
+#> 10 fid_10      -0.855       -1.32         0.0930       0.631        -1.61  
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: mgm_phenotype3 <dbl>, mgf_phenotype3 <dbl>,
 #> #   pgm_phenotype3 <dbl>, pgf_phenotype3 <dbl>, o_phenotype3_status <lgl>,
@@ -203,16 +203,16 @@ simulate_under_LTM_multi()
 #> # A tibble: 8,000 × 9
 #>    fid    indiv_ID role  lower_phenotype1 upper_phenotype1 lower_phenotype2
 #>    <chr>  <chr>    <chr>            <dbl>            <dbl>            <dbl>
-#>  1 fid_1  fid_1_1  o              -Inf                2.83          -Inf   
-#>  2 fid_2  fid_2_1  o              -Inf                2.95          -Inf   
-#>  3 fid_3  fid_3_1  o              -Inf                2.76          -Inf   
-#>  4 fid_4  fid_4_1  o              -Inf                3.38          -Inf   
+#>  1 fid_1  fid_1_1  o              -Inf                3.14             1.31
+#>  2 fid_2  fid_2_1  o              -Inf                3.14          -Inf   
+#>  3 fid_3  fid_3_1  o              -Inf                2.72          -Inf   
+#>  4 fid_4  fid_4_1  o              -Inf                3.21          -Inf   
 #>  5 fid_5  fid_5_1  o              -Inf                3.42          -Inf   
-#>  6 fid_6  fid_6_1  o                 1.68             1.68             1.47
-#>  7 fid_7  fid_7_1  o              -Inf                3.14          -Inf   
-#>  8 fid_8  fid_8_1  o              -Inf                3.14          -Inf   
-#>  9 fid_9  fid_9_1  o              -Inf                2.72          -Inf   
-#> 10 fid_10 fid_10_1 o              -Inf                3.21          -Inf   
+#>  6 fid_6  fid_6_1  o              -Inf                2.63          -Inf   
+#>  7 fid_7  fid_7_1  o                 1.30             1.30             1.64
+#>  8 fid_8  fid_8_1  o                 1.78             1.78          -Inf   
+#>  9 fid_9  fid_9_1  o              -Inf                2.55          -Inf   
+#> 10 fid_10 fid_10_1 o              -Inf                3.42          -Inf   
 #> # ℹ 7,990 more rows
 #> # ℹ 3 more variables: upper_phenotype2 <dbl>, lower_phenotype3 <dbl>,
 #> #   upper_phenotype3 <dbl>
@@ -230,16 +230,16 @@ c("m","mgm","mgf","s","mhs")))
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype1 o_phenotype1 m_phenotype1 mgm_phenotype1 mgf_phenotype1
 #>    <chr>         <dbl>        <dbl>        <dbl>          <dbl>          <dbl>
-#>  1 fid_1         0.128     -1.17          0.822          -0.832         0.0560
-#>  2 fid_2        -0.351      0.217         1.25            0.854         0.566 
-#>  3 fid_3         0.127      0.261        -1.31           -0.257         0.673 
-#>  4 fid_4         2.03       2.14          0.0462          0.890         1.77  
-#>  5 fid_5        -0.243     -0.248         2.01           -0.415        -1.36  
-#>  6 fid_6        -0.674      0.00275      -0.591          -0.674         1.10  
-#>  7 fid_7        -0.633     -1.05         -2.22           -0.151        -0.999 
-#>  8 fid_8         0.315     -0.0979       -0.278           1.45          0.0554
-#>  9 fid_9         0.163     -0.744        -0.649          -0.468         0.626 
-#> 10 fid_10        0.269      0.728        -0.194           0.581        -0.280 
+#>  1 fid_1         0.210        0.335        1.83          -0.243        -0.0676
+#>  2 fid_2         1.00         1.93         0.594          0.846        -0.462 
+#>  3 fid_3         0.729        0.941        0.398          3.35         -1.10  
+#>  4 fid_4         1.47         2.03        -0.313          1.30          1.04  
+#>  5 fid_5        -1.31        -1.08         1.19           0.549         0.779 
+#>  6 fid_6         0.446       -0.147       -1.31          -0.739        -0.136 
+#>  7 fid_7        -0.667       -0.874       -0.846         -0.976         0.277 
+#>  8 fid_8        -0.168       -0.987        2.10           0.658         0.131 
+#>  9 fid_9         1.07         1.87         1.52           0.247         0.0695
+#> 10 fid_10        0.139        0.913       -0.247          0.211         0.0226
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: s1_phenotype1 <dbl>, s2_phenotype1 <dbl>,
 #> #   mhs1_phenotype1 <dbl>, mhs2_phenotype1 <dbl>, o_phenotype1_status <lgl>,
@@ -254,16 +254,16 @@ c("m","mgm","mgf","s","mhs")))
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype2 o_phenotype2 m_phenotype2 mgm_phenotype2 mgf_phenotype2
 #>    <chr>         <dbl>        <dbl>        <dbl>          <dbl>          <dbl>
-#>  1 fid_1        0.105         0.630       0.756          -0.228          0.665
-#>  2 fid_2        0.896         1.75        1.12            1.28           0.490
-#>  3 fid_3       -0.489         0.525      -0.688          -0.838         -0.273
-#>  4 fid_4        0.554        -0.116      -1.61           -1.98          -1.82 
-#>  5 fid_5       -1.41         -1.50       -0.0545          1.14          -0.125
-#>  6 fid_6       -0.525         0.716       0.354           0.886          0.977
-#>  7 fid_7        0.0385        0.218      -1.19            0.340          0.875
-#>  8 fid_8       -0.784         0.269      -0.858          -0.558         -0.798
-#>  9 fid_9        0.126         0.453      -0.654          -0.870          0.173
-#> 10 fid_10       0.289         0.484       0.425          -1.88           3.10 
+#>  1 fid_1        0.680         1.10         1.21          -1.49           0.365
+#>  2 fid_2        0.450         1.01         2.18           2.57          -0.633
+#>  3 fid_3       -0.454        -0.745       -0.635          0.750         -1.39 
+#>  4 fid_4       -0.992        -0.492       -0.853         -0.999          1.55 
+#>  5 fid_5        0.443         1.08         1.33           0.258          1.94 
+#>  6 fid_6        0.987         0.798        0.598          0.342          1.04 
+#>  7 fid_7        0.780         0.899       -0.792         -1.17           0.181
+#>  8 fid_8       -0.291         0.492        0.237         -0.486         -1.34 
+#>  9 fid_9       -0.0233       -0.368       -1.40          -1.42           1.27 
+#> 10 fid_10       1.42         -0.322        0.538         -1.15           0.144
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: s1_phenotype2 <dbl>, s2_phenotype2 <dbl>,
 #> #   mhs1_phenotype2 <dbl>, mhs2_phenotype2 <dbl>, o_phenotype2_status <lgl>,
@@ -278,16 +278,16 @@ c("m","mgm","mgf","s","mhs")))
 #> # A tibble: 1,000 × 26
 #>    fid    g_phenotype3 o_phenotype3 m_phenotype3 mgm_phenotype3 mgf_phenotype3
 #>    <chr>         <dbl>        <dbl>        <dbl>          <dbl>          <dbl>
-#>  1 fid_1        -0.353       0.292      -0.00167        -0.0630         0.497 
-#>  2 fid_2        -1.33       -1.45        0.0648          0.960         -1.07  
-#>  3 fid_3        -0.541       0.0715      0.574           0.225          0.979 
-#>  4 fid_4         1.11        1.60        0.720          -3.27           0.519 
-#>  5 fid_5         0.417      -1.21       -0.855          -0.712          0.170 
-#>  6 fid_6         0.802       0.997       1.14            0.604          0.721 
-#>  7 fid_7         0.554       0.772       1.31            0.0657         1.83  
-#>  8 fid_8        -0.615      -0.760      -1.43           -0.626         -1.47  
-#>  9 fid_9         0.432       0.0293      0.262          -0.331         -0.0442
-#> 10 fid_10       -0.330      -0.336       0.509           0.474         -0.198 
+#>  1 fid_1         0.152     -0.00889       -0.907        -0.900           0.193
+#>  2 fid_2        -0.593      0.00699       -1.24          0.655           0.585
+#>  3 fid_3         1.13       0.832          1.07          1.71            0.114
+#>  4 fid_4         0.349      0.582          1.07          0.492           1.56 
+#>  5 fid_5         0.214      1.31          -3.40         -0.701           0.798
+#>  6 fid_6        -0.394     -1.97           0.111         1.79           -1.29 
+#>  7 fid_7         1.22       0.707          1.47          1.81            0.879
+#>  8 fid_8        -1.31      -1.49          -1.13          0.0580         -2.05 
+#>  9 fid_9        -0.289     -0.861         -0.227        -1.20           -0.548
+#> 10 fid_10       -0.120      0.0878        -0.262         1.26            0.385
 #> # ℹ 990 more rows
 #> # ℹ 20 more variables: s1_phenotype3 <dbl>, s2_phenotype3 <dbl>,
 #> #   mhs1_phenotype3 <dbl>, mhs2_phenotype3 <dbl>, o_phenotype3_status <lgl>,
@@ -301,16 +301,16 @@ c("m","mgm","mgf","s","mhs")))
 #> # A tibble: 8,000 × 9
 #>    fid    indiv_ID role  lower_phenotype1 upper_phenotype1 lower_phenotype2
 #>    <chr>  <chr>    <chr>            <dbl>            <dbl>            <dbl>
-#>  1 fid_1  fid_1_1  o              -Inf                3.38          -Inf   
-#>  2 fid_2  fid_2_1  o              -Inf                2.91             1.74
-#>  3 fid_3  fid_3_1  o              -Inf                2.79          -Inf   
-#>  4 fid_4  fid_4_1  o                 2.13             2.13          -Inf   
-#>  5 fid_5  fid_5_1  o              -Inf                3.24          -Inf   
-#>  6 fid_6  fid_6_1  o              -Inf                3.31          -Inf   
-#>  7 fid_7  fid_7_1  o              -Inf                2.91          -Inf   
-#>  8 fid_8  fid_8_1  o              -Inf                2.79          -Inf   
-#>  9 fid_9  fid_9_1  o              -Inf                3.17          -Inf   
-#> 10 fid_10 fid_10_1 o              -Inf                3.24          -Inf   
+#>  1 fid_1  fid_1_1  o              -Inf                2.79             -Inf
+#>  2 fid_2  fid_2_1  o                 1.93             1.93             -Inf
+#>  3 fid_3  fid_3_1  o              -Inf                3.24             -Inf
+#>  4 fid_4  fid_4_1  o                 2.01             2.01             -Inf
+#>  5 fid_5  fid_5_1  o              -Inf                2.43             -Inf
+#>  6 fid_6  fid_6_1  o              -Inf                3.21             -Inf
+#>  7 fid_7  fid_7_1  o              -Inf                2.91             -Inf
+#>  8 fid_8  fid_8_1  o              -Inf                2.95             -Inf
+#>  9 fid_9  fid_9_1  o                 1.89             1.89             -Inf
+#> 10 fid_10 fid_10_1 o              -Inf                2.87             -Inf
 #> # ℹ 7,990 more rows
 #> # ℹ 3 more variables: upper_phenotype2 <dbl>, lower_phenotype3 <dbl>,
 #> #   upper_phenotype3 <dbl>
@@ -323,16 +323,16 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, n_sim = 100)
 #> # A tibble: 100 × 10
 #>    fid    m_phenotype1 f_phenotype1 s1_phenotype1 m_phenotype1_status
 #>    <chr>         <dbl>        <dbl>         <dbl> <lgl>              
-#>  1 fid_1        -0.834       1.77         -0.887  FALSE              
-#>  2 fid_2        -0.993       0.682        -0.849  FALSE              
-#>  3 fid_3        -0.914       0.363         0.156  FALSE              
-#>  4 fid_4        -0.869       1.04          0.620  FALSE              
-#>  5 fid_5         1.82       -1.76         -0.339  TRUE               
-#>  6 fid_6        -0.523      -1.22          0.661  FALSE              
-#>  7 fid_7         1.69        0.0377        0.323  TRUE               
-#>  8 fid_8         0.519      -0.181         0.488  FALSE              
-#>  9 fid_9        -0.787       0.195        -0.0356 FALSE              
-#> 10 fid_10       -1.23       -1.43         -1.93   FALSE              
+#>  1 fid_1         1.01         0.750       -0.458  FALSE              
+#>  2 fid_2         0.993       -0.109        0.551  FALSE              
+#>  3 fid_3         0.922        1.78        -0.0302 FALSE              
+#>  4 fid_4        -1.30        -0.520       -0.838  FALSE              
+#>  5 fid_5        -1.75         0.125       -0.304  FALSE              
+#>  6 fid_6        -0.344        0.936        0.825  FALSE              
+#>  7 fid_7        -2.12         0.434        0.314  FALSE              
+#>  8 fid_8        -0.787        0.325        0.472  FALSE              
+#>  9 fid_9         0.252        1.07         0.0813 FALSE              
+#> 10 fid_10        0.142        0.114        0.440  FALSE              
 #> # ℹ 90 more rows
 #> # ℹ 5 more variables: f_phenotype1_status <lgl>, s1_phenotype1_status <lgl>,
 #> #   m_phenotype1_aoo <dbl>, f_phenotype1_aoo <dbl>, s1_phenotype1_aoo <dbl>
@@ -343,16 +343,16 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, n_sim = 100)
 #> # A tibble: 100 × 10
 #>    fid    m_phenotype2 f_phenotype2 s1_phenotype2 m_phenotype2_status
 #>    <chr>         <dbl>        <dbl>         <dbl> <lgl>              
-#>  1 fid_1         0.841        1.27          0.330 FALSE              
-#>  2 fid_2        -2.21        -0.740        -1.61  FALSE              
-#>  3 fid_3        -0.585       -0.163         0.449 FALSE              
-#>  4 fid_4         0.706       -1.84         -1.17  FALSE              
-#>  5 fid_5         0.729       -1.46          1.13  FALSE              
-#>  6 fid_6        -0.264       -1.87         -0.432 FALSE              
-#>  7 fid_7         2.34        -0.131         0.490 TRUE               
-#>  8 fid_8        -0.125       -0.156         0.672 FALSE              
-#>  9 fid_9         0.316       -0.383         0.517 FALSE              
-#> 10 fid_10       -0.955       -1.40         -1.04  FALSE              
+#>  1 fid_1        1.37         0.399         1.09   TRUE               
+#>  2 fid_2        0.0556      -1.20         -1.63   FALSE              
+#>  3 fid_3       -0.808       -0.241        -0.147  FALSE              
+#>  4 fid_4        0.370       -0.830        -0.987  FALSE              
+#>  5 fid_5        1.38         0.943         0.0300 TRUE               
+#>  6 fid_6       -0.643        0.838         1.08   FALSE              
+#>  7 fid_7       -1.11        -0.581         0.211  FALSE              
+#>  8 fid_8       -0.805        0.440         0.0602 FALSE              
+#>  9 fid_9        0.370        0.970         0.217  FALSE              
+#> 10 fid_10      -0.318       -0.0820       -0.195  FALSE              
 #> # ℹ 90 more rows
 #> # ℹ 5 more variables: f_phenotype2_status <lgl>, s1_phenotype2_status <lgl>,
 #> #   m_phenotype2_aoo <dbl>, f_phenotype2_aoo <dbl>, s1_phenotype2_aoo <dbl>
@@ -363,16 +363,16 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, n_sim = 100)
 #> # A tibble: 100 × 10
 #>    fid    m_phenotype3 f_phenotype3 s1_phenotype3 m_phenotype3_status
 #>    <chr>         <dbl>        <dbl>         <dbl> <lgl>              
-#>  1 fid_1         0.121        1.92         -0.906 FALSE              
-#>  2 fid_2        -0.299        0.266        -1.02  FALSE              
-#>  3 fid_3        -2.62        -0.952        -0.592 FALSE              
-#>  4 fid_4         0.172       -0.149        -1.03  FALSE              
-#>  5 fid_5        -0.238       -1.21         -0.407 FALSE              
-#>  6 fid_6        -0.342       -1.89          0.391 FALSE              
-#>  7 fid_7        -0.280       -0.702        -1.00  FALSE              
-#>  8 fid_8         0.115       -0.506         0.729 FALSE              
-#>  9 fid_9         1.24         0.919         0.515 FALSE              
-#> 10 fid_10        0.764       -0.642        -0.795 FALSE              
+#>  1 fid_1         2.38         0.437         0.723 TRUE               
+#>  2 fid_2        -1.04         0.834         0.367 FALSE              
+#>  3 fid_3         0.130        0.349         1.13  FALSE              
+#>  4 fid_4         0.963       -1.06          0.570 FALSE              
+#>  5 fid_5        -0.877        0.312        -1.32  FALSE              
+#>  6 fid_6        -1.06         1.31          0.459 FALSE              
+#>  7 fid_7         0.781        0.790         0.538 FALSE              
+#>  8 fid_8        -0.160        0.639         0.171 FALSE              
+#>  9 fid_9         0.414        0.723         0.910 FALSE              
+#> 10 fid_10       -0.768        1.35          1.17  FALSE              
 #> # ℹ 90 more rows
 #> # ℹ 5 more variables: f_phenotype3_status <lgl>, s1_phenotype3_status <lgl>,
 #> #   m_phenotype3_aoo <dbl>, f_phenotype3_aoo <dbl>, s1_phenotype3_aoo <dbl>
@@ -382,16 +382,16 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, n_sim = 100)
 #> # A tibble: 300 × 9
 #>    fid    indiv_ID role  lower_phenotype1 upper_phenotype1 lower_phenotype2
 #>    <chr>  <chr>    <chr>            <dbl>            <dbl>            <dbl>
-#>  1 fid_1  fid_1_1  m              -Inf                2.18          -Inf   
-#>  2 fid_2  fid_2_1  m              -Inf                2.09          -Inf   
-#>  3 fid_3  fid_3_1  m              -Inf                1.71          -Inf   
-#>  4 fid_4  fid_4_1  m              -Inf                1.64          -Inf   
-#>  5 fid_5  fid_5_1  m                 1.81             1.81          -Inf   
-#>  6 fid_6  fid_6_1  m              -Inf                1.74          -Inf   
-#>  7 fid_7  fid_7_1  m                 1.71             1.71             2.34
-#>  8 fid_8  fid_8_1  m              -Inf                2.01          -Inf   
-#>  9 fid_9  fid_9_1  m              -Inf                1.68          -Inf   
-#> 10 fid_10 fid_10_1 m              -Inf                1.62          -Inf   
+#>  1 fid_1  fid_1_1  m                 -Inf             1.74             1.37
+#>  2 fid_2  fid_2_1  m                 -Inf             2.30          -Inf   
+#>  3 fid_3  fid_3_1  m                 -Inf             2.01          -Inf   
+#>  4 fid_4  fid_4_1  m                 -Inf             1.68          -Inf   
+#>  5 fid_5  fid_5_1  m                 -Inf             1.62             1.38
+#>  6 fid_6  fid_6_1  m                 -Inf             2.13          -Inf   
+#>  7 fid_7  fid_7_1  m                 -Inf             1.74          -Inf   
+#>  8 fid_8  fid_8_1  m                 -Inf             1.89          -Inf   
+#>  9 fid_9  fid_9_1  m                 -Inf             2.34          -Inf   
+#> 10 fid_10 fid_10_1 m                 -Inf             2.22          -Inf   
 #> # ℹ 290 more rows
 #> # ℹ 3 more variables: upper_phenotype2 <dbl>, lower_phenotype3 <dbl>,
 #> #   upper_phenotype3 <dbl>
@@ -403,16 +403,16 @@ simulate_under_LTM_multi(fam_vec = c(), n_fam = NULL, add_ind = TRUE, n_sim = 15
 #> # A tibble: 150 × 5
 #>    fid    g_phenotype1 o_phenotype1 o_phenotype1_status o_phenotype1_aoo
 #>    <chr>         <dbl>        <dbl> <lgl>                          <dbl>
-#>  1 fid_1       -0.449       0.214   FALSE                             37
-#>  2 fid_2        0.161       0.600   FALSE                             20
-#>  3 fid_3        1.05        1.46    TRUE                              68
-#>  4 fid_4        0.751      -0.0429  FALSE                             21
-#>  5 fid_5        0.911       1.40    TRUE                              72
-#>  6 fid_6       -0.463      -2.00    FALSE                             31
-#>  7 fid_7        0.690       0.163   FALSE                             26
-#>  8 fid_8       -0.329       0.159   FALSE                             34
-#>  9 fid_9       -0.0705     -0.00849 FALSE                             39
-#> 10 fid_10       0.299       0.237   FALSE                             11
+#>  1 fid_1         0.130      1.04    FALSE                             34
+#>  2 fid_2         0.890      0.194   FALSE                             31
+#>  3 fid_3         1.48       1.49    TRUE                              66
+#>  4 fid_4        -0.683     -0.461   FALSE                             34
+#>  5 fid_5        -0.572     -1.37    FALSE                             39
+#>  6 fid_6        -0.653     -0.00127 FALSE                             11
+#>  7 fid_7        -0.617     -0.692   FALSE                             28
+#>  8 fid_8        -0.388     -0.660   FALSE                             14
+#>  9 fid_9        -0.247     -0.833   FALSE                             35
+#> 10 fid_10       -0.299     -0.569   FALSE                             35
 #> # ℹ 140 more rows
 #> 
 #> 
@@ -421,16 +421,16 @@ simulate_under_LTM_multi(fam_vec = c(), n_fam = NULL, add_ind = TRUE, n_sim = 15
 #> # A tibble: 150 × 5
 #>    fid    g_phenotype2 o_phenotype2 o_phenotype2_status o_phenotype2_aoo
 #>    <chr>         <dbl>        <dbl> <lgl>                          <dbl>
-#>  1 fid_1      -0.874         -0.723 FALSE                             37
-#>  2 fid_2       0.773          1.28  FALSE                             20
-#>  3 fid_3       1.38           0.282 FALSE                             32
-#>  4 fid_4       0.873          0.373 FALSE                             21
-#>  5 fid_5      -0.547         -0.691 FALSE                             34
-#>  6 fid_6      -0.0146         0.255 FALSE                             31
-#>  7 fid_7      -0.812         -0.282 FALSE                             26
-#>  8 fid_8      -0.893         -0.307 FALSE                             34
-#>  9 fid_9       0.449          0.222 FALSE                             39
-#> 10 fid_10      0.00115       -1.06  FALSE                             11
+#>  1 fid_1        -1.25        -0.838 FALSE                             34
+#>  2 fid_2        -0.511        0.553 FALSE                             31
+#>  3 fid_3        -0.684       -0.601 FALSE                             26
+#>  4 fid_4         1.25         2.13  TRUE                              47
+#>  5 fid_5         0.125       -0.431 FALSE                             39
+#>  6 fid_6         1.31         0.185 FALSE                             11
+#>  7 fid_7        -0.520       -0.522 FALSE                             28
+#>  8 fid_8        -0.394       -0.472 FALSE                             14
+#>  9 fid_9        -0.971        0.467 FALSE                             35
+#> 10 fid_10       -0.437       -1.17  FALSE                             35
 #> # ℹ 140 more rows
 #> 
 #> 
@@ -439,16 +439,16 @@ simulate_under_LTM_multi(fam_vec = c(), n_fam = NULL, add_ind = TRUE, n_sim = 15
 #> # A tibble: 150 × 5
 #>    fid    g_phenotype3 o_phenotype3 o_phenotype3_status o_phenotype3_aoo
 #>    <chr>         <dbl>        <dbl> <lgl>                          <dbl>
-#>  1 fid_1        -0.489      -0.175  FALSE                             37
-#>  2 fid_2         0.530       0.613  FALSE                             20
-#>  3 fid_3         0.606       0.0891 FALSE                             32
-#>  4 fid_4         0.538       0.608  FALSE                             21
-#>  5 fid_5        -0.187      -0.0331 FALSE                             34
-#>  6 fid_6         0.450       0.218  FALSE                             31
-#>  7 fid_7        -0.135      -0.428  FALSE                             26
-#>  8 fid_8        -0.124       0.757  FALSE                             34
-#>  9 fid_9        -1.04       -1.15   FALSE                             39
-#> 10 fid_10       -0.421      -0.461  FALSE                             11
+#>  1 fid_1      -0.00973        0.136 FALSE                             34
+#>  2 fid_2       0.556          0.641 FALSE                             31
+#>  3 fid_3       0.923          0.811 FALSE                             26
+#>  4 fid_4       1.37           2.23  TRUE                              45
+#>  5 fid_5      -0.213         -0.352 FALSE                             39
+#>  6 fid_6       1.13           0.875 FALSE                             11
+#>  7 fid_7      -0.686         -0.718 FALSE                             28
+#>  8 fid_8      -0.157          0.272 FALSE                             14
+#>  9 fid_9       0.505         -0.700 FALSE                             35
+#> 10 fid_10     -0.518          0.718 FALSE                             35
 #> # ℹ 140 more rows
 #> 
 #> 
@@ -456,16 +456,16 @@ simulate_under_LTM_multi(fam_vec = c(), n_fam = NULL, add_ind = TRUE, n_sim = 15
 #> # A tibble: 150 × 9
 #>    fid    indiv_ID role  lower_phenotype1 upper_phenotype1 lower_phenotype2
 #>    <chr>  <chr>    <chr>            <dbl>            <dbl>            <dbl>
-#>  1 fid_1  fid_1_1  o              -Inf                2.55             -Inf
-#>  2 fid_2  fid_2_1  o              -Inf                3.21             -Inf
-#>  3 fid_3  fid_3_1  o                 1.45             1.45             -Inf
-#>  4 fid_4  fid_4_1  o              -Inf                3.17             -Inf
-#>  5 fid_5  fid_5_1  o                 1.39             1.39             -Inf
-#>  6 fid_6  fid_6_1  o              -Inf                2.79             -Inf
-#>  7 fid_7  fid_7_1  o              -Inf                2.99             -Inf
-#>  8 fid_8  fid_8_1  o              -Inf                2.68             -Inf
-#>  9 fid_9  fid_9_1  o              -Inf                2.47             -Inf
-#> 10 fid_10 fid_10_1 o              -Inf                3.52             -Inf
+#>  1 fid_1  fid_1_1  o              -Inf                2.68          -Inf   
+#>  2 fid_2  fid_2_1  o              -Inf                2.79          -Inf   
+#>  3 fid_3  fid_3_1  o                 1.49             1.49          -Inf   
+#>  4 fid_4  fid_4_1  o              -Inf                2.68             2.13
+#>  5 fid_5  fid_5_1  o              -Inf                2.47          -Inf   
+#>  6 fid_6  fid_6_1  o              -Inf                3.52          -Inf   
+#>  7 fid_7  fid_7_1  o              -Inf                2.91          -Inf   
+#>  8 fid_8  fid_8_1  o              -Inf                3.42          -Inf   
+#>  9 fid_9  fid_9_1  o              -Inf                2.63          -Inf   
+#> 10 fid_10 fid_10_1 o              -Inf                2.63          -Inf   
 #> # ℹ 140 more rows
 #> # ℹ 3 more variables: upper_phenotype2 <dbl>, lower_phenotype3 <dbl>,
 #> #   upper_phenotype3 <dbl>

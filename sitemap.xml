@@ -1,6 +1,12 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://emilmip.github.io/LTFGRS/404.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/CIP_importance.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/FromTrioToFamilies.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/Kendler_workflow.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_GWAS.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_prediction.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/identify_and_plot_relatives.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/articles/igraph_data_management.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/articles/index.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/authors.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/index.html</loc></url>
@@ -8,6 +14,7 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/Gibbs_estimator.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/LTFGRS-package.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/PA_algorithm.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/Relation_per_proband_plot.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/attach_attributes.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/censor_family_onsets.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/construct_covmat.html</loc></url>
@@ -35,14 +42,17 @@
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_all_combs.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_covmat.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_family_graphs.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/get_generations.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_onset_time.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/get_relatedness.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/get_relations.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_based_covariance_construction_multi.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/graph_to_trio.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/index.html</loc></url>
-<url><loc>https://emilmip.github.io/LTFGRS/reference/kendler.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/kendler_family_calculations.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/kendler_simplified.html</loc></url>
+<url><loc>https://emilmip.github.io/LTFGRS/reference/label_relatives.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_graph.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_thresholds.html</loc></url>
 <url><loc>https://emilmip.github.io/LTFGRS/reference/prepare_thresholds_multi.html</loc></url>

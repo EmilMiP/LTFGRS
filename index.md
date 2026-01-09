@@ -37,3 +37,28 @@ You can install the LTFGRS from CRAN with:
 
 Documentation and tutorials for the package can be found in the [pkgdown
 site](https://emilmip.github.io/LTFGRS/).
+
+# Citation
+
+If you use LTFGRS to estimate genetic liabilities, please cite at least
+one of the following papers depending on which method you used:
+
+[Pedersen et al, Accounting for age of onset and family history improved
+power in genome-wide association studies. AJHG,
+2022.](https://doi.org/10.1016/j.ajhg.2022.01.009)
+
+[Krebs et al., Genetic liability estimated from large-scale family data
+improves genetic prediction, risk score profiling, and gene mapping for
+major depression. AJHG,
+2024](https://doi.org/10.1016/j.ajhg.2024.09.009)
+
+[Kendler et al., Family Genetic Risk Scores and the Genetic Architecture
+of Major Affective and Psychotic Disorders in a Swedish National Sample.
+JAMA Psychiatry,
+2021.](https://doi.org/10.1001/jamapsychiatry.2021.0336)
+
+If automatic identification of family members is used, please cite:
+
+[Pedersen et al., Automatic detection of n-degree family members.
+Frontiers in Genetics,
+2025.](https://doi.org/10.3389/fgene.2025.1708315)

@@ -165,18 +165,18 @@ using one of two possible formats.
 simulate_under_LTM()
 #> $sim_obs
 #> # A tibble: 1,000 × 26
-#>    fid          g       o      m        f      s1     mgm    mgf     pgm    pgf
-#>    <chr>    <dbl>   <dbl>  <dbl>    <dbl>   <dbl>   <dbl>  <dbl>   <dbl>  <dbl>
-#>  1 fid_1  -0.552  -0.583   1.49  -0.172    2.14    0.249   2.70   0.0504  0.415
-#>  2 fid_2  -0.0492  0.0242  1.43   0.00244 -0.716  -0.730  -1.44  -0.647   0.259
-#>  3 fid_3   0.565   0.133   0.184  0.125   -0.0207 -0.367   1.86  -0.810   0.559
-#>  4 fid_4  -1.24   -2.07    0.763 -0.619    0.893   0.0873  2.41   0.194   0.892
-#>  5 fid_5  -0.475  -1.07   -0.986  0.0768   1.08   -1.23    0.431  1.74   -0.886
-#>  6 fid_6  -0.257  -0.843  -0.758 -1.44     0.751  -0.898   0.271  0.540  -1.42 
-#>  7 fid_7   0.802   0.951   1.19  -0.895    0.905  -0.295   0.594 -0.744  -0.462
-#>  8 fid_8   0.895   2.11    2.45   0.718    0.822  -0.0944  1.000  0.310   0.473
-#>  9 fid_9   0.328   0.458   0.992  0.293    0.0837  0.282  -1.36   2.07   -1.23 
-#> 10 fid_10 -0.0797 -0.311  -1.58  -0.762    0.561  -0.225   0.851  0.871  -1.51 
+#>    fid           g       o       m      f     s1     mgm    mgf     pgm     pgf
+#>    <chr>     <dbl>   <dbl>   <dbl>  <dbl>  <dbl>   <dbl>  <dbl>   <dbl>   <dbl>
+#>  1 fid_1   0.831   -0.161   0.218   0.734 -1.04   0.245   1.75   2.11   -0.361 
+#>  2 fid_2  -0.279   -0.0892  0.0166  0.599  0.114 -0.499  -0.125  0.255   1.19  
+#>  3 fid_3  -0.0410  -0.171  -0.839   0.520  0.210 -0.807  -0.480 -1.38    0.248 
+#>  4 fid_4   0.990    1.23    0.326   0.493  0.753  0.404   0.282 -0.0224  0.691 
+#>  5 fid_5   0.391    1.29    0.452   0.797  0.104 -1.10    0.227  0.203  -0.0584
+#>  6 fid_6  -0.00377 -1.21   -0.313  -1.25  -0.109  2.10    1.96  -0.120  -2.22  
+#>  7 fid_7  -0.959   -1.10   -0.912  -0.773  0.210 -1.15    0.246 -0.332  -1.50  
+#>  8 fid_8  -0.500   -0.248  -0.0187 -0.297 -0.413 -1.38   -0.175 -0.712  -0.348 
+#>  9 fid_9  -0.0922   0.185  -1.59   -0.580 -2.26  -1.81   -0.483  0.122  -0.937 
+#> 10 fid_10  1.25     0.977   0.855   0.384 -1.15   0.0627  1.51   0.624   1.50  
 #> # ℹ 990 more rows
 #> # ℹ 16 more variables: o_status <lgl>, m_status <lgl>, f_status <lgl>,
 #> #   s1_status <lgl>, mgm_status <lgl>, mgf_status <lgl>, pgm_status <lgl>,
@@ -187,16 +187,16 @@ simulate_under_LTM()
 #> # A tibble: 8,000 × 5
 #>    fid    indiv_ID role    lower upper
 #>    <chr>  <chr>    <chr>   <dbl> <dbl>
-#>  1 fid_1  fid_1_1  o     -Inf     2.55
-#>  2 fid_2  fid_2_1  o     -Inf     2.63
-#>  3 fid_3  fid_3_1  o     -Inf     3.06
-#>  4 fid_4  fid_4_1  o     -Inf     3.03
-#>  5 fid_5  fid_5_1  o     -Inf     3.17
-#>  6 fid_6  fid_6_1  o     -Inf     2.72
-#>  7 fid_7  fid_7_1  o     -Inf     3.55
-#>  8 fid_8  fid_8_1  o        2.09  2.09
-#>  9 fid_9  fid_9_1  o     -Inf     2.76
-#> 10 fid_10 fid_10_1 o     -Inf     3.28
+#>  1 fid_1  fid_1_1  o     -Inf     3.28
+#>  2 fid_2  fid_2_1  o     -Inf     2.76
+#>  3 fid_3  fid_3_1  o     -Inf     3.28
+#>  4 fid_4  fid_4_1  o     -Inf     2.59
+#>  5 fid_5  fid_5_1  o        1.29  1.29
+#>  6 fid_6  fid_6_1  o     -Inf     3.24
+#>  7 fid_7  fid_7_1  o     -Inf     2.91
+#>  8 fid_8  fid_8_1  o     -Inf     2.68
+#>  9 fid_9  fid_9_1  o     -Inf     3.35
+#> 10 fid_10 fid_10_1 o     -Inf     2.63
 #> # ℹ 7,990 more rows
 #> 
 
@@ -209,18 +209,18 @@ simulate_under_LTM(fam_vec = NULL, n_fam = stats::setNames(c(1,1,1,2,2),
 c("m","mgm","mgf","s","mhs")))
 #> $sim_obs
 #> # A tibble: 1,000 × 26
-#>    fid          g        o       m    mgm    mgf     s1      s2     mhs1    mhs2
-#>    <chr>    <dbl>    <dbl>   <dbl>  <dbl>  <dbl>  <dbl>   <dbl>    <dbl>   <dbl>
-#>  1 fid_1   0.666   1.13e+0  0.843  -0.445 -1.17  -1.11  -0.0360 -0.00930 -1.19  
-#>  2 fid_2   0.444  -3.54e-2 -0.0623 -0.423  0.220  1.70   0.542   0.184   -0.566 
-#>  3 fid_3   0.194   9.44e-1 -0.367   0.627 -1.77   0.199  0.700   0.800    0.463 
-#>  4 fid_4   0.325   2.80e-1 -0.122  -0.202  0.549  0.414 -0.454   0.751    0.604 
-#>  5 fid_5  -1.34   -6.48e-1  0.376  -0.780 -0.641 -0.674 -2.14   -0.348    0.775 
-#>  6 fid_6   0.0892  1.30e-1  0.985   1.49  -0.321  0.955 -0.898  -1.52    -0.0170
-#>  7 fid_7   0.117   1.20e-1  0.396   0.468  1.08   1.33  -0.450  -0.317    1.20  
-#>  8 fid_8   0.795   3.71e-4  0.851  -1.23  -0.425 -0.706 -1.51   -1.89     0.448 
-#>  9 fid_9   1.08    1.42e+0 -1.18   -1.03   0.326  0.834  1.47    1.01     0.952 
-#> 10 fid_10 -0.230  -4.07e-1  1.20   -0.883 -0.330 -0.538 -0.931   0.360    0.751 
+#>    fid         g      o      m    mgm     mgf      s1      s2    mhs1    mhs2
+#>    <chr>   <dbl>  <dbl>  <dbl>  <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+#>  1 fid_1  -0.938 -0.573 -0.257 -1.39   0.527  -0.617  -0.474  -0.590  -0.0331
+#>  2 fid_2   1.13   0.857  0.226 -0.568 -0.151   1.14   -0.240   0.410  -1.67  
+#>  3 fid_3   0.404  0.792  0.969  0.553  0.577   0.322  -0.0994 -0.0188  0.631 
+#>  4 fid_4   0.115 -0.411  0.465  0.615 -1.88    0.135   0.858  -0.740  -0.620 
+#>  5 fid_5  -0.572 -1.79  -0.164  0.951 -0.0698  0.0229  0.911   1.37   -0.198 
+#>  6 fid_6   0.156 -0.849 -1.48  -0.104 -0.242  -0.0978  0.0133  0.347   0.874 
+#>  7 fid_7   0.722 -0.157 -0.195  1.06   1.89   -0.119   1.35   -1.17   -0.468 
+#>  8 fid_8  -1.20  -1.99  -2.14   0.221  0.681   0.458  -2.04   -1.35   -0.179 
+#>  9 fid_9   0.977  1.61   1.16   1.08   0.0250  0.0835  1.72   -0.787  -0.308 
+#> 10 fid_10 -0.421 -0.921  0.243  0.681  0.306   0.227   0.957  -0.600  -0.653 
 #> # ℹ 990 more rows
 #> # ℹ 16 more variables: o_status <lgl>, m_status <lgl>, mgm_status <lgl>,
 #> #   mgf_status <lgl>, s1_status <lgl>, s2_status <lgl>, mhs1_status <lgl>,
@@ -231,16 +231,16 @@ c("m","mgm","mgf","s","mhs")))
 #> # A tibble: 8,000 × 5
 #>    fid    indiv_ID role    lower upper
 #>    <chr>  <chr>    <chr>   <dbl> <dbl>
-#>  1 fid_1  fid_1_1  o     -Inf     2.47
-#>  2 fid_2  fid_2_1  o     -Inf     3.38
-#>  3 fid_3  fid_3_1  o     -Inf     2.68
-#>  4 fid_4  fid_4_1  o     -Inf     2.68
-#>  5 fid_5  fid_5_1  o     -Inf     2.51
-#>  6 fid_6  fid_6_1  o     -Inf     3.06
-#>  7 fid_7  fid_7_1  o     -Inf     2.83
-#>  8 fid_8  fid_8_1  o     -Inf     3.55
-#>  9 fid_9  fid_9_1  o        1.42  1.42
-#> 10 fid_10 fid_10_1 o     -Inf     3.38
+#>  1 fid_1  fid_1_1  o     -Inf     3.24
+#>  2 fid_2  fid_2_1  o     -Inf     2.83
+#>  3 fid_3  fid_3_1  o     -Inf     2.83
+#>  4 fid_4  fid_4_1  o     -Inf     3.48
+#>  5 fid_5  fid_5_1  o     -Inf     2.87
+#>  6 fid_6  fid_6_1  o     -Inf     2.55
+#>  7 fid_7  fid_7_1  o     -Inf     2.59
+#>  8 fid_8  fid_8_1  o     -Inf     3.48
+#>  9 fid_9  fid_9_1  o        1.62  1.62
+#> 10 fid_10 fid_10_1 o     -Inf     3.10
 #> # ℹ 7,990 more rows
 #> 
 
@@ -250,32 +250,32 @@ genetic_corrmat = genetic_corrmat, full_corrmat = full_corrmat, n_sim = 200)
 #> # A tibble: 200 × 10
 #>    fid          m      f      s1 m_status f_status s1_status m_aoo f_aoo s1_aoo
 #>    <chr>    <dbl>  <dbl>   <dbl> <lgl>    <lgl>    <lgl>     <dbl> <dbl>  <dbl>
-#>  1 fid_1   1.03    0.926  0.944  FALSE    FALSE    FALSE        59    48     29
-#>  2 fid_2   0.871  -0.906  0.0658 FALSE    FALSE    FALSE        60    52     33
-#>  3 fid_3   1.02    1.07   2.11   FALSE    FALSE    TRUE         42    47     47
-#>  4 fid_4   0.306  -0.529 -0.747  FALSE    FALSE    FALSE        60    58     33
-#>  5 fid_5   1.61    2.28   0.555  TRUE     TRUE     FALSE        61    44     18
-#>  6 fid_6   0.197  -0.563 -0.455  FALSE    FALSE    FALSE        51    57     27
-#>  7 fid_7   0.471  -0.846 -1.09   FALSE    FALSE    FALSE        61    61     38
-#>  8 fid_8   0.0529  0.374  0.520  FALSE    FALSE    FALSE        60    70     40
-#>  9 fid_9   0.0799  1.24   0.484  FALSE    FALSE    FALSE        50    58     31
-#> 10 fid_10 -1.35   -0.456 -1.50   FALSE    FALSE    FALSE        51    42     22
+#>  1 fid_1  -1.18    0.645 -0.198  FALSE    FALSE    FALSE        55    61     31
+#>  2 fid_2  -0.465   1.80  -0.615  FALSE    TRUE     FALSE        45    55     22
+#>  3 fid_3   0.173  -1.97  -0.770  FALSE    FALSE    FALSE        32    42     12
+#>  4 fid_4   0.902  -0.122  0.100  FALSE    FALSE    FALSE        39    47     20
+#>  5 fid_5   0.227   1.86   0.152  FALSE    TRUE     FALSE        67    54     38
+#>  6 fid_6  -1.02    0.108  0.0188 FALSE    FALSE    FALSE        53    57     34
+#>  7 fid_7  -0.0401 -0.118 -0.953  FALSE    FALSE    FALSE        56    53     35
+#>  8 fid_8  -0.548  -0.343 -0.456  FALSE    FALSE    FALSE        32    36     12
+#>  9 fid_9  -0.853   0.345  0.0529 FALSE    FALSE    FALSE        60    66     38
+#> 10 fid_10 -1.33   -1.93  -1.13   FALSE    FALSE    FALSE        35    39     17
 #> # ℹ 190 more rows
 #> 
 #> $thresholds
 #> # A tibble: 600 × 5
-#>    fid    indiv_ID role    lower upper
-#>    <chr>  <chr>    <chr>   <dbl> <dbl>
-#>  1 fid_1  fid_1_1  m     -Inf     1.68
-#>  2 fid_2  fid_2_1  m     -Inf     1.64
-#>  3 fid_3  fid_3_1  m     -Inf     2.34
-#>  4 fid_4  fid_4_1  m     -Inf     1.64
-#>  5 fid_5  fid_5_1  m        1.62  1.62
-#>  6 fid_6  fid_6_1  m     -Inf     1.97
-#>  7 fid_7  fid_7_1  m     -Inf     1.62
-#>  8 fid_8  fid_8_1  m     -Inf     1.64
-#>  9 fid_9  fid_9_1  m     -Inf     2.01
-#> 10 fid_10 fid_10_1 m     -Inf     1.97
+#>    fid    indiv_ID role  lower upper
+#>    <chr>  <chr>    <chr> <dbl> <dbl>
+#>  1 fid_1  fid_1_1  m      -Inf  1.81
+#>  2 fid_2  fid_2_1  m      -Inf  2.22
+#>  3 fid_3  fid_3_1  m      -Inf  2.76
+#>  4 fid_4  fid_4_1  m      -Inf  2.47
+#>  5 fid_5  fid_5_1  m      -Inf  1.47
+#>  6 fid_6  fid_6_1  m      -Inf  1.89
+#>  7 fid_7  fid_7_1  m      -Inf  1.78
+#>  8 fid_8  fid_8_1  m      -Inf  2.76
+#>  9 fid_9  fid_9_1  m      -Inf  1.64
+#> 10 fid_10 fid_10_1 m      -Inf  2.63
 #> # ℹ 590 more rows
 #> 
 
@@ -286,32 +286,32 @@ n_sim = 200, pop_prev = 0.05)
 #> # A tibble: 200 × 5
 #>    fid         g      o o_status o_aoo
 #>    <chr>   <dbl>  <dbl> <lgl>    <dbl>
-#>  1 fid_1   0.838  1.87  TRUE        64
-#>  2 fid_2  -0.213 -0.137 FALSE       37
-#>  3 fid_3  -1.29  -1.45  FALSE       30
-#>  4 fid_4   0.780  1.29  FALSE       28
-#>  5 fid_5   0.652  0.731 FALSE       35
-#>  6 fid_6  -0.211  0.244 FALSE       21
-#>  7 fid_7  -0.155  0.310 FALSE       37
-#>  8 fid_8   1.87   2.02  TRUE        58
-#>  9 fid_9   1.35   2.14  TRUE        54
-#> 10 fid_10 -0.592 -1.20  FALSE       33
+#>  1 fid_1  -0.510 -1.47  FALSE       37
+#>  2 fid_2  -0.434  0.307 FALSE       40
+#>  3 fid_3   0.967  1.10  FALSE       22
+#>  4 fid_4   0.149 -0.364 FALSE       33
+#>  5 fid_5   0.124 -0.326 FALSE       24
+#>  6 fid_6   1.03   2.32  TRUE        49
+#>  7 fid_7   1.25   1.58  FALSE       11
+#>  8 fid_8   1.06   0.244 FALSE       20
+#>  9 fid_9  -0.715 -0.328 FALSE       28
+#> 10 fid_10 -1.00  -1.37  FALSE       39
 #> # ℹ 190 more rows
 #> 
 #> $thresholds
 #> # A tibble: 200 × 5
 #>    fid    indiv_ID role    lower upper
 #>    <chr>  <chr>    <chr>   <dbl> <dbl>
-#>  1 fid_1  fid_1_1  o        1.86  1.86
-#>  2 fid_2  fid_2_1  o     -Inf     2.79
-#>  3 fid_3  fid_3_1  o     -Inf     3.05
-#>  4 fid_4  fid_4_1  o     -Inf     3.12
-#>  5 fid_5  fid_5_1  o     -Inf     2.86
-#>  6 fid_6  fid_6_1  o     -Inf     3.37
-#>  7 fid_7  fid_7_1  o     -Inf     2.79
-#>  8 fid_8  fid_8_1  o        2.02  2.02
-#>  9 fid_9  fid_9_1  o        2.14  2.14
-#> 10 fid_10 fid_10_1 o     -Inf     2.94
+#>  1 fid_1  fid_1_1  o     -Inf     2.79
+#>  2 fid_2  fid_2_1  o     -Inf     2.67
+#>  3 fid_3  fid_3_1  o     -Inf     3.33
+#>  4 fid_4  fid_4_1  o     -Inf     2.94
+#>  5 fid_5  fid_5_1  o     -Inf     3.26
+#>  6 fid_6  fid_6_1  o        2.32  2.32
+#>  7 fid_7  fid_7_1  o     -Inf     3.70
+#>  8 fid_8  fid_8_1  o     -Inf     3.40
+#>  9 fid_9  fid_9_1  o     -Inf     3.12
+#> 10 fid_10 fid_10_1 o     -Inf     2.71
 #> # ℹ 190 more rows
 #> 
 ```

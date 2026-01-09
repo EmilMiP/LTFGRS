@@ -84,9 +84,9 @@ parent_threshold <- 0.8
 
 estimate_gen_liability_ltfh(h2, phen, child_threshold, parent_threshold)
 #>   CHILD_STATUS P1_STATUS P2_STATUS SIB_STATUS NUM_SIBS post_gen_liab
-#> 1            0         1         0          1        2     0.1598153
-#> 2            0         1         1          0        0     0.3524787
+#> 1            0         1         0          1        2     0.1598278
+#> 2            0         1         1          0        0     0.3487044
 #>   post_gen_liab_se
-#> 1      0.003330304
-#> 2      0.003113187
+#> 1      0.003203770
+#> 2      0.003114339
 ```

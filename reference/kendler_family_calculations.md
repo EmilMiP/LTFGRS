@@ -21,7 +21,7 @@ kendler_family_calculations(
 
 - tbl:
 
-  tibble with columns cip, lower, upper, and pid (the personal
+  tibble with columns K_i, lower, upper, and pid (the personal
   identifier column).
 
 - cov:
