@@ -13,8 +13,14 @@ includes the CIP.***
 This vignette is intended to give users of the package an overview of
 how to estimate a simplified version of the kendler’s FGRS. See
 <https://doi.org/10.1001/jamapsychiatry.2021.0336> for more details on
-the full method. The implmentation provided here is heavily inspired by
+the full method. The implementation provided here is heavily inspired by
 the PAFGRS package (<https://github.com/BioPsyk/PAFGRS>).
+
+The purpose of this vignette is to illustrate how to estimate the
+simplified Kendler FGRS in practice. The simulated data is intended to
+represent real-world data formats, while not being real data. As such,
+generating the mock data may be more complex than what is otherwise
+strictly necessary.
 
 The vignette will cover the following steps:
 
@@ -26,12 +32,6 @@ The vignette will cover the following steps:
   - Automatic identification of n-degree relatives
 - Estimate the (simplified) Kendler FGRS
   - Using both family graph and long format input
-
-The purpose of this vignette is to illustrate how to estimate the
-simplified Kendler FGRS in practice. The simulated data is intended to
-represent real-world data formats, while not being real data. As such,
-generating the mock data may be more complex than what is otherwise
-strictly necessary.
 
 ## Simulate mock trio, phenotype, and CIP data
 
@@ -91,7 +91,7 @@ resemble a typical way the trio data may be stored. The names are chosen
 such that they resemble the relationship to the proband. This means
 there are simple names such as “dad”, “mom”, or “sib”. There are also
 more complex names such as “pgf” for paternal grand father, “muncle” for
-maternal uncle”, “hsmcousin” for half-sibiling maternal cousin, etc. The
+maternal uncle, “hsmcousin” for half-sibling maternal cousin, etc. The
 suffixes “H” and “W” mean husband and wife, respectively.
 
 ``` r
@@ -235,9 +235,6 @@ thresholds = prepare_thresholds(
   personal_thr = TRUE, 
   interpolation = "xgboost"
 )
-#> Warning in throw_err_or_depr_msg("Parameter(s) have been removed from this
-#> function: ", : Parameter(s) have been removed from this function: params. This
-#> warning will become an error in a future version.
 ```
 
 The function
@@ -336,9 +333,9 @@ typical print of an igraph can be seen below:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 5c6e4c4 DN-- 13 23 -- 
+#> IGRAPH f09158d DN-- 13 23 -- 
 #> + attr: name (v/c), sex (v/n), K_i (v/n), lower (v/n), upper (v/n)
-#> + edges from 5c6e4c4 (vertex names):
+#> + edges from f09158d (vertex names):
 #>  [1] mom   ->sib      mom   ->pid      pgm   ->hspaunt  pgm   ->paunt   
 #>  [5] pgm   ->puncle   pgm   ->dad      mom2  ->phs      paunt ->puncle  
 #>  [9] paunt ->pacousin paunt ->dad      sib   ->pid      puncle->pucousin
@@ -407,9 +404,9 @@ kendler_simplified(.tbl = tbl_input,
                    dadcol = "dadcol",
                    momcol = "momcol")
 #> # A tibble: 1 × 6
-#>   pid       S  varZ    mZ sum_r   FGRS
-#>   <chr> <dbl> <dbl> <dbl> <dbl>  <dbl>
-#> 1 pid   0.149  1.11 0.458  3.75 0.0954
+#>   pid       S  varZ    mZ sum_r  FGRS
+#>   <chr> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 pid   0.190  1.15 0.624  3.75 0.121
 ```
 
 Note: The population normalisation done in

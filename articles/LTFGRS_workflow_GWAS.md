@@ -216,9 +216,6 @@ thresholds = prepare_thresholds(
   personal_thr = TRUE, 
   interpolation = "xgboost"
 )
-#> Warning in throw_err_or_depr_msg("Parameter(s) have been removed from this
-#> function: ", : Parameter(s) have been removed from this function: params. This
-#> warning will become an error in a future version.
 ```
 
 The resulting `thresholds` object holds the lower and upper thresholds
@@ -303,9 +300,9 @@ for the average user. An igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 2afb24b DN-- 8 17 -- 
+#> IGRAPH b551b4f DN-- 8 17 -- 
 #> + attr: name (v/c), lower (v/n), upper (v/n), K_i (v/n), K_pop (v/n)
-#> + edges from 2afb24b (vertex names):
+#> + edges from b551b4f (vertex names):
 #>  [1] pgm   ->paunt  pgm   ->puncle pgm   ->dad    paunt ->puncle paunt ->dad   
 #>  [6] sib   ->pid    puncle->paunt  puncle->dad    pid   ->sib    pgf   ->paunt 
 #> [11] pgf   ->puncle pgf   ->dad    dad   ->paunt  dad   ->sib    dad   ->puncle

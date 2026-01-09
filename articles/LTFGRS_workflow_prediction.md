@@ -258,9 +258,9 @@ for the average user. An igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 3cd97e8 DN-- 8 17 -- 
+#> IGRAPH 1292f8c DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n)
-#> + edges from 3cd97e8 (vertex names):
+#> + edges from 1292f8c (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 
@@ -334,9 +334,6 @@ fam_thrs = prepare_thresholds(
   personal_thr = TRUE, 
   interpolation = "xgboost"
 )
-#> Warning in throw_err_or_depr_msg("Parameter(s) have been removed from this
-#> function: ", : Parameter(s) have been removed from this function: params. This
-#> warning will become an error in a future version.
 #> Warning in prepare_thresholds(.tbl = info, CIP = CIP, age_col = "age",
 #> lower_equal_upper = FALSE, : prepare_thresholds: Some ages are negative. This
 #> may be due to the end of follow-up happening before the birth of an individual.
@@ -438,9 +435,9 @@ prediction.
 
 ``` r
 ltfgrs_input$masked_fam_graph[[1]]
-#> IGRAPH 3cd97e8 DN-- 8 17 -- 
+#> IGRAPH 1292f8c DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n), lower (v/n), upper (v/n)
-#> + edges from 3cd97e8 (vertex names):
+#> + edges from 1292f8c (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 

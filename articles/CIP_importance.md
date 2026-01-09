@@ -240,7 +240,8 @@ thresholds = lapply(c("pid", "sib", "mom", "dad"), function(x) {
     select(fid, contains("aoo"), contains("age"), contains("status")) 
   colnames(ph) = str_replace_all(colnames(ph), paste0(x, "_"), "")
   left_join(ph %>% mutate(age = pmax(pmin(age, 99), 1)),
-            select(CIP, age, cip)) %>% 
+            select(CIP, age, cip),
+            by = join_by(age)) %>% 
     mutate(thr = qnorm(cip, lower.tail = F), 
            lower = ifelse(status == 1, thr, -Inf),
            upper = ifelse(status == 1, Inf, thr),
@@ -248,11 +249,6 @@ thresholds = lapply(c("pid", "sib", "mom", "dad"), function(x) {
 }) %>% 
   bind_rows()
 ```
-
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
 
 Then we build the population graph and family graphs that automatically
 identifies all family members up to degree $1$:
@@ -298,21 +294,15 @@ thresholds_ds = lapply(c("pid", "sib", "mom", "dad"), function(x) {
     select(fid, contains("aoo"), contains("age"), contains("status")) 
   colnames(ph) = str_replace_all(colnames(ph), paste0(x, "_"), "")
   left_join(ph %>% mutate(age = pmax(pmin(age, 99), 1)),
-            select(CIP_ds, age, cip)) %>% 
+            select(CIP_ds, age, cip),
+            by = join_by(age)) %>% 
     mutate(thr = qnorm(cip, lower.tail = F), 
            lower = ifelse(status == 1, thr, -Inf),
            upper = ifelse(status == 1, Inf, thr),
            pid = paste0(x, fid))
 }) %>% 
   bind_rows
-```
 
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
-    ## Joining with `by = join_by(age)`
-
-``` r
 # using duplicated families to create a population graph
 pop_graph_ds = prepare_graph(.tbl = trio,
                              icol = "id",

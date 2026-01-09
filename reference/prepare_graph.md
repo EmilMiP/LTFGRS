@@ -67,8 +67,8 @@ thresholds <- data.frame(
   upper = c(0.8, 0.8, 0.8, 0.7))
 
 prepare_graph(fam, icol = "id", fcol = "dadcol", mcol = "momcol", node_attributes = thresholds)
-#> IGRAPH e302f6e DN-- 4 3 -- 
+#> IGRAPH efa26b7 DN-- 4 3 -- 
 #> + attr: name (v/c), lower (v/n), upper (v/n)
-#> + edges from e302f6e (vertex names):
+#> + edges from efa26b7 (vertex names):
 #> [1] dad->pid mom->pid pgf->dad
 ```
