@@ -371,38 +371,42 @@ validate_correlation_matrix <- function(corrmat){
 #'
 #' This function can be used to check whether relatives are represented
 #' by valid abbreviations. A valid abbreviation is one of the following:
-#' - \code{g} (Genetic component of full liability)
-#' - \code{o} (Full liability)
-#' - \code{m} (Mother)
-#' - \code{f} (Father)
-#' - \code{c[0-9]*.[0-9]*} (Children)
-#' - \code{mgm} (Maternal grandmother)
-#' - \code{mgf} (Maternal grandfather)
-#' - \code{pgm} (Paternal grandmother)
-#' - \code{pgf} (Paternal grandfather)
-#' - \code{s[0-9]*} (Full siblings)
-#' - \code{mhs[0-9]*} (Half-siblings - maternal side)
-#' - \code{phs[0-9]*} (Half-siblings - paternal side)
-#' - \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-#' - \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+#' \itemize{
+#'  \item \code{g} (Genetic component of full liability)
+#'  \item \code{o} (Full liability)
+#'  \item \code{m} (Mother)
+#'  \item \code{f} (Father)
+#'  \item \code{c[0-9]*.[0-9]*} (Children)
+#'  \item \code{mgm} (Maternal grandmother)
+#'  \item \code{mgf} (Maternal grandfather)
+#'  \item \code{pgm} (Paternal grandmother)
+#'  \item \code{pgf} (Paternal grandfather)
+#'  \item \code{s[0-9]*} (Full siblings)
+#'  \item \code{mhs[0-9]*} (Half-siblings - maternal side)
+#'  \item \code{phs[0-9]*} (Half-siblings - paternal side)
+#'  \item \code{mau[0-9]*} (Aunts/Uncles - maternal side)
+#'  \item \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+#' }
 #'
 #' @param relatives A string or character vector representing
 #' the relatives.
 #' All strings must be chosen among the following abbreviations
-#' - \code{g} (Genetic component of full liability)
-#' - \code{o} (Full liability)
-#' - \code{m} (Mother)
-#' - \code{f} (Father)
-#' - \code{c[0-9]*.[0-9]*} (Children)
-#' - \code{mgm} (Maternal grandmother)
-#' - \code{mgf} (Maternal grandfather)
-#' - \code{pgm} (Paternal grandmother)
-#' - \code{pgf} (Paternal grandfather)
-#' - \code{s[0-9]*} (Full siblings)
-#' - \code{mhs[0-9]*} (Half-siblings - maternal side)
-#' - \code{phs[0-9]*} (Half-siblings - paternal side)
-#' - \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-#' - \code{pau[0-9]*} (Aunts/Uncles - paternal side)
+#' \itemize{
+#'  \item \code{g} (Genetic component of full liability)
+#'  \item \code{o} (Full liability)
+#'  \item \code{m} (Mother)
+#'  \item \code{f} (Father)
+#'  \item \code{c[0-9]*.[0-9]*} (Children)
+#'  \item \code{mgm} (Maternal grandmother)
+#'  \item \code{mgf} (Maternal grandfather)
+#'  \item \code{pgm} (Paternal grandmother)
+#'  \item \code{pgf} (Paternal grandfather)
+#'  \item \code{s[0-9]*} (Full siblings)
+#'  \item \code{mhs[0-9]*} (Half-siblings - maternal side)
+#'  \item \code{phs[0-9]*} (Half-siblings - paternal side)
+#'  \item \code{mau[0-9]*} (Aunts/Uncles - maternal side)
+#'  \item \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+#' }
 #' for the function to return TRUE.
 #'
 #' @return If \code{relatives} is a string or character vector such that

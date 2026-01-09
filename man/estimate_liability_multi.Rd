@@ -27,20 +27,22 @@ estimate_liability_multi(
 Must have at least seven columns that hold the family identifier, the personal
 identifier, the role and the lower and upper thresholds for all phenotypes
 of interest. Note that the role must be one of the following abbreviations
-- \code{g} (Genetic component of full liability)
-- \code{o} (Full liability)
-- \code{m} (Mother)
-- \code{f} (Father)
-- \code{c[0-9]*.[0-9]*} (Children)
-- \code{mgm} (Maternal grandmother)
-- \code{mgf} (Maternal grandfather)
-- \code{pgm} (Paternal grandmother)
-- \code{pgf} (Paternal grandfather)
-- \code{s[0-9]*} (Full siblings)
-- \code{mhs[0-9]*} (Half-siblings - maternal side)
-- \code{phs[0-9]*} (Half-siblings - paternal side)
-- \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-- \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+\itemize{
+ \item \code{g} (Genetic component of full liability)
+ \item \code{o} (Full liability)
+ \item \code{m} (Mother)
+ \item \code{f} (Father)
+ \item \code{c[0-9]*.[0-9]*} (Children)
+ \item \code{mgm} (Maternal grandmother)
+ \item \code{mgf} (Maternal grandfather)
+ \item \code{pgm} (Paternal grandmother)
+ \item \code{pgf} (Paternal grandfather)
+ \item \code{s[0-9]*} (Full siblings)
+ \item \code{mhs[0-9]*} (Half-siblings - maternal side)
+ \item \code{phs[0-9]*} (Half-siblings - paternal side)
+ \item \code{mau[0-9]*} (Aunts/Uncles - maternal side)
+ \item \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+}
 Defaults to \code{NULL}.}
 
 \item{family_graphs}{A tibble with columns pid and family_graph_col.
@@ -70,20 +72,22 @@ holds the family identifier. Defaults to "fid".}
 
 \item{role}{A string holding the name of the column in \code{.tbl} that
 holds the role.Each role must be chosen from the following list of abbreviations
-- \code{g} (Genetic component of full liability)
-- \code{o} (Full liability)
-- \code{m} (Mother)
-- \code{f} (Father)
-- \code{c[0-9]*.[0-9]*} (Children)
-- \code{mgm} (Maternal grandmother)
-- \code{mgf} (Maternal grandfather)
-- \code{pgm} (Paternal grandmother)
-- \code{pgf} (Paternal grandfather)
-- \code{s[0-9]*} (Full siblings)
-- \code{mhs[0-9]*} (Half-siblings - maternal side)
-- \code{phs[0-9]*} (Half-siblings - paternal side)
-- \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-- \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+\itemize{
+ \item \code{g} (Genetic component of full liability)
+ \item \code{o} (Full liability)
+ \item \code{m} (Mother)
+ \item \code{f} (Father)
+ \item \code{c[0-9]*.[0-9]*} (Children)
+ \item \code{mgm} (Maternal grandmother)
+ \item \code{mgf} (Maternal grandfather)
+ \item \code{pgm} (Paternal grandmother)
+ \item \code{pgf} (Paternal grandfather)
+ \item \code{s[0-9]*} (Full siblings)
+ \item \code{mhs[0-9]*} (Half-siblings - maternal side)
+ \item \code{phs[0-9]*} (Half-siblings - paternal side)
+ \item \code{mau[0-9]*} (Aunts/Uncles - maternal side)
+ \item \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+}
 Defaults to "role".}
 
 \item{family_graphs_col}{Name of column with family graphs in family_graphs. Defaults to "fam_graph".}

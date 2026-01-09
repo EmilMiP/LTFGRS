@@ -1,7 +1,7 @@
 Package: LTFGRS
 Type: Package
 Title: Implementation of Several Phenotype-Based Family Genetic Risk Scores
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(
     person("Emil Michael", "Pedersen", email = "emp@ph.au.dk", role = c("aut", "cre")),
     person("Jette", "Steinbach", , email = "jst@econ.au.dk", role = "aut"),
@@ -30,12 +30,14 @@ Imports:
     tidyselect,
     igraph,
     xgboost,
-    tidyr
+    tidyr,
+    ggplot2
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    MASS
+    MASS,
+    kinship2
 LinkingTo: Rcpp
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3

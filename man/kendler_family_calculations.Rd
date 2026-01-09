@@ -16,7 +16,7 @@ kendler_family_calculations(
 )
 }
 \arguments{
-\item{tbl}{tibble with columns cip, lower, upper, and pid (the personal identifier column).}
+\item{tbl}{tibble with columns K_i, lower, upper, and pid (the personal identifier column).}
 
 \item{cov}{Kinship matrix with proband as first row and column}
 

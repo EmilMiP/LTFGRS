@@ -12,7 +12,15 @@ reference:
   contents:
   - estimate_liability
   - estimate_gen_liability_ltfh
-  - kendler
+  - kendler_simplified
+
+- title: "Labelling functions"
+  desc: "functions used to identify and label family members in graphs."
+  contents:
+  - get_generations
+  - get_relations
+  - label_relatives
+  - Relation_per_proband_plot
 
 - title: "Data preparation functions"
   desc: "Functions used to prepare data for the family history estimators."

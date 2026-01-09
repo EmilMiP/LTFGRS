@@ -9,20 +9,22 @@ get_relatedness(s1, s2, h2 = 0.5, from_covmat = FALSE)
 \arguments{
 \item{s1, s2}{Strings representing the two family members.
 The strings must be chosen from the following list of strings:
-- \code{g} (Genetic component of full liability)
-- \code{o} (Full liability)
-- \code{m} (Mother)
-- \code{f} (Father)
-- \code{c[0-9]*.[0-9]*} (Children)
-- \code{mgm} (Maternal grandmother)
-- \code{mgf} (Maternal grandfather)
-- \code{pgm} (Paternal grandmother)
-- \code{pgf} (Paternal grandfather)
-- \code{s[0-9]*} (Full siblings)
-- \code{mhs[0-9]*} (Half-siblings - maternal side)
-- \code{phs[0-9]*} (Half-siblings - paternal side)
-- \code{mau[0-9]*} (Aunts/Uncles - maternal side)
-- \code{pau[0-9]*} (Aunts/Uncles - paternal side).}
+\itemize{
+ \item \code{g} (Genetic component of full liability)
+ \item \code{o} (Full liability)
+ \item \code{m} (Mother)
+ \item \code{f} (Father)
+ \item \code{c[0-9]*.[0-9]*} (Children)
+ \item \code{mgm} (Maternal grandmother)
+ \item \code{mgf} (Maternal grandfather)
+ \item \code{pgm} (Paternal grandmother)
+ \item \code{pgf} (Paternal grandfather)
+ \item \code{s[0-9]*} (Full siblings)
+ \item \code{mhs[0-9]*} (Half-siblings - maternal side)
+ \item \code{phs[0-9]*} (Half-siblings - paternal side)
+ \item \code{mau[0-9]*} (Aunts/Uncles - maternal side)
+ \item \code{pau[0-9]*} (Aunts/Uncles - paternal side).
+}}
 
 \item{h2}{A number representing the squared heritability on liability scale.
 Must be non-negative and at most 1. Defaults to 0.5}

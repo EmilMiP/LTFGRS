@@ -26,7 +26,7 @@ library(rmarkdown)
 
 ***All data is simulated and is purely for demonstration purposes - This includes the CIP.***
 
-This vignette is intended to give users of the package an overview of how to use the different functions of the package and how they are intended to work together.  The liability-based predictors can be used for prediction or as a refined outcome in a GWAS. This vignette focuses on preparing for prediction, as this purpose requires the user to consider additional steps, such as censoring of future events and masking the outcome of the target individual. The vignette will cover the following steps:
+This vignette is intended to give users of the package an overview of how to use the different functions of the package and how they are intended to work together. The liability-based predictors can be used for prediction. If you want a refined outcome to be used in GWAS, please see the vignette titled "LTFGRS Workflow: Prepare Genetic Liability for GWAS". This vignette focuses on preparing for prediction, as this purpose requires the user to consider additional steps, such as censoring of future events and masking the outcome of the target individual. The vignette will cover the following steps:
 
 - Simulate mock trio, phenotype, and CIP data
 - Convert mock trio and phenotype data into a format suitable for estimate_liability()
@@ -265,7 +265,7 @@ The second row of the igraph (starting with "+attr:") shows the attributes that 
 
 The function `estimate_liability()` is used to estimate the genetic liability. The function accepts two types of input, here we will only focus on the graph-based input generated above. The graph-based input offer the best flexibility and scalability. The function has two arguments that are worth pointing out. 
 
-The first is `method`, which specifies the method used to estimate the genetic liability. Currently, two methods are supported. The first is a Gibbs sampler that samples from a truncated multivariate normal distribution, `method = "Gibbs"`. The second is an iterative pearson-aitken approach, `method = "PA"`. Generally speaking, the Pearson-Aitken approach is faster.
+The first is `method`, which specifies the method used to estimate the genetic liability. Currently, two methods are supported. The first is a Gibbs sampler that samples from a truncated multivariate normal distribution, `method = "Gibbs"`. The second is an iterative Pearson-Aitken approach, `method = "PA"`. Generally speaking, the Pearson-Aitken approach is faster.
    
 The second argument is `useMixture`, which specifies whether to use the mixture model or not. The mixture model is currently only supported with `method = "PA"`. The mixture model considers the genetic liability of controls as a mixture of the truncated normal for cases and controls, rather than just the distribution of controls. This accounts for the possibility that some controls are undiagnosed cases and accounts for it in the genetic liability estimate.
 
