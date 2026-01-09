@@ -25,7 +25,10 @@ library(rmarkdown)
 
 ***All data is simulated and is purely for demonstration purposes - This includes the CIP.***
 
-This vignette is intended to give users of the package an overview of how to estimate a simplified version of the kendler's FGRS. See https://doi.org/10.1001/jamapsychiatry.2021.0336 for more details on the full method. The implmentation provided here is heavily inspired by the PAFGRS package (https://github.com/BioPsyk/PAFGRS).
+This vignette is intended to give users of the package an overview of how to estimate a simplified version of the kendler's FGRS. See https://doi.org/10.1001/jamapsychiatry.2021.0336 for more details on the full method. The implementation provided here is heavily inspired by the PAFGRS package (https://github.com/BioPsyk/PAFGRS).
+
+The purpose of this vignette is to illustrate how to estimate the simplified Kendler FGRS in practice. The simulated data is intended to represent real-world data formats, while not being real data. As such, generating the mock data may be more complex than what is otherwise strictly necessary.
+
 
 The vignette will cover the following steps:
 
@@ -37,7 +40,6 @@ The vignette will cover the following steps:
 - Estimate the (simplified) Kendler FGRS
   - Using both family graph and long format input
 
-The purpose of this vignette is to illustrate how to estimate the simplified Kendler FGRS in practice. The simulated data is intended to represent real-world data formats, while not being real data. As such, generating the mock data may be more complex than what is otherwise strictly necessary.
 
 ## Simulate mock trio, phenotype, and CIP data
 
@@ -64,7 +66,7 @@ CIP = expand.grid(list(age = 1:100,
   print(n = 10)
 ```
 ### Trio information
-The trio information presented here is a manually constructed to resemble a typical way the trio data may be stored. The names are chosen such that they resemble the relationship to the proband. This means there are simple names such as "dad", "mom", or "sib". There are also more complex names such as "pgf" for paternal grand father, "muncle" for maternal uncle", "hsmcousin" for half-sibiling maternal cousin, etc. The suffixes "H" and "W" mean husband and wife, respectively.
+The trio information presented here is a manually constructed to resemble a typical way the trio data may be stored. The names are chosen such that they resemble the relationship to the proband. This means there are simple names such as "dad", "mom", or "sib". There are also more complex names such as "pgf" for paternal grand father, "muncle" for maternal uncle, "hsmcousin" for half-sibling maternal cousin, etc. The suffixes "H" and "W" mean husband and wife, respectively.
 
 ```{r}
 # hand curated trio information, taken from LTFHPlus vignette:

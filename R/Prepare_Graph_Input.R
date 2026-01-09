@@ -160,6 +160,11 @@ prepare_thresholds = function(.tbl,
                    paste(setdiff(CIP_merge_columns, age_col)[overlap_test_tbl], collapse = ", ")))
   }
 
+  # is the parameters passed to xgboost a named list?
+  if (is.null(names(bst.params)) || any(names(bst.params) == "")) {
+    stop("bst.params must be a *named* list of xgboost parameters.")
+  }
+
 
 # -------------------------------------------------------------------------
 
@@ -208,9 +213,21 @@ prepare_thresholds = function(.tbl,
 
     # force the remaining values in cur_cip to be a matrix
     X = as.matrix(select(CIP, all_of(c(CIP_merge_columns, age_col)), -!!as.symbol(CIP_cip_col)))
-    # train xgboost
-    xgb = xgboost::xgboost(X, y, nrounds = xgboost_itr, params = bst.params)
 
+    # train xgboost (forward parameters dynamically; params argument deprecated)
+    xgb_args <- c(
+      list(
+        x = X,
+        y = y,
+        nrounds = xgboost_itr
+      ),
+      bst.params
+    )
+    # train xgboost
+    xgb = do.call(
+      xgboost::xgboost,
+      xgb_args
+    )
 
     # get the predicted CIP value based on the merge columns.
     .tbl$cip_pred = .tbl %>%
