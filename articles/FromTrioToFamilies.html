@@ -39,6 +39,8 @@
     <li><a class="dropdown-item" href="../articles/igraph_data_management.html">iGraph data management</a></li>
     <li><a class="dropdown-item" href="../articles/Kendler_workflow.html">Kendler workflow</a></li>
     <li><a class="dropdown-item" href="../articles/LTFGRS_workflow_GWAS.html">LTFGRS Workflow: Prepare Genetic Liability for GWAS</a></li>
+    <li><a class="dropdown-item" href="../articles/LTFGRS_workflow_MT_GWAS.html">LTFGRS Workflow: Prepare Genetic Liability for Multi-trait GWAS</a></li>
+    <li><a class="dropdown-item" href="../articles/LTFGRS_workflow_MT_prediction.html">LTFGRS Workflow: Prepare Genetic Liability for Multi-Trait Prediction</a></li>
     <li><a class="dropdown-item" href="../articles/LTFGRS_workflow_prediction.html">LTFGRS Workflow: Prepare Genetic Liability for Prediction</a></li>
   </ul>
 </li>
@@ -74,7 +76,7 @@
                         <h4 data-toc-skip class="author">Emil M.
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2026-01-09</h4>
+            <h4 data-toc-skip class="date">2026-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/FromTrioToFamilies.Rmd" class="external-link"><code>vignettes/FromTrioToFamilies.Rmd</code></a></small>
       <div class="d-none name"><code>FromTrioToFamilies.Rmd</code></div>
@@ -146,7 +148,7 @@ helps readability in small example datasets.</p>
 <span><span class="co"># simulating sex status on ambiguous individuals</span></span>
 <span><span class="va">thrs</span> <span class="op">=</span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span> id <span class="op">=</span> <span class="va">family</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span> sex <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span> sex <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>   <span class="va">id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">family</span><span class="op">$</span><span class="va">momcol</span> <span class="op">~</span> <span class="st">"F"</span>,</span>
 <span>   <span class="va">id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">family</span><span class="op">$</span><span class="va">dadcol</span> <span class="op">~</span> <span class="st">"M"</span>,</span>
 <span>   <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -162,9 +164,9 @@ family links.</p>
 <span>                      mcol <span class="op">=</span> <span class="st">"momcol"</span>,</span>
 <span>                      icol <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
 <span><span class="va">graph</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH 1bca33c DN-- 31 44 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH f1bf6d7 DN-- 31 44 -- </span></span>
 <span><span class="co">## + attr: name (v/c), sex (v/c)</span></span>
-<span><span class="co">## + edges from 1bca33c (vertex names):</span></span>
+<span><span class="co">## + edges from f1bf6d7 (vertex names):</span></span>
 <span><span class="co">##  [1] dad     -&gt;pid        mom     -&gt;pid        dad     -&gt;sib       </span></span>
 <span><span class="co">##  [4] mom     -&gt;sib        dad2    -&gt;mhs        mom     -&gt;mhs       </span></span>
 <span><span class="co">##  [7] dad     -&gt;phs        mom2    -&gt;phs        mgf     -&gt;mom       </span></span>

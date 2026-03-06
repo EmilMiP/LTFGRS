@@ -333,9 +333,9 @@ typical print of an igraph can be seen below:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH f09158d DN-- 13 23 -- 
+#> IGRAPH 4fbc9c0 DN-- 13 23 -- 
 #> + attr: name (v/c), sex (v/n), K_i (v/n), lower (v/n), upper (v/n)
-#> + edges from f09158d (vertex names):
+#> + edges from 4fbc9c0 (vertex names):
 #>  [1] mom   ->sib      mom   ->pid      pgm   ->hspaunt  pgm   ->paunt   
 #>  [5] pgm   ->puncle   pgm   ->dad      mom2  ->phs      paunt ->puncle  
 #>  [9] paunt ->pacousin paunt ->dad      sib   ->pid      puncle->pucousin
@@ -404,9 +404,9 @@ kendler_simplified(.tbl = tbl_input,
                    dadcol = "dadcol",
                    momcol = "momcol")
 #> # A tibble: 1 × 6
-#>   pid       S  varZ    mZ sum_r  FGRS
-#>   <chr> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 pid   0.190  1.15 0.624  3.75 0.121
+#>   pid       S  varZ    mZ sum_r   FGRS
+#>   <chr> <dbl> <dbl> <dbl> <dbl>  <dbl>
+#> 1 pid   0.149  1.11 0.458  3.75 0.0954
 ```
 
 Note: The population normalisation done in

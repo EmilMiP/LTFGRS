@@ -14,5 +14,9 @@
   workflow](https://emilmip.github.io/LTFGRS/articles/Kendler_workflow.md):
 - [LTFGRS Workflow: Prepare Genetic Liability for
   GWAS](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_GWAS.md):
+- [LTFGRS Workflow: Prepare Genetic Liability for Multi-trait
+  GWAS](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_MT_GWAS.md):
+- [LTFGRS Workflow: Prepare Genetic Liability for Multi-Trait
+  Prediction](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_MT_prediction.md):
 - [LTFGRS Workflow: Prepare Genetic Liability for
   Prediction](https://emilmip.github.io/LTFGRS/articles/LTFGRS_workflow_prediction.md):

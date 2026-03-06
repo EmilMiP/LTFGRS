@@ -8,8 +8,10 @@ articles:
   igraph_data_management: igraph_data_management.html
   Kendler_workflow: Kendler_workflow.html
   LTFGRS_workflow_GWAS: LTFGRS_workflow_GWAS.html
+  LTFGRS_workflow_MT_GWAS: LTFGRS_workflow_MT_GWAS.html
+  LTFGRS_workflow_MT_prediction: LTFGRS_workflow_MT_prediction.html
   LTFGRS_workflow_prediction: LTFGRS_workflow_prediction.html
-last_built: 2026-01-09T14:06Z
+last_built: 2026-03-06T17:42Z
 urls:
   reference: https://emilmip.github.io/LTFGRS/reference
   article: https://emilmip.github.io/LTFGRS/articles

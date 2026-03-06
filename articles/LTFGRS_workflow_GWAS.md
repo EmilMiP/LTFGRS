@@ -300,9 +300,9 @@ for the average user. An igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH b551b4f DN-- 8 17 -- 
+#> IGRAPH 10fe05e DN-- 8 17 -- 
 #> + attr: name (v/c), lower (v/n), upper (v/n), K_i (v/n), K_pop (v/n)
-#> + edges from b551b4f (vertex names):
+#> + edges from 10fe05e (vertex names):
 #>  [1] pgm   ->paunt  pgm   ->puncle pgm   ->dad    paunt ->puncle paunt ->dad   
 #>  [6] sib   ->pid    puncle->paunt  puncle->dad    pid   ->sib    pgf   ->paunt 
 #> [11] pgf   ->puncle pgf   ->dad    dad   ->paunt  dad   ->sib    dad   ->puncle
