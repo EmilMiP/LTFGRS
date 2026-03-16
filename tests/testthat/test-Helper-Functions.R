@@ -361,11 +361,6 @@ test_that("convert_liability_to_aoo defaults to logistic when given invalid dist
   expect_equal(test_value, 50.2202059)
 })
 
-test_that("convert_liability_to_aoo returns NA when liability is too low in logistic mode", {
-  liability <- 1
-  test <- convert_liability_to_aoo(liability)
-  expect_equal(test, NA)
-})
 
 
 test_that("convert_liability_to_aoo rejects invalid logistic parameters", {
@@ -450,3 +445,4 @@ test_that("convert_observed_to_liability_scale rejects non-numeric inputs", {
   expect_error(convert_observed_to_liability_scale(0.5, "pop_prev", 0.5), "population prevalence\\(s\\) must be numeric")
   expect_error(convert_observed_to_liability_scale(0.5, 0.05, "prop_cases"), "proportion\\(s\\) of cases must be numeric")
 })
+

@@ -558,15 +558,19 @@ convert_liability_to_aoo = function(liability, dist = "logistic", pop_prev = .1,
     if (!is.numeric(slope) && !is.integer(slope)) stop("The slope must be numeric!")
 
     # Computing the age of onset
-    if (stats::pnorm(liability, lower.tail = F) >= pop_prev) {
-      return(NA)
-    } else {
 
-      res <- mid_point - log(pop_prev/stats::pnorm(liability, lower.tail = F) - 1) * 1/slope
+    res = rep(NA, length(liability))
 
-      if (res > 0) return(res)
-      if (res <= 0) return(0)
+    # identify cases:
+    cases = liability >= stats::qnorm(pop_prev, lower.tail = F)
+    if (any(cases)) {
+      res[cases] <- mid_point - log(pop_prev/stats::pnorm(liability[cases], lower.tail = F) - 1) * 1/slope
     }
+
+    # setting values below 0 to 0
+    res[ res < 0] <- 0
+
+    return(res)
   }
 
   # if dist = normal, the truncated normal distribution will be used to compute the age of onset
