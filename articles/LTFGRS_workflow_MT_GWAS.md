@@ -353,13 +353,13 @@ igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH e02f16a DN-- 3 2 -- 
+#> IGRAPH dabea78 DN-- 3 2 -- 
 #> + attr: name (v/c), lower_disorder_1 (v/n), lower_disorder_2 (v/n),
 #> | lower_disorder_3 (v/n), upper_disorder_1 (v/n), upper_disorder_2
 #> | (v/n), upper_disorder_3 (v/n), K_i_disorder_1 (v/n), K_i_disorder_2
 #> | (v/n), K_i_disorder_3 (v/n), K_pop_disorder_1 (v/n), K_pop_disorder_2
 #> | (v/n), K_pop_disorder_3 (v/n)
-#> + edges from e02f16a (vertex names):
+#> + edges from dabea78 (vertex names):
 #> [1] dad2->mhs mom ->mhs
 ```
 

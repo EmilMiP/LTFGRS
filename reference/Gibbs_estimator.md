@@ -49,7 +49,7 @@ the proband.
 Gibbs_estimator(cov = diag(3), tbl = tibble::tibble(lower = rep(-Inf, 3),
 upper = rep(Inf, 3)), out = 1:2, tol = 0.01, burn_in = 1000)
 #> # A tibble: 1 × 4
-#>   genetic_est genetic_se  full_est full_se
-#>         <dbl>      <dbl>     <dbl>   <dbl>
-#> 1    -0.00323    0.00323 -0.000767 0.00318
+#>   genetic_est genetic_se full_est full_se
+#>         <dbl>      <dbl>    <dbl>   <dbl>
+#> 1   -0.000781    0.00318  0.00394 0.00326
 ```

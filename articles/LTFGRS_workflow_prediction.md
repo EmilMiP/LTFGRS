@@ -258,9 +258,9 @@ for the average user. An igraph object is shown here for context:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 1d148fe DN-- 8 17 -- 
+#> IGRAPH dee6056 DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n)
-#> + edges from 1d148fe (vertex names):
+#> + edges from dee6056 (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 
@@ -435,9 +435,9 @@ prediction.
 
 ``` r
 ltfgrs_input$masked_fam_graph[[1]]
-#> IGRAPH 1d148fe DN-- 8 17 -- 
+#> IGRAPH dee6056 DN-- 8 17 -- 
 #> + attr: name (v/c), sex (v/n), lower (v/n), upper (v/n)
-#> + edges from 1d148fe (vertex names):
+#> + edges from dee6056 (vertex names):
 #>  [1] dad   ->paunt  dad   ->puncle dad   ->sib    dad   ->pid    dad   ->phs   
 #>  [6] pgf   ->dad    pgf   ->paunt  pgf   ->puncle pgm   ->dad    pgm   ->paunt 
 #> [11] pgm   ->puncle paunt ->dad    paunt ->puncle puncle->dad    puncle->paunt 

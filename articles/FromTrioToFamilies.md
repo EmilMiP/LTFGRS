@@ -88,9 +88,9 @@ graph = prepare_graph(.tbl = family,
 graph
 ```
 
-    ## IGRAPH f1bf6d7 DN-- 31 44 -- 
+    ## IGRAPH f77e7ef DN-- 31 44 -- 
     ## + attr: name (v/c), sex (v/c)
-    ## + edges from f1bf6d7 (vertex names):
+    ## + edges from f77e7ef (vertex names):
     ##  [1] dad     ->pid        mom     ->pid        dad     ->sib       
     ##  [4] mom     ->sib        dad2    ->mhs        mom     ->mhs       
     ##  [7] dad     ->phs        mom2    ->phs        mgf     ->mom       

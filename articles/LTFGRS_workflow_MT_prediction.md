@@ -528,13 +528,13 @@ prediction.
 ltfgrs_input$masked_fam_graph[[1]]
 ```
 
-    ## IGRAPH c4d0a42 DN-- 4 6 -- 
+    ## IGRAPH f97b4a6 DN-- 4 6 -- 
     ## + attr: name (v/c), K_i_disorder_1 (v/n), K_pop_disorder_1 (v/n),
     ## | lower_disorder_1 (v/n), upper_disorder_1 (v/n), K_i_disorder_2 (v/n),
     ## | K_pop_disorder_2 (v/n), lower_disorder_2 (v/n), upper_disorder_2
     ## | (v/n), K_i_disorder_3 (v/n), K_pop_disorder_3 (v/n), lower_disorder_3
     ## | (v/n), upper_disorder_3 (v/n)
-    ## + edges from c4d0a42 (vertex names):
+    ## + edges from f97b4a6 (vertex names):
     ## [1] dad->sib dad->pid mom->sib mom->pid sib->pid pid->sib
 
 The second row of the igraph (starting with “+attr:”) shows the

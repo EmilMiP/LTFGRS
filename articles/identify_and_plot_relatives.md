@@ -51,9 +51,9 @@ links.
 delete_edges(pop_graph, E(pop_graph)[which_mutual(pop_graph)])
 ```
 
-    ## IGRAPH 284768d DN-- 28081 30720 -- 
+    ## IGRAPH 73ae1d9 DN-- 28081 30720 -- 
     ## + attr: name (v/c)
-    ## + edges from 284768d (vertex names):
+    ## + edges from 73ae1d9 (vertex names):
     ##  [1] 25->3  4 ->3  1 ->4  2 ->4  1 ->5  2 ->5  1 ->6  2 ->6  1 ->7  2 ->7 
     ## [11] 1 ->8  2 ->8  1 ->9  2 ->9  1 ->10 2 ->10 5 ->11 26->11 5 ->12 26->12
     ## [21] 5 ->13 26->13 6 ->14 27->14 6 ->15 27->15 6 ->16 27->16 28->17 8 ->17

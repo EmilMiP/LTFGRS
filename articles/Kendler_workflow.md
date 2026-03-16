@@ -333,9 +333,9 @@ typical print of an igraph can be seen below:
 
 ``` r
 family_graphs$fam_graph[[1]]
-#> IGRAPH 4fbc9c0 DN-- 13 23 -- 
+#> IGRAPH e5a0abb DN-- 13 23 -- 
 #> + attr: name (v/c), sex (v/n), K_i (v/n), lower (v/n), upper (v/n)
-#> + edges from 4fbc9c0 (vertex names):
+#> + edges from e5a0abb (vertex names):
 #>  [1] mom   ->sib      mom   ->pid      pgm   ->hspaunt  pgm   ->paunt   
 #>  [5] pgm   ->puncle   pgm   ->dad      mom2  ->phs      paunt ->puncle  
 #>  [9] paunt ->pacousin paunt ->dad      sib   ->pid      puncle->pucousin

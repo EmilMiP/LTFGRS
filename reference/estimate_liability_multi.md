@@ -235,8 +235,8 @@ pid = "indiv_ID", fid = "fid", role = "role", out = c(1),
 phen_names = paste0("phenotype", 1:3), target_phenotype = "phenotype1")
 #> The number of workers is 1
 #> # A tibble: 1 × 4
-#>   fid   indiv_ID   est   var
-#>   <chr> <chr>    <dbl> <dbl>
-#> 1 fid_1 fid_1_1   1.04 0.227
+#>   fid   indiv_ID    est   var
+#>   <chr> <chr>     <dbl> <dbl>
+#> 1 fid_1 fid_1_1  0.0190 0.449
 
 ```

@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Emil
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2026-03-06</h4>
+            <h4 data-toc-skip class="date">2026-03-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/LTFGRS_workflow_MT_GWAS.Rmd" class="external-link"><code>vignettes/LTFGRS_workflow_MT_GWAS.Rmd</code></a></small>
       <div class="d-none name"><code>LTFGRS_workflow_MT_GWAS.Rmd</code></div>
@@ -432,13 +432,13 @@ of igraph. Operations on this level will not be required for the average
 user. An igraph object is shown here for context:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_graphs</span><span class="op">$</span><span class="va">fam_graph</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; IGRAPH e02f16a DN-- 3 2 -- </span></span>
+<span><span class="co">#&gt; IGRAPH dabea78 DN-- 3 2 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), lower_disorder_1 (v/n), lower_disorder_2 (v/n),</span></span>
 <span><span class="co">#&gt; | lower_disorder_3 (v/n), upper_disorder_1 (v/n), upper_disorder_2</span></span>
 <span><span class="co">#&gt; | (v/n), upper_disorder_3 (v/n), K_i_disorder_1 (v/n), K_i_disorder_2</span></span>
 <span><span class="co">#&gt; | (v/n), K_i_disorder_3 (v/n), K_pop_disorder_1 (v/n), K_pop_disorder_2</span></span>
 <span><span class="co">#&gt; | (v/n), K_pop_disorder_3 (v/n)</span></span>
-<span><span class="co">#&gt; + edges from e02f16a (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from dabea78 (vertex names):</span></span>
 <span><span class="co">#&gt; [1] dad2-&gt;mhs mom -&gt;mhs</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PA_MT</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_liability.html">estimate_liability</a></span><span class="op">(</span>family_graphs <span class="op">=</span> <span class="va">family_graphs</span>,</span>
