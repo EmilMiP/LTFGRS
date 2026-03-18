@@ -336,7 +336,7 @@ convert_age_to_thresh = function(age, dist = "logistic", pop_prev = .1, mid_poin
                                  min_age = 10, max_age = 90, lower = stats::qnorm(0.05, lower.tail = FALSE), upper = Inf) {
   # Checking that age is valid
   if (!is.numeric(age) && !is.integer(age)) stop("The age must be numeric!")
-  if (age < 0) stop("The age must be non-negative!")
+  if (any(age < 0)) stop("The age must be non-negative!")
 
   # Checking that dist is either logistic or normal.
   if (is.character(dist)) {
