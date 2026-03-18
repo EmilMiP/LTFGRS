@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Emil
 Pedersen</h4>
             
-            <h4 data-toc-skip class="date">2026-03-16</h4>
+            <h4 data-toc-skip class="date">2026-03-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EmilMiP/LTFGRS/blob/main/vignettes/igraph_data_management.Rmd" class="external-link"><code>vignettes/igraph_data_management.Rmd</code></a></small>
       <div class="d-none name"><code>igraph_data_management.Rmd</code></div>
@@ -123,9 +123,9 @@ documentation</a>. It contains some summary information about the
 graph:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH 5b6c544 DN-- 31 44 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH 13c1623 DN-- 31 44 -- </span></span>
 <span><span class="co">## + attr: name (v/c)</span></span>
-<span><span class="co">## + edges from 5b6c544 (vertex names):</span></span>
+<span><span class="co">## + edges from 13c1623 (vertex names):</span></span>
 <span><span class="co">##  [1] dad     -&gt;pid        mom     -&gt;pid        dad     -&gt;sib       </span></span>
 <span><span class="co">##  [4] mom     -&gt;sib        dad2    -&gt;mhs        mom     -&gt;mhs       </span></span>
 <span><span class="co">##  [7] dad     -&gt;phs        mom2    -&gt;phs        mgf     -&gt;mom       </span></span>
@@ -146,9 +146,9 @@ removed with the following command, which removes all undirected edges
 and the total number can be read from the print:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://r.igraph.org/reference/delete_edges.html" class="external-link">delete_edges</a></span><span class="op">(</span><span class="va">graph</span>, <span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://r.igraph.org/reference/which_mutual.html" class="external-link">which_mutual</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH b03cacc DN-- 31 34 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH 6297ae3 DN-- 31 34 -- </span></span>
 <span><span class="co">## + attr: name (v/c)</span></span>
-<span><span class="co">## + edges from b03cacc (vertex names):</span></span>
+<span><span class="co">## + edges from 6297ae3 (vertex names):</span></span>
 <span><span class="co">##  [1] dad     -&gt;pid        mom     -&gt;pid        dad     -&gt;sib       </span></span>
 <span><span class="co">##  [4] mom     -&gt;sib        dad2    -&gt;mhs        mom     -&gt;mhs       </span></span>
 <span><span class="co">##  [7] dad     -&gt;phs        mom2    -&gt;phs        mgf     -&gt;mom       </span></span>
@@ -188,7 +188,7 @@ used:</p>
 <span><span class="co">##   ..$ :List of 1</span></span>
 <span><span class="co">##   .. ..$ name: chr [1:31] "dad" "mom" "dad2" "mom2" ...</span></span>
 <span><span class="co">##   ..$ : Named list()</span></span>
-<span><span class="co">##  $ :&lt;environment: 0x564705624db0&gt;</span></span></code></pre>
+<span><span class="co">##  $ :&lt;environment: 0x562c0afbaf38&gt;</span></span></code></pre>
 <p>Manupulations of the graph can therefore be done with suitable list
 operations, however, igraph also contains a number of helper functions
 to make common graph operations easier.</p>
@@ -203,9 +203,9 @@ an igraph object:</p>
 <span>                        index <span class="op">=</span> <span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span>, <span class="co"># which vertices to add attribute to, V(graph) adds to all vertices</span></span>
 <span>                        value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://r.igraph.org/reference/gorder.html" class="external-link">vcount</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.95</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># value of the attiribute to be added</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH 5b6c544 DN-- 31 44 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH 13c1623 DN-- 31 44 -- </span></span>
 <span><span class="co">## + attr: name (v/c), status (v/l)</span></span>
-<span><span class="co">## + edges from 5b6c544 (vertex names):</span></span>
+<span><span class="co">## + edges from 13c1623 (vertex names):</span></span>
 <span><span class="co">##  [1] dad     -&gt;pid        mom     -&gt;pid        dad     -&gt;sib       </span></span>
 <span><span class="co">##  [4] mom     -&gt;sib        dad2    -&gt;mhs        mom     -&gt;mhs       </span></span>
 <span><span class="co">##  [7] dad     -&gt;phs        mom2    -&gt;phs        mgf     -&gt;mom       </span></span>
@@ -326,9 +326,9 @@ can do:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://r.igraph.org/reference/delete_vertices.html" class="external-link">delete_vertices</a></span><span class="op">(</span>graph <span class="op">=</span> <span class="va">graph</span>,</span>
 <span>                v <span class="op">=</span> <span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/vertex_attr.html" class="external-link">vertex_attr</a></span><span class="op">(</span><span class="va">graph</span>, name <span class="op">=</span> <span class="st">"age"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## IGRAPH 2f9562f DN-- 15 10 -- </span></span>
+<pre><code><span><span class="co">## IGRAPH 8ae310a DN-- 15 10 -- </span></span>
 <span><span class="co">## + attr: name (v/c), status (v/l), age (v/n)</span></span>
-<span><span class="co">## + edges from 2f9562f (vertex names):</span></span>
+<span><span class="co">## + edges from 8ae310a (vertex names):</span></span>
 <span><span class="co">##  [1] dad     -&gt;pid        dad     -&gt;sib        pgm     -&gt;dad       </span></span>
 <span><span class="co">##  [4] pgm     -&gt;paunt      hspauntH-&gt;hspacousin mgf     -&gt;hsmuncle  </span></span>
 <span><span class="co">##  [7] sib     -&gt;pid        pid     -&gt;sib        paunt   -&gt;dad       </span></span>

@@ -48,9 +48,9 @@ contains some summary information about the graph:
 print(graph)
 ```
 
-    ## IGRAPH 5b6c544 DN-- 31 44 -- 
+    ## IGRAPH 13c1623 DN-- 31 44 -- 
     ## + attr: name (v/c)
-    ## + edges from 5b6c544 (vertex names):
+    ## + edges from 13c1623 (vertex names):
     ##  [1] dad     ->pid        mom     ->pid        dad     ->sib       
     ##  [4] mom     ->sib        dad2    ->mhs        mom     ->mhs       
     ##  [7] dad     ->phs        mom2    ->phs        mgf     ->mom       
@@ -76,9 +76,9 @@ number can be read from the print:
 delete_edges(graph, E(graph)[which_mutual(graph)])
 ```
 
-    ## IGRAPH b03cacc DN-- 31 34 -- 
+    ## IGRAPH 6297ae3 DN-- 31 34 -- 
     ## + attr: name (v/c)
-    ## + edges from b03cacc (vertex names):
+    ## + edges from 6297ae3 (vertex names):
     ##  [1] dad     ->pid        mom     ->pid        dad     ->sib       
     ##  [4] mom     ->sib        dad2    ->mhs        mom     ->mhs       
     ##  [7] dad     ->phs        mom2    ->phs        mgf     ->mom       
@@ -122,7 +122,7 @@ str(graph)
     ##   ..$ :List of 1
     ##   .. ..$ name: chr [1:31] "dad" "mom" "dad2" "mom2" ...
     ##   ..$ : Named list()
-    ##  $ :<environment: 0x564705624db0>
+    ##  $ :<environment: 0x562c0afbaf38>
 
 Manupulations of the graph can therefore be done with suitable list
 operations, however, igraph also contains a number of helper functions
@@ -141,9 +141,9 @@ graph = set_vertex_attr(graph = graph, # graph to add attribute to
 print(graph)
 ```
 
-    ## IGRAPH 5b6c544 DN-- 31 44 -- 
+    ## IGRAPH 13c1623 DN-- 31 44 -- 
     ## + attr: name (v/c), status (v/l)
-    ## + edges from 5b6c544 (vertex names):
+    ## + edges from 13c1623 (vertex names):
     ##  [1] dad     ->pid        mom     ->pid        dad     ->sib       
     ##  [4] mom     ->sib        dad2    ->mhs        mom     ->mhs       
     ##  [7] dad     ->phs        mom2    ->phs        mgf     ->mom       
@@ -290,9 +290,9 @@ delete_vertices(graph = graph,
                 v = V(graph)[which(vertex_attr(graph, name = "age") > 50)])
 ```
 
-    ## IGRAPH 2f9562f DN-- 15 10 -- 
+    ## IGRAPH 8ae310a DN-- 15 10 -- 
     ## + attr: name (v/c), status (v/l), age (v/n)
-    ## + edges from 2f9562f (vertex names):
+    ## + edges from 8ae310a (vertex names):
     ##  [1] dad     ->pid        dad     ->sib        pgm     ->dad       
     ##  [4] pgm     ->paunt      hspauntH->hspacousin mgf     ->hsmuncle  
     ##  [7] sib     ->pid        pid     ->sib        paunt   ->dad       
