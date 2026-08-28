@@ -1,7 +1,7 @@
 Package: LTFGRS
 Type: Package
 Title: Implementation of Several Phenotype-Based Family Genetic Risk Scores
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: c(
     person("Emil Michael", "Pedersen", email = "emp@ph.au.dk", role = c("aut", "cre")),
     person("Jette", "Steinbach", , email = "jst@econ.au.dk", role = "aut"),
