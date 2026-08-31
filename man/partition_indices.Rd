@@ -36,10 +36,7 @@ all partitions except possibly the last will have exactly
 }
 \examples{
 idx <- partition_indices(nrow = 20, n_partitions = 3)
-for (i in seq_along(idx)) {
-  partition <- x[idx[[i]], , drop = FALSE]
-  # ... process partition
-}
+
 }
 \seealso{
 \code{partition_rows()} for a version that returns subsetted
